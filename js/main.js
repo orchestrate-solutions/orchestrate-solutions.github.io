@@ -2,7 +2,7 @@
 (function () {
   'use strict';
 
-  /* Nav scroll line */
+  /* Nav scroll effect */
   var nav = document.getElementById('nav');
   if (nav) {
     window.addEventListener('scroll', function () {
@@ -28,6 +28,6 @@
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll(
-    '.section, .step, .capabilities li, .value, .section--promise, .metric, .edge-detail, .gallery__card, .credential'
+    '.section, .step, .capabilities li, .value, .section--promise, .metric, .edge-detail, .gallery__card, .credential, .page-hero'
   ).forEach(function (el) { el.classList.add('reveal'); io.observe(el); });
 })();

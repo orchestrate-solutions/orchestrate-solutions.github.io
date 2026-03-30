@@ -1,8 +1,7 @@
 /* ========================================
-   Orchestrate Solutions — Stylus Edition
+   Orchestrate Solutions — Design System
    ----------------------------------------
-   Philosophy: Warm dark, generous space,
-   confident but never loud.
+   Multi-page: index, about, portfolio, 404
    ======================================== */
 
 /* -- Palette -- */
@@ -74,25 +73,19 @@ strong { font-weight: 600; color: var(--text); }
   max-width: var(--max-w); margin: 0 auto; padding: 0 var(--s4);
   display: flex; align-items: center; justify-content: space-between;
 }
-.nav__logo {
-  display: flex; align-items: center; gap: var(--s1);
-  font-size: var(--fs-lg); font-weight: 600; letter-spacing: -0.02em;
-}
-.nav__mark {
-  display: inline-flex; align-items: center; justify-content: center;
-  width: 1.6em; height: 1.6em;
-  border-radius: 50%;
-  background: var(--accent);
-  color: var(--bg);
-  font-weight: 700;
-  font-size: 0.75em;
-}
+.nav__logo { display: flex; align-items: center; }
+.nav__logo-img { height: 36px; width: auto; }
 .nav__links { display: flex; align-items: center; gap: var(--s4); }
-.nav__links a {
+.nav__link {
   font-size: var(--fs-sm); color: var(--text-soft);
-  transition: color 0.2s;
+  transition: color 0.2s; position: relative;
 }
-.nav__links a:hover { color: var(--text); }
+.nav__link:hover { color: var(--text); }
+.nav__link--active { color: var(--text); font-weight: 500; }
+.nav__link--active::after {
+  content: ''; position: absolute; bottom: -4px; left: 0; right: 0;
+  height: 2px; background: var(--accent); border-radius: 1px;
+}
 .nav__toggle {
   display: none; flex-direction: column; gap: 5px;
   background: none; border: none; cursor: pointer; padding: var(--s1);
@@ -124,7 +117,7 @@ strong { font-weight: 600; color: var(--text); }
 .btn--nav:hover { background: var(--accent); color: var(--bg); }
 .btn--lg { padding: 0.85rem 2.2rem; font-size: var(--fs-md); }
 
-/* -- Hero -- */
+/* -- Hero (index) -- */
 .hero {
   min-height: 100vh; min-height: 100dvh;
   display: flex; align-items: center;
@@ -154,6 +147,22 @@ strong { font-weight: 600; color: var(--text); }
   display: flex; gap: var(--s2); justify-content: center; flex-wrap: wrap;
 }
 
+/* -- Page Hero (about, portfolio) -- */
+.page-hero {
+  padding: calc(var(--s7) + 3rem) 0 var(--s5);
+  text-align: center;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, var(--accent-glow), transparent);
+}
+.page-hero__title {
+  font-size: var(--fs-2xl); font-weight: 700;
+  letter-spacing: -0.025em; margin-bottom: var(--s2);
+}
+.page-hero__body {
+  font-size: var(--fs-lg); color: var(--text-soft);
+  line-height: 1.7; max-width: 540px; margin: 0 auto;
+}
+
 /* -- Credentials -- */
 .section--credentials {
   padding: var(--s4) 0;
@@ -164,6 +173,7 @@ strong { font-weight: 600; color: var(--text); }
   gap: var(--s5);
 }
 .credential { display: flex; align-items: center; gap: var(--s1); }
+.credential__img { width: 24px; height: 24px; border-radius: 50%; }
 .credential__icon { font-size: var(--fs-lg); color: var(--accent); }
 .credential__label {
   font-size: var(--fs-sm); color: var(--text-soft);
@@ -304,33 +314,53 @@ strong { font-weight: 600; color: var(--text); }
 /* -- Gallery -- */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--s3);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--s4);
 }
 .gallery__card {
-  padding: var(--s4) var(--s3);
+  padding: var(--s4);
   border-radius: var(--radius);
   border: 1px solid var(--border);
   background: var(--surface);
   transition: border-color 0.25s, transform 0.25s;
+  display: flex; flex-direction: column;
 }
 .gallery__card:hover {
   border-color: var(--accent);
   transform: translateY(-3px);
 }
-.gallery__icon { font-size: 1.8rem; margin-bottom: var(--s2); }
+.gallery__card-header {
+  position: relative;
+  margin-bottom: var(--s3);
+  min-height: 2.4rem;
+}
+.gallery__thumb {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: calc(var(--radius) - 4px);
+  margin-bottom: var(--s2);
+}
+.gallery__thumb + .gallery__icon { display: none; }
+.gallery__icon {
+  font-size: 2rem;
+}
 .gallery__title {
-  font-size: var(--fs-md); font-weight: 600;
+  font-size: var(--fs-lg); font-weight: 600;
   margin-bottom: var(--s1);
 }
 .gallery__desc {
   font-size: var(--fs-sm); color: var(--text-soft);
   line-height: 1.7;
-  margin-bottom: var(--s2);
+  margin-bottom: var(--s3);
+  flex-grow: 1;
+}
+.gallery__tags {
+  display: flex; flex-wrap: wrap; gap: 0.4rem;
 }
 .gallery__tag {
   display: inline-block;
-  padding: 0.2rem 0.6rem;
+  padding: 0.2rem 0.65rem;
   border-radius: 100px;
   font-size: var(--fs-xs);
   background: var(--accent-glow);
@@ -389,7 +419,9 @@ strong { font-weight: 600; color: var(--text); }
   display: flex; align-items: center; gap: var(--s1);
   font-weight: 600; font-size: var(--fs-sm);
 }
+.footer__mark { width: 28px; height: 28px; border-radius: 50%; }
 .footer__copy { font-size: var(--fs-xs); color: var(--text-faint); }
+.footer__links { display: flex; gap: var(--s3); }
 .footer__link {
   font-size: var(--fs-xs); color: var(--text-soft);
   transition: color 0.2s;
@@ -414,6 +446,9 @@ strong { font-weight: 600; color: var(--text); }
   .credentials {
     gap: var(--s3);
   }
+  .gallery {
+    grid-template-columns: 1fr;
+  }
   .nav__links {
     display: none; position: absolute;
     top: 100%; left: 0; right: 0;
@@ -428,4 +463,5 @@ strong { font-weight: 600; color: var(--text); }
   .footer__inner {
     flex-direction: column; text-align: center;
   }
+  .footer__links { justify-content: center; }
 }

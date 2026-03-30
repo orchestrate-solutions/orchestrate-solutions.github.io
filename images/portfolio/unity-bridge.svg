@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 320" fill="none">
+  <rect width="600" height="320" rx="8" fill="#161622"/>
+  <rect x="1" y="1" width="598" height="318" rx="7" stroke="#818cf8" stroke-opacity="0.2"/>
+  <text x="300" y="155" text-anchor="middle" font-family="Inter, system-ui, sans-serif"
+        font-size="18" font-weight="600" fill="#d8d8e4">Unity Bridge</text>
+  <text x="300" y="185" text-anchor="middle" font-family="Inter, system-ui, sans-serif"
+        font-size="13" fill="#9090a8">Replace with screenshot</text>
+</svg>
