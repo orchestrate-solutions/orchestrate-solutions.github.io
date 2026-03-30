@@ -1,54 +1,33 @@
-/* ======================================
-   Orchestrate Solutions — Main Script
-   ====================================== */
-
+/* Orchestrate Solutions — Interactions */
 (function () {
   'use strict';
 
-  // --- Nav scroll effect ---
-  const nav = document.getElementById('nav');
+  /* Nav scroll line */
+  var nav = document.getElementById('nav');
   if (nav) {
     window.addEventListener('scroll', function () {
       nav.classList.toggle('nav--scrolled', window.scrollY > 40);
     }, { passive: true });
   }
 
-  // --- Mobile nav toggle ---
-  const toggle = document.getElementById('nav-toggle');
-  const links = document.getElementById('nav-links');
+  /* Mobile menu */
+  var toggle = document.getElementById('nav-toggle');
+  var links  = document.getElementById('nav-links');
   if (toggle && links) {
-    toggle.addEventListener('click', function () {
-      links.classList.toggle('active');
-    });
-
-    // Close menu on link click
-    links.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        links.classList.remove('active');
-      });
+    toggle.addEventListener('click', function () { links.classList.toggle('active'); });
+    links.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', function () { links.classList.remove('active'); });
     });
   }
 
-  // --- Scroll-reveal for sections ---
-  var observer = new IntersectionObserver(function (entries) {
-    entries.forEach(function (entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('revealed');
-        observer.unobserve(entry.target);
-      }
+  /* Scroll reveal */
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('revealed'); io.unobserve(e.target); }
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
-  document.querySelectorAll('.section, .card, .timeline__item, .feature').forEach(function (el) {
-    el.classList.add('reveal');
-    observer.observe(el);
-  });
-
-  // --- Inject reveal CSS ---
-  var style = document.createElement('style');
-  style.textContent = [
-    '.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }',
-    '.revealed { opacity: 1; transform: translateY(0); }'
-  ].join('\n');
-  document.head.appendChild(style);
+  document.querySelectorAll(
+    '.section, .step, .capabilities li, .value, .section--promise'
+  ).forEach(function (el) { el.classList.add('reveal'); io.observe(el); });
 })();

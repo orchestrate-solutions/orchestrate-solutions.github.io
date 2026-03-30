@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Orchestrate Solutions — Solutions as a Service. We turn your problems into working software in hours, not weeks. Free 20-minute consultation.">
-  <meta name="theme-color" content="#0a0a0f">
-  <title>Orchestrate Solutions — Solutions as a Service</title>
+  <meta name="description" content="Orchestrate Solutions — You bring the problem, we bring the solution. Free 20-minute consultation.">
+  <meta name="theme-color" content="#0b0b11">
+  <title>Orchestrate Solutions</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,14 +17,13 @@
   <nav class="nav" id="nav">
     <div class="nav__container">
       <a href="#" class="nav__logo">
-        <span class="nav__logo-icon">◆</span>
+        <span class="nav__mark">O</span>
         <span>Orchestrate</span>
       </a>
       <div class="nav__links" id="nav-links">
-        <a href="#services">Services</a>
-        <a href="#how-it-works">How It Works</a>
-        <a href="#why-us">Why Us</a>
-        <a href="#contact" class="btn btn--small">Free Consultation</a>
+        <a href="#approach">Our Approach</a>
+        <a href="#what-we-do">What We Do</a>
+        <a href="#contact" class="btn btn--nav">Let's Talk</a>
       </div>
       <button class="nav__toggle" id="nav-toggle" aria-label="Toggle menu">
         <span></span><span></span><span></span>
@@ -34,287 +33,150 @@
 
   <!-- Hero -->
   <section class="hero">
-    <div class="container">
-      <div class="hero__content">
-        <p class="hero__label">Solutions as a Service</p>
-        <h1 class="hero__title">
-          Name a problem.<br>
-          <span class="hero__highlight">We'll build the solution.</span>
-        </h1>
-        <p class="hero__subtitle">
-          Your own software development team at a fraction of the price.
-          We deliver working solutions in hours to days — not weeks.
-          If we can't solve it, you pay nothing.
-        </p>
-        <div class="hero__actions">
-          <a href="#contact" class="btn btn--primary btn--large">Book a Free 20-Min Call</a>
-          <a href="#how-it-works" class="btn btn--outline btn--large">See How It Works</a>
-        </div>
-      </div>
-      <div class="hero__visual">
-        <div class="hero__card hero__card--1">
-          <span class="hero__card-icon">⚡</span>
-          <span>Hours, not weeks</span>
-        </div>
-        <div class="hero__card hero__card--2">
-          <span class="hero__card-icon">🛡️</span>
-          <span>No solution, no charge</span>
-        </div>
-        <div class="hero__card hero__card--3">
-          <span class="hero__card-icon">🤝</span>
-          <span>Free consultation</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Services -->
-  <section class="section" id="services">
-    <div class="container">
-      <p class="section__label">What We Do</p>
-      <h2 class="section__title">Solutions tailored to your business</h2>
-      <p class="section__subtitle">
-        You don't need to know cloud architecture, software engineering, or any of the technical details.
-        Just tell us your problem — we handle the rest.
+    <div class="container hero__inner">
+      <p class="hero__eyebrow">Solutions as a Service</p>
+      <h1 class="hero__title">
+        You bring the problem.<br>
+        <span class="hero__em">We bring the solution.</span>
+      </h1>
+      <p class="hero__body">
+        Tell us what's slowing your business down. We'll listen, map out
+        a plan, and build something you can start using — fast.
+        No jargon, no long contracts, no risk.
       </p>
-      <div class="grid grid--3">
-        <div class="card">
-          <div class="card__icon">🔧</div>
-          <h3 class="card__title">Custom Software</h3>
-          <p class="card__text">
-            From internal tools to customer-facing apps, we build exactly what
-            your business needs using modern, reliable technology.
-          </p>
-        </div>
-        <div class="card">
-          <div class="card__icon">☁️</div>
-          <h3 class="card__title">Cloud & Infrastructure</h3>
-          <p class="card__text">
-            We set up, manage, and optimize your cloud infrastructure so you
-            can focus on running your business.
-          </p>
-        </div>
-        <div class="card">
-          <div class="card__icon">🔄</div>
-          <h3 class="card__title">Process Automation</h3>
-          <p class="card__text">
-            Automate the repetitive tasks draining your team's time.
-            We identify bottlenecks and eliminate them.
-          </p>
-        </div>
-        <div class="card">
-          <div class="card__icon">📊</div>
-          <h3 class="card__title">Data & Analytics</h3>
-          <p class="card__text">
-            Turn your data into decisions. Dashboards, reports, and insights
-            that help you understand your business at a glance.
-          </p>
-        </div>
-        <div class="card">
-          <div class="card__icon">🔒</div>
-          <h3 class="card__title">Security & Compliance</h3>
-          <p class="card__text">
-            We secure your systems and ensure you meet industry standards
-            without the overhead of a full security team.
-          </p>
-        </div>
-        <div class="card">
-          <div class="card__icon">🚀</div>
-          <h3 class="card__title">MVP Development</h3>
-          <p class="card__text">
-            Got an idea? We build a minimum viable product fast, so you can
-            validate your concept before investing heavily.
-          </p>
-        </div>
+      <div class="hero__actions">
+        <a href="#contact" class="btn btn--primary">Free 20-Minute Call</a>
+        <a href="#approach" class="btn btn--ghost">How it works &darr;</a>
       </div>
     </div>
   </section>
 
-  <!-- How It Works -->
-  <section class="section section--alt" id="how-it-works">
-    <div class="container">
-      <p class="section__label">How It Works</p>
-      <h2 class="section__title">From problem to solution — fast</h2>
-      <p class="section__subtitle">
-        We use a Minimum Viable Product approach: target the biggest value-adds first,
-        deliver quickly, and iterate. You start seeing results almost immediately.
-      </p>
-      <div class="timeline">
-        <div class="timeline__item">
-          <div class="timeline__marker">1</div>
-          <div class="timeline__content">
-            <h3>Free 20-Minute Consultation</h3>
-            <p>
-              Fast-paced, condensed, and focused. You tell us your problem,
-              we start mapping the solution. By the end of 20 minutes, you'll
-              likely have a roadmap. No commitment needed — take time to think it over.
-            </p>
-          </div>
-        </div>
-        <div class="timeline__item">
-          <div class="timeline__marker">2</div>
-          <div class="timeline__content">
-            <h3>Rapid Prototyping</h3>
-            <p>
-              Within hours to days, we deliver a working prototype you can
-              actually use. No waiting weeks for a mockup — you get real,
-              functional software to work into your day-to-day.
-            </p>
-          </div>
-        </div>
-        <div class="timeline__item">
-          <div class="timeline__marker">3</div>
-          <div class="timeline__content">
-            <h3>Iterate & Improve</h3>
-            <p>
-              We refine based on your feedback. Each iteration delivers more
-              value. It's like having your own dev team on-demand — without
-              the overhead of hiring.
-            </p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Consultation Tiers -->
-  <section class="section" id="tiers">
-    <div class="container">
-      <p class="section__label">Meeting Structure</p>
-      <h2 class="section__title">Every minute counts</h2>
-      <div class="grid grid--3">
-        <div class="card card--tier">
-          <div class="card__badge">Free</div>
-          <h3 class="card__title">20 Minutes</h3>
-          <p class="card__text">
-            Fast-paced discovery. Understand your problem, outline a roadmap,
-            and show you we're serious. You walk away with a clear plan.
-          </p>
-          <ul class="card__list">
-            <li>Problem assessment</li>
-            <li>Solution roadmap</li>
-            <li>No commitment</li>
-          </ul>
-        </div>
-        <div class="card card--tier card--featured">
-          <div class="card__badge">Recommended</div>
-          <h3 class="card__title">40 Minutes</h3>
-          <p class="card__text">
-            Deeper dive into the problem. We start sketching architecture,
-            identify quick wins, and set clear expectations for delivery.
-          </p>
-          <ul class="card__list">
-            <li>Everything in 20 min</li>
-            <li>Architecture sketch</li>
-            <li>Quick win identification</li>
-          </ul>
-        </div>
-        <div class="card card--tier">
-          <div class="card__badge">Power</div>
-          <h3 class="card__title">60 Minutes</h3>
-          <p class="card__text">
-            Full working session. We'll likely have a prototype built by the
-            end. You leave with something tangible you can start using.
-          </p>
-          <ul class="card__list">
-            <li>Everything in 40 min</li>
-            <li>Working prototype</li>
-            <li>Live demonstration</li>
-          </ul>
-        </div>
-      </div>
-      <p class="section__note">
-        Pricing is flexible and negotiable. We believe in finding the right fit for
-        every client, regardless of budget.
+  <!-- The Promise — one honest paragraph -->
+  <section class="section section--promise">
+    <div class="container container--narrow">
+      <p class="promise__text">
+        We're a small team that moves quickly. You don't need to understand
+        technology — you just need to describe your day-to-day pain. We figure
+        out the rest, build a working solution, and put it in your hands so you
+        can see if it actually helps. If it doesn't, we part as friends.
+        <strong>No charge for problems we can't solve.</strong>
       </p>
     </div>
   </section>
 
-  <!-- Why Us -->
-  <section class="section section--alt" id="why-us">
+  <!-- Approach -->
+  <section class="section" id="approach">
     <div class="container">
-      <p class="section__label">Why Orchestrate</p>
-      <h2 class="section__title">Quality of life through incremental improvement</h2>
-      <div class="grid grid--2">
-        <div class="feature">
-          <div class="feature__icon">⚡</div>
-          <div>
-            <h3 class="feature__title">Incredible Speed</h3>
-            <p>Solutions in hours to days. You don't wait weeks for a deliverable — you start using it almost immediately.</p>
-          </div>
+      <h2 class="section__heading">How a conversation becomes a solution</h2>
+      <div class="steps">
+        <div class="step">
+          <div class="step__number">1</div>
+          <h3 class="step__title">We talk</h3>
+          <p class="step__body">
+            A free 20-minute call. You describe the problem, we ask the right
+            questions. By the end, you'll have a clear picture of what's
+            possible — and what it might cost. No pressure, no commitment.
+          </p>
         </div>
-        <div class="feature">
-          <div class="feature__icon">💰</div>
-          <div>
-            <h3 class="feature__title">Fraction of the Cost</h3>
-            <p>A full dev team without the full dev team price. Get enterprise-grade solutions at startup-friendly pricing.</p>
-          </div>
+        <div class="step">
+          <div class="step__number">2</div>
+          <h3 class="step__title">We build</h3>
+          <p class="step__body">
+            We target the single highest-value improvement first and deliver
+            something usable — usually within days. You work it into your
+            routine and tell us what's working and what's not.
+          </p>
         </div>
-        <div class="feature">
-          <div class="feature__icon">🎯</div>
-          <div>
-            <h3 class="feature__title">MVP-First Approach</h3>
-            <p>We target the biggest value-adds first. No bloat, no over-engineering — just what moves the needle for your business.</p>
-          </div>
-        </div>
-        <div class="feature">
-          <div class="feature__icon">🛡️</div>
-          <div>
-            <h3 class="feature__title">Zero Risk</h3>
-            <p>If we can't come up with a solution, you don't pay. We're confident in what we do, and we put our money where our mouth is.</p>
-          </div>
-        </div>
-        <div class="feature">
-          <div class="feature__icon">🧠</div>
-          <div>
-            <h3 class="feature__title">You Stay Focused</h3>
-            <p>You don't need to know cloud architecture or software engineering. Just bring us your problem — we handle every technical detail.</p>
-          </div>
-        </div>
-        <div class="feature">
-          <div class="feature__icon">🔄</div>
-          <div>
-            <h3 class="feature__title">Continuous Iteration</h3>
-            <p>We don't deliver and disappear. We iterate, improve, and evolve your solution as your business grows.</p>
-          </div>
+        <div class="step">
+          <div class="step__number">3</div>
+          <h3 class="step__title">We iterate</h3>
+          <p class="step__body">
+            Based on your feedback, we refine. Each pass makes it better.
+            You grow at your own pace, and we stay as long as you need us.
+          </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Contact / CTA -->
+  <!-- What We Do — compact, honest -->
+  <section class="section section--alt" id="what-we-do">
+    <div class="container">
+      <h2 class="section__heading">What we can help with</h2>
+      <p class="section__sub">
+        If it involves software, automation, or data — there's a good chance
+        we can help. Here's where we've made the biggest impact:
+      </p>
+      <ul class="capabilities">
+        <li>
+          <strong>Custom tools & apps</strong>
+          <span>Internal dashboards, customer portals, workflow apps — built around how you actually work.</span>
+        </li>
+        <li>
+          <strong>Process automation</strong>
+          <span>If your team is doing it by hand and it follows a pattern, we can probably automate it.</span>
+        </li>
+        <li>
+          <strong>Cloud & infrastructure</strong>
+          <span>Setup, migration, or optimization — we handle the technical plumbing so you don't have to.</span>
+        </li>
+        <li>
+          <strong>Data & reporting</strong>
+          <span>Turn the data you already collect into something you can actually use to make decisions.</span>
+        </li>
+        <li>
+          <strong>MVP & prototyping</strong>
+          <span>Have an idea? We'll build a working proof-of-concept to test it before you invest heavily.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Social proof / values — keep it human -->
+  <section class="section">
+    <div class="container container--narrow">
+      <h2 class="section__heading">Why people work with us</h2>
+      <div class="values">
+        <div class="value">
+          <h3>We're fast</h3>
+          <p>Most clients have something in their hands within days, not weeks. We focus on what matters most and ship it.</p>
+        </div>
+        <div class="value">
+          <h3>We're affordable</h3>
+          <p>You get a dedicated team without the overhead hiring one. Pricing is flexible and always transparent.</p>
+        </div>
+        <div class="value">
+          <h3>We're honest</h3>
+          <p>If we can't help, we'll tell you. We'd rather earn trust than make a sale.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
   <section class="section section--cta" id="contact">
-    <div class="container">
-      <h2 class="section__title">Ready to solve your problem?</h2>
-      <p class="section__subtitle">
-        Book a free 20-minute consultation. No strings attached.
-        If we can help improve your quality of life through technology, we want to do that.
+    <div class="container container--narrow">
+      <h2 class="cta__heading">Let's start with a conversation.</h2>
+      <p class="cta__body">
+        20 minutes, no cost, no strings. Just tell us what's on your mind
+        and we'll figure out together if we can help.
       </p>
-      <div class="cta__actions">
-        <a href="mailto:contact@orchestrate.solutions" class="btn btn--primary btn--large">
-          Get In Touch
-        </a>
-        <p class="cta__note">or reach out directly at <strong>contact@orchestrate.solutions</strong></p>
-      </div>
+      <a href="mailto:contact@orchestrate.solutions" class="btn btn--primary btn--lg">
+        Get in touch
+      </a>
+      <p class="cta__alt">or email us directly at <strong>contact@orchestrate.solutions</strong></p>
     </div>
   </section>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="container">
-      <div class="footer__content">
-        <div class="footer__brand">
-          <span class="nav__logo-icon">◆</span>
-          <span>Orchestrate Solutions</span>
-        </div>
-        <p class="footer__tagline">Improving quality of life through incremental solutions.</p>
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <span class="nav__mark">O</span>
+        <span>Orchestrate Solutions</span>
       </div>
-      <div class="footer__bottom">
-        <p>&copy; 2026 Orchestrate Solutions. All rights reserved.</p>
-        <div class="footer__links">
-          <a href="https://github.com/orchestrate-solutions" target="_blank" rel="noopener">GitHub</a>
-        </div>
-      </div>
+      <p class="footer__copy">&copy; 2026 Orchestrate Solutions</p>
+      <a href="https://github.com/orchestrate-solutions" class="footer__link" target="_blank" rel="noopener">GitHub</a>
     </div>
   </footer>
 
