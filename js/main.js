@@ -28,6 +28,6 @@
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
   document.querySelectorAll(
-    '.section, .step, .capabilities li, .value, .section--promise'
+    '.section, .step, .capabilities li, .value, .section--promise, .metric, .edge-detail, .gallery__card, .credential'
   ).forEach(function (el) { el.classList.add('reveal'); io.observe(el); });
 })();
