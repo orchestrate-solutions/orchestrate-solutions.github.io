@@ -338,7 +338,8 @@
         </ul>
         <div style="margin-top:auto;padding-top:2rem;font-size:0.72rem;color:var(--text-faint);">
           Connected: Marion Community Bank<br>
-          Last sync: Just now<br>
+          Sync: Daily (Mon–Fri)<br>
+          Last sync: Today, 6:00 AM<br>
           <span class="badge badge--success" style="margin-top:0.3rem;">● Live</span>
         </div>
       </aside>
@@ -360,14 +361,19 @@
               <select id="account-filter" style="font-size:0.85rem;padding:0.35rem 0.6rem;">
                 <option value="all">All Accounts</option>
                 <option value="operating">Operating Account</option>
-                <option value="trust">Trust Account</option>
-                <option value="marketing">Marketing Account</option>
+                <option value="earnest">Earnest Money</option>
+                <option value="commission">Commission Account</option>
               </select>
             </div>
           </div>
 
           <div class="stats-row" id="stats-row">
             <!-- Filled by JS -->
+          </div>
+
+          <div style="padding:0.75rem 1rem;background:rgba(129,140,248,0.06);border:1px solid rgba(129,140,248,0.15);border-radius:var(--radius);margin-bottom:1rem;font-size:0.85rem;">
+            <strong style="color:var(--accent);">💬 Discussion Point — Agent Assignment:</strong>
+            <span style="color:var(--text-soft);">How are expenses currently tied to specific agents? Options: by card number, manual assignment, or rule-based matching (e.g., recurring vendor = same agent). Let's determine the best approach for your workflow.</span>
           </div>
 
           <div class="card">
@@ -476,8 +482,13 @@
             <div class="sheets-status__dot"></div>
             <div>
               <strong style="font-size:0.9rem;">Spreadsheet synced</strong>
-              <div style="font-size:0.78rem;color:var(--text-soft);">Last updated: Just now · 3 sheets · 40 agent columns</div>
+              <div style="font-size:0.78rem;color:var(--text-soft);">Last sync: Today 6:00 AM · Next: Tomorrow 6:00 AM · 3 sheets · 40 agents</div>
             </div>
+          </div>
+
+          <div style="padding:0.75rem 1rem;background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.15);border-radius:var(--radius);margin-bottom:1rem;font-size:0.85rem;">
+            <strong style="color:var(--warn);">⚡ Sync Schedule:</strong>
+            <span style="color:var(--text-soft);">Runs daily Mon–Fri at 6:00 AM. Can be configured up to 4× per day if needed.</span>
           </div>
 
           <div class="card" style="margin-bottom:1rem;">
@@ -506,15 +517,15 @@
                 </div>
               </div>
               <div>
-                <label class="login-label">Sheet 2: Trust Account</label>
+                <label class="login-label">Sheet 2: Earnest Money</label>
                 <div style="font-size:0.85rem;color:var(--text-soft);">
                   Columns: Date · Property · Client · Amount · Disbursement Date
                 </div>
               </div>
               <div>
-                <label class="login-label">Sheet 3: Marketing Expenses</label>
+                <label class="login-label">Sheet 3: Commission Account</label>
                 <div style="font-size:0.85rem;color:var(--text-soft);">
-                  Columns: Date · Campaign · Platform · Agent · Cost · Leads Generated
+                  Columns: Date · Agent · Property · Commission Amount · Split %
                 </div>
               </div>
             </div>
@@ -553,7 +564,7 @@
                 </div>
                 <div class="pipeline-step pipeline-step--done">
                   <div class="pipeline-step__icon">✓</div>
-                  <div class="pipeline-step__label">Assign to Agent Accounts</div>
+                  <div class="pipeline-step__label">Assign to Agent Accounts <span class="badge badge--warn" style="margin-left:0.4rem;">TBD</span></div>
                   <div class="pipeline-step__time">45ms</div>
                 </div>
                 <div class="pipeline-step pipeline-step--done">
@@ -582,11 +593,11 @@
                 <li>Manually categorize each transaction</li>
                 <li>Assign expenses to the correct agent</li>
               </ol>
-              <p><strong style="color:var(--success);">After (Automated — ~30 seconds):</strong></p>
+              <p><strong style="color:var(--success);">After (Automated — runs daily Mon–Fri):</strong></p>
               <ol style="padding-left:1.2rem;line-height:2;">
-                <li>Click "Sync" — data flows automatically from bank → spreadsheet</li>
-                <li>Review categorized transactions (edit if needed)</li>
-                <li>Done ✓</li>
+                <li>System auto-syncs bank data at 6:00 AM (configurable up to 4×/day)</li>
+                <li>Transactions categorized and formatted automatically</li>
+                <li>Google Sheet updated — review at your convenience ✓</li>
               </ol>
             </div>
           </div>
@@ -621,8 +632,8 @@ const CATEGORIES = {
   'Technology': ['DOCUSIGN', 'CANVA', 'ZOOM', 'DROPBOX']
 };
 
-const ACCOUNTS = ['operating', 'trust', 'marketing'];
-const ACCOUNT_LABELS = { operating: 'Operating Account', trust: 'Trust Account', marketing: 'Marketing Account' };
+const ACCOUNTS = ['operating', 'earnest', 'commission'];
+const ACCOUNT_LABELS = { operating: 'Operating Account', earnest: 'Earnest Money', commission: 'Commission Account' };
 
 function generateTransactions(count) {
   const txns = [];
