@@ -450,6 +450,19 @@
               </div>
             </div>
           </div>
+
+          <!-- Quick Actions — right on the overview page -->
+          <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.25rem;align-items:center;">
+            <button class="btn btn--success" id="sync-overview-btn">
+              🔄 Sync to Google Sheets
+            </button>
+            <a href="https://docs.google.com/spreadsheets/d/14_C9NHKdYAKvu9uaayQ8AruFdKdYKqjvss16rB0cuUg/edit?usp=drivesdk"
+               target="_blank" rel="noopener"
+               class="btn btn--ghost btn--sm">
+              📋 Open Sheet
+            </a>
+            <button class="btn btn--ghost btn--sm" id="view-all-btn-bottom">View All Transactions →</button>
+          </div>
         </div>
 
         <!-- TAB: Transactions -->
@@ -865,6 +878,7 @@ document.querySelectorAll('#dash-nav a, .mobile-nav a').forEach(link => {
 });
 
 viewAllBtn.addEventListener('click', () => showTab('transactions'));
+document.getElementById('view-all-btn-bottom').addEventListener('click', () => showTab('transactions'));
 
 // ── Rendering ─────────────────────────────────────────────────────
 function filterTransactions() {
@@ -1046,10 +1060,10 @@ document.getElementById('import-btn').addEventListener('click', async () => {
 });
 
 // ── Sync to Google Sheets ─────────────────────────────────────────
-document.getElementById('sync-sheets-btn').addEventListener('click', async () => {
-  const btn = document.getElementById('sync-sheets-btn');
-  btn.disabled = true;
-  btn.textContent = '⏳ Syncing…';
+async function runSyncFlow() {
+  // Disable all sync buttons
+  const btns = document.querySelectorAll('#sync-sheets-btn, #sync-overview-btn');
+  btns.forEach(b => { b.disabled = true; b.textContent = '⏳ Syncing…'; });
 
   showLoading('Syncing data to Google Sheets…', '');
   const syncSteps = [
@@ -1075,10 +1089,12 @@ document.getElementById('sync-sheets-btn').addEventListener('click', async () =>
   await delay(800);
   hideLoading();
 
-  btn.disabled = false;
-  btn.textContent = '🔄 Sync Data to Google Sheets';
+  btns.forEach(b => { b.disabled = false; b.textContent = '🔄 Sync to Google Sheets'; });
   showToast('✅ Google Sheet synced — 3 tabs updated with 56 rows!', 'success');
-});
+}
+
+document.getElementById('sync-sheets-btn').addEventListener('click', () => runSyncFlow());
+document.getElementById('sync-overview-btn').addEventListener('click', () => runSyncFlow());
 
 // ── Export CSV ─────────────────────────────────────────────────────
 document.getElementById('export-csv-btn').addEventListener('click', () => {
