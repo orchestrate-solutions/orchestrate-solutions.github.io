@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Realty Expense Manager — Orchestrate Solutions Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  :root {
+    --bg: #0b0b11; --bg-alt: #10101a; --surface: #161622;
+    --border: rgba(255,255,255,0.06); --border-h: rgba(255,255,255,0.12);
+    --text: #d8d8e4; --text-soft: #9090a8; --text-faint: #5c5c72;
+    --accent: #818cf8; --accent-h: #a5b4fc;
+    --accent-glow: rgba(129,140,248,0.10);
+    --danger: #f87171; --success: #34d399; --warn: #fbbf24;
+    --ff: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --radius: 10px;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; color-scheme: dark; }
+  body { font-family: var(--ff); color: var(--text); background: var(--bg);
+         line-height: 1.6; font-size: 0.95rem; min-height: 100vh; }
+  a { color: var(--accent); text-decoration: none; }
+  button, input, select, textarea {
+    font-family: inherit; font-size: inherit; color: inherit;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 0.55rem 0.85rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  button:focus-visible, input:focus-visible, select:focus-visible {
+    border-color: var(--accent); box-shadow: 0 0 0 2px rgba(129,140,248,0.25);
+  }
+  button { cursor: pointer; }
+
+  /* ── Utilities ── */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+    padding: 0.6rem 1.3rem; border-radius: var(--radius);
+    font-weight: 500; border: none; cursor: pointer; transition: all 0.2s;
+    min-height: 44px;
+  }
+  .btn--primary { background: var(--accent); color: var(--bg); }
+  .btn--primary:hover { background: var(--accent-h); }
+  .btn--ghost { background: transparent; color: var(--text-soft);
+    border: 1px solid var(--border-h); }
+  .btn--ghost:hover { color: var(--text); border-color: var(--text-soft); }
+  .btn--success { background: var(--success); color: var(--bg); }
+  .btn--danger { background: var(--danger); color: var(--bg); }
+  .btn--sm { padding: 0.35rem 0.8rem; font-size: 0.85rem; min-height: 36px; }
+  .btn--block { width: 100%; }
+  .badge {
+    font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 100px;
+    font-weight: 500; display: inline-block;
+  }
+  .badge--accent { background: var(--accent-glow); color: var(--accent); }
+  .badge--success { background: rgba(52,211,153,0.12); color: var(--success); }
+  .badge--warn { background: rgba(251,191,36,0.12); color: var(--warn); }
+  .badge--danger { background: rgba(248,113,113,0.12); color: var(--danger); }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+  }
+  .card__header {
+    padding: 1rem 1.25rem; border-bottom: 1px solid var(--border);
+    font-weight: 600; display: flex; align-items: center; justify-content: space-between;
+  }
+  .card__body { padding: 1.25rem; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+  /* ── Demo Header ── */
+  .demo-header {
+    padding: 0.75rem 1.5rem; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 0.5rem;
+  }
+  .demo-header h1 { font-size: 1.1rem; font-weight: 600; }
+  .demo-header__right { display: flex; align-items: center; gap: 0.75rem; }
+
+  /* ── Views ── */
+  .view { display: none; }
+  .view--active { display: block; }
+
+  /* ── Login View ── */
+  .login-wrapper {
+    min-height: calc(100vh - 52px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 1.5rem;
+  }
+  .login-card {
+    width: 100%; max-width: 420px;
+  }
+  .login-card .card__body { display: flex; flex-direction: column; gap: 1rem; }
+  .login-bank-logo {
+    text-align: center; padding: 1.5rem 1rem; background: linear-gradient(135deg, #1a3a5c 0%, #0d2137 100%);
+    border-bottom: 1px solid var(--border);
+  }
+  .login-bank-logo h2 { font-size: 1.3rem; color: #fff; margin-bottom: 0.25rem; }
+  .login-bank-logo p { font-size: 0.8rem; color: rgba(255,255,255,0.6); }
+  .login-label { display: block; font-size: 0.85rem; font-weight: 500;
+    color: var(--text-soft); margin-bottom: 0.3rem; }
+  .login-input { width: 100%; padding: 0.65rem 0.85rem; }
+  .login-demo-hint {
+    font-size: 0.78rem; color: var(--text-faint); text-align: center;
+    padding: 0.75rem; background: var(--bg-alt); border-radius: var(--radius);
+    border: 1px dashed var(--border-h);
+  }
+  .login-error { color: var(--danger); font-size: 0.85rem; display: none; text-align: center; }
+
+  /* ── Dashboard View ── */
+  .dashboard {
+    display: grid; grid-template-columns: 1fr;
+    min-height: calc(100vh - 52px);
+  }
+  .dash-sidebar {
+    background: var(--surface); border-right: 1px solid var(--border);
+    padding: 1rem; display: none;
+  }
+  .dash-main { padding: 1.5rem; overflow-x: hidden; }
+  @media (min-width: 768px) {
+    .dashboard { grid-template-columns: 240px 1fr; }
+    .dash-sidebar { display: block; }
+  }
+
+  /* Sidebar nav */
+  .dash-nav { list-style: none; display: flex; flex-direction: column; gap: 0.15rem; }
+  .dash-nav li a {
+    display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 0.75rem;
+    border-radius: var(--radius); color: var(--text-soft); transition: all 0.15s;
+    font-size: 0.9rem; min-height: 44px;
+  }
+  .dash-nav li a:hover { background: var(--bg-alt); color: var(--text); }
+  .dash-nav li a.active { background: var(--accent-glow); color: var(--accent); font-weight: 500; }
+  .dash-nav-icon { width: 18px; text-align: center; }
+
+  /* Mobile nav bar */
+  .mobile-nav {
+    display: flex; border-bottom: 1px solid var(--border);
+    background: var(--surface); overflow-x: auto; -webkit-overflow-scrolling: touch;
+  }
+  .mobile-nav a {
+    flex: 1; text-align: center; padding: 0.65rem 0.5rem; font-size: 0.78rem;
+    color: var(--text-soft); white-space: nowrap; min-height: 44px;
+    display: flex; align-items: center; justify-content: center; gap: 0.3rem;
+    border-bottom: 2px solid transparent;
+  }
+  .mobile-nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
+  @media (min-width: 768px) { .mobile-nav { display: none; } }
+
+  /* Stats row */
+  .stats-row {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 1rem; margin-bottom: 1.5rem;
+  }
+  .stat-card {
+    padding: 1rem 1.25rem; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius);
+  }
+  .stat-card__label { font-size: 0.78rem; color: var(--text-faint); text-transform: uppercase;
+    letter-spacing: 0.04em; margin-bottom: 0.3rem; }
+  .stat-card__value { font-size: 1.5rem; font-weight: 700; }
+  .stat-card__sub { font-size: 0.78rem; color: var(--text-soft); margin-top: 0.15rem; }
+
+  /* Expense table */
+  .expense-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  .expense-table th {
+    text-align: left; padding: 0.6rem 0.75rem; font-size: 0.78rem;
+    color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em;
+    border-bottom: 1px solid var(--border); font-weight: 500; white-space: nowrap;
+  }
+  .expense-table td {
+    padding: 0.65rem 0.75rem; border-bottom: 1px solid var(--border); vertical-align: middle;
+  }
+  .expense-table tr:hover td { background: var(--bg-alt); }
+  .expense-table .amount { font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 500; }
+  .expense-table .amount--debit { color: var(--danger); }
+  .expense-table .amount--credit { color: var(--success); }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+  /* ── Upload View ── */
+  .upload-zone {
+    border: 2px dashed var(--border-h); border-radius: var(--radius);
+    padding: 3rem 2rem; text-align: center; cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .upload-zone:hover, .upload-zone.drag-over {
+    border-color: var(--accent); background: var(--accent-glow);
+  }
+  .upload-zone__icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+  .upload-zone__text { color: var(--text-soft); }
+  .upload-zone__text strong { color: var(--accent); }
+  .upload-preview { margin-top: 1.5rem; }
+
+  /* ── Sheets View ── */
+  .sheets-status {
+    display: flex; align-items: center; gap: 0.75rem;
+    padding: 1rem 1.25rem; background: rgba(52,211,153,0.06);
+    border: 1px solid rgba(52,211,153,0.15); border-radius: var(--radius);
+    margin-bottom: 1.5rem;
+  }
+  .sheets-status__dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--success); flex-shrink: 0;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* ── Section headers ── */
+  .section-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .section-header h2 { font-size: 1.15rem; font-weight: 600; }
+
+  /* ── Tab content ── */
+  .tab-content { display: none; }
+  .tab-content--active { display: block; }
+
+  /* ── Pipeline Status ── */
+  .pipeline-steps { display: flex; flex-direction: column; gap: 0.5rem; margin: 1rem 0; }
+  .pipeline-step {
+    display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 1rem;
+    background: var(--bg-alt); border-radius: var(--radius);
+    font-size: 0.88rem;
+  }
+  .pipeline-step__icon { width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; font-size: 0.75rem;
+    flex-shrink: 0;
+  }
+  .pipeline-step--pending .pipeline-step__icon { background: var(--border-h); color: var(--text-faint); }
+  .pipeline-step--running .pipeline-step__icon { background: rgba(129,140,248,0.2); color: var(--accent);
+    animation: pulse 1s ease-in-out infinite; }
+  .pipeline-step--done .pipeline-step__icon { background: rgba(52,211,153,0.2); color: var(--success); }
+  .pipeline-step--error .pipeline-step__icon { background: rgba(248,113,113,0.2); color: var(--danger); }
+  .pipeline-step__label { flex: 1; }
+  .pipeline-step__time { font-size: 0.75rem; color: var(--text-faint); font-family: ui-monospace, monospace; }
+
+  /* ── Responsive ── */
+  @media (max-width: 640px) {
+    .demo-header { padding: 0.6rem 1rem; }
+    .demo-header h1 { font-size: 0.95rem; }
+    .dash-main { padding: 1rem; }
+    .stats-row { grid-template-columns: 1fr 1fr; }
+    .stat-card__value { font-size: 1.2rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  </style>
+</head>
+<body>
+
+  <!-- ── Header ── -->
+  <header class="demo-header" id="app-header">
+    <h1>🏠 Realty Expense Manager</h1>
+    <div class="demo-header__right">
+      <span class="badge badge--accent">Prototype</span>
+      <button class="btn btn--ghost btn--sm" id="logout-btn" style="display:none;">Sign Out</button>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- VIEW: Login                                                    -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="view view--active" id="view-login">
+    <div class="login-wrapper">
+      <div class="login-card card">
+        <div class="login-bank-logo">
+          <h2>🏦 Marion Community Bank</h2>
+          <p>Secure Online Banking · Clanton, AL</p>
+        </div>
+        <div class="card__body">
+          <p style="font-size:0.88rem;color:var(--text-soft);text-align:center;">
+            Connect your bank account to automatically import expenses
+          </p>
+
+          <div>
+            <label class="login-label" for="login-user">Username or Email</label>
+            <input class="login-input" type="text" id="login-user" placeholder="demo@realty" autocomplete="username">
+          </div>
+          <div>
+            <label class="login-label" for="login-pass">Password</label>
+            <input class="login-input" type="password" id="login-pass" placeholder="demo1234" autocomplete="current-password">
+          </div>
+
+          <p class="login-error" id="login-error">Invalid credentials. Try the demo account below.</p>
+
+          <button class="btn btn--primary btn--block" id="login-btn">Sign In to Bank</button>
+
+          <div class="login-demo-hint">
+            <strong>Demo Credentials</strong><br>
+            Username: <code>demo@realty</code> &nbsp;·&nbsp; Password: <code>demo1234</code><br><br>
+            <em style="font-size:0.72rem;">This is a prototype — no real bank credentials are stored or transmitted.<br>
+            In production, Plaid handles secure bank connections.</em>
+          </div>
+
+          <div style="text-align:center;">
+            <button class="btn btn--ghost btn--sm" id="skip-login-btn">
+              Skip — Upload CSV Instead
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <!-- VIEW: Dashboard                                                -->
+  <!-- ══════════════════════════════════════════════════════════════ -->
+  <div class="view" id="view-dashboard">
+
+    <!-- Mobile Tab Bar -->
+    <nav class="mobile-nav" id="mobile-nav">
+      <a href="#" class="active" data-tab="overview">📊 Overview</a>
+      <a href="#" data-tab="transactions">💳 Transactions</a>
+      <a href="#" data-tab="upload">📤 Upload</a>
+      <a href="#" data-tab="sheets">📋 Sheets</a>
+    </nav>
+
+    <div class="dashboard">
+      <!-- Desktop Sidebar -->
+      <aside class="dash-sidebar">
+        <div style="padding:0.5rem 0 1rem;">
+          <div style="font-weight:600;font-size:0.95rem;">Alabama Realty Co.</div>
+          <div style="font-size:0.78rem;color:var(--text-faint);">40 Agents · 3 Accounts</div>
+        </div>
+        <ul class="dash-nav" id="dash-nav">
+          <li><a href="#" class="active" data-tab="overview"><span class="dash-nav-icon">📊</span> Overview</a></li>
+          <li><a href="#" data-tab="transactions"><span class="dash-nav-icon">💳</span> Transactions</a></li>
+          <li><a href="#" data-tab="upload"><span class="dash-nav-icon">📤</span> Upload CSV</a></li>
+          <li><a href="#" data-tab="sheets"><span class="dash-nav-icon">📋</span> Google Sheet</a></li>
+          <li><a href="#" data-tab="pipeline"><span class="dash-nav-icon">⚙️</span> Pipeline</a></li>
+        </ul>
+        <div style="margin-top:auto;padding-top:2rem;font-size:0.72rem;color:var(--text-faint);">
+          Connected: Marion Community Bank<br>
+          Last sync: Just now<br>
+          <span class="badge badge--success" style="margin-top:0.3rem;">● Live</span>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="dash-main">
+
+        <!-- TAB: Overview -->
+        <div class="tab-content tab-content--active" id="tab-overview">
+          <div class="section-header">
+            <h2>Expense Overview</h2>
+            <div style="display:flex;gap:0.5rem;">
+              <select id="month-filter" style="font-size:0.85rem;padding:0.35rem 0.6rem;">
+                <option value="all">All Months</option>
+                <option value="2026-03" selected>March 2026</option>
+                <option value="2026-02">February 2026</option>
+                <option value="2026-01">January 2026</option>
+              </select>
+              <select id="account-filter" style="font-size:0.85rem;padding:0.35rem 0.6rem;">
+                <option value="all">All Accounts</option>
+                <option value="operating">Operating Account</option>
+                <option value="trust">Trust Account</option>
+                <option value="marketing">Marketing Account</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="stats-row" id="stats-row">
+            <!-- Filled by JS -->
+          </div>
+
+          <div class="card">
+            <div class="card__header">
+              <span>Recent Expenses</span>
+              <button class="btn btn--ghost btn--sm" id="view-all-btn">View All →</button>
+            </div>
+            <div class="card__body" style="padding:0;">
+              <div class="table-wrap">
+                <table class="expense-table" id="recent-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Description</th>
+                      <th>Category</th>
+                      <th>Agent</th>
+                      <th style="text-align:right;">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody id="recent-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: Transactions -->
+        <div class="tab-content" id="tab-transactions">
+          <div class="section-header">
+            <h2>All Transactions</h2>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+              <input type="search" id="tx-search" placeholder="Search…" style="font-size:0.85rem;width:180px;">
+              <button class="btn btn--primary btn--sm" id="export-csv-btn">Export CSV</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card__body" style="padding:0;">
+              <div class="table-wrap">
+                <table class="expense-table" id="all-table">
+                  <thead>
+                    <tr>
+                      <th>Date</th>
+                      <th>Description</th>
+                      <th>Category</th>
+                      <th>Agent</th>
+                      <th>Account</th>
+                      <th style="text-align:right;">Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody id="all-tbody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: Upload CSV -->
+        <div class="tab-content" id="tab-upload">
+          <div class="section-header">
+            <h2>Upload Bank Statement</h2>
+            <span class="badge badge--accent">Auto-Transform</span>
+          </div>
+          <p style="color:var(--text-soft);margin-bottom:1rem;font-size:0.9rem;">
+            Drop a CSV export from your bank. The system will automatically detect the format,
+            transform it to match your expense spreadsheet, and categorize transactions.
+          </p>
+          <div class="upload-zone" id="upload-zone">
+            <div class="upload-zone__icon">📁</div>
+            <div class="upload-zone__text">
+              <strong>Drop CSV here</strong> or click to browse<br>
+              <span style="font-size:0.78rem;color:var(--text-faint);">
+                Supports Marion Community Bank, Chase, Wells Fargo CSV exports
+              </span>
+            </div>
+            <input type="file" id="file-input" accept=".csv" class="sr-only">
+          </div>
+          <div class="upload-preview" id="upload-preview" style="display:none;">
+            <div class="card">
+              <div class="card__header">
+                <span>Transform Preview</span>
+                <div style="display:flex;gap:0.5rem;">
+                  <button class="btn btn--success btn--sm" id="import-btn">Import to Sheet</button>
+                  <button class="btn btn--ghost btn--sm" id="clear-upload-btn">Clear</button>
+                </div>
+              </div>
+              <div class="card__body" style="padding:0;">
+                <div class="table-wrap">
+                  <table class="expense-table" id="preview-table">
+                    <thead><tr id="preview-thead"></tr></thead>
+                    <tbody id="preview-tbody"></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: Google Sheet -->
+        <div class="tab-content" id="tab-sheets">
+          <div class="section-header">
+            <h2>Google Sheets Integration</h2>
+            <span class="badge badge--success">● Connected</span>
+          </div>
+
+          <div class="sheets-status">
+            <div class="sheets-status__dot"></div>
+            <div>
+              <strong style="font-size:0.9rem;">Spreadsheet synced</strong>
+              <div style="font-size:0.78rem;color:var(--text-soft);">Last updated: Just now · 3 sheets · 40 agent columns</div>
+            </div>
+          </div>
+
+          <div class="card" style="margin-bottom:1rem;">
+            <div class="card__header">Linked Spreadsheet</div>
+            <div class="card__body">
+              <p style="margin-bottom:0.75rem;font-size:0.9rem;color:var(--text-soft);">
+                All imported transactions are automatically formatted and pushed to your Google Sheet.
+                Click below to open the live spreadsheet.
+              </p>
+              <a href="https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms/edit?usp=sharing"
+                 target="_blank" rel="noopener"
+                 class="btn btn--primary" id="open-sheet-btn"
+                 onclick="if(!this.href.includes('1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms')){event.preventDefault();alert('Google Sheet will be linked here in production. This prototype demonstrates the workflow.');}">
+                📋 Open Google Sheet
+              </a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card__header">Sheet Configuration</div>
+            <div class="card__body" style="display:flex;flex-direction:column;gap:0.75rem;">
+              <div>
+                <label class="login-label">Sheet 1: Operating Expenses</label>
+                <div style="font-size:0.85rem;color:var(--text-soft);">
+                  Columns: Date · Description · Category · Agent · Amount · Running Balance
+                </div>
+              </div>
+              <div>
+                <label class="login-label">Sheet 2: Trust Account</label>
+                <div style="font-size:0.85rem;color:var(--text-soft);">
+                  Columns: Date · Property · Client · Amount · Disbursement Date
+                </div>
+              </div>
+              <div>
+                <label class="login-label">Sheet 3: Marketing Expenses</label>
+                <div style="font-size:0.85rem;color:var(--text-soft);">
+                  Columns: Date · Campaign · Platform · Agent · Cost · Leads Generated
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: Pipeline -->
+        <div class="tab-content" id="tab-pipeline">
+          <div class="section-header">
+            <h2>Data Pipeline</h2>
+            <span class="badge badge--accent">Automated</span>
+          </div>
+          <p style="color:var(--text-soft);margin-bottom:1rem;font-size:0.9rem;">
+            This is the transformation pipeline that replaces the manual 4-step formatting process.
+            Each step runs automatically when bank data is pulled or a CSV is uploaded.
+          </p>
+
+          <div class="card" style="margin-bottom:1rem;">
+            <div class="card__header">Current Pipeline Run</div>
+            <div class="card__body">
+              <div class="pipeline-steps" id="pipeline-steps">
+                <div class="pipeline-step pipeline-step--done">
+                  <div class="pipeline-step__icon">✓</div>
+                  <div class="pipeline-step__label">Fetch Bank Data</div>
+                  <div class="pipeline-step__time">230ms</div>
+                </div>
+                <div class="pipeline-step pipeline-step--done">
+                  <div class="pipeline-step__icon">✓</div>
+                  <div class="pipeline-step__label">Parse &amp; Normalize Columns</div>
+                  <div class="pipeline-step__time">85ms</div>
+                </div>
+                <div class="pipeline-step pipeline-step--done">
+                  <div class="pipeline-step__icon">✓</div>
+                  <div class="pipeline-step__label">Categorize Transactions</div>
+                  <div class="pipeline-step__time">120ms</div>
+                </div>
+                <div class="pipeline-step pipeline-step--done">
+                  <div class="pipeline-step__icon">✓</div>
+                  <div class="pipeline-step__label">Assign to Agent Accounts</div>
+                  <div class="pipeline-step__time">45ms</div>
+                </div>
+                <div class="pipeline-step pipeline-step--done">
+                  <div class="pipeline-step__icon">✓</div>
+                  <div class="pipeline-step__label">Format for Google Sheets</div>
+                  <div class="pipeline-step__time">62ms</div>
+                </div>
+                <div class="pipeline-step pipeline-step--done">
+                  <div class="pipeline-step__icon">✓</div>
+                  <div class="pipeline-step__label">Push to Spreadsheet</div>
+                  <div class="pipeline-step__time">340ms</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card__header">What This Replaces</div>
+            <div class="card__body" style="font-size:0.9rem;color:var(--text-soft);">
+              <p style="margin-bottom:0.75rem;"><strong style="color:var(--danger);">Before (Manual — ~45 min/week):</strong></p>
+              <ol style="padding-left:1.2rem;margin-bottom:1rem;line-height:2;">
+                <li>Log into Marion Community Bank online banking</li>
+                <li>Export transaction CSV for each of 3 accounts</li>
+                <li>Open each CSV, manually reformat columns (4 transformations per file)</li>
+                <li>Copy/paste into the correct Google Sheet tab</li>
+                <li>Manually categorize each transaction</li>
+                <li>Assign expenses to the correct agent</li>
+              </ol>
+              <p><strong style="color:var(--success);">After (Automated — ~30 seconds):</strong></p>
+              <ol style="padding-left:1.2rem;line-height:2;">
+                <li>Click "Sync" — data flows automatically from bank → spreadsheet</li>
+                <li>Review categorized transactions (edit if needed)</li>
+                <li>Done ✓</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════
+// REALTY EXPENSE MANAGER — Prototype Pipeline
+// ═══════════════════════════════════════════════════════════════════
+
+// ── Dummy Transaction Data ────────────────────────────────────────
+const AGENTS = [
+  'Sarah Mitchell', 'James Cooper', 'Lisa Rodriguez', 'Marcus Johnson',
+  'Emily Parker', 'David Chen', 'Rachel Adams', 'Tyler Brooks',
+  'Amanda Foster', 'Brian Williams'
+];
+
+const CATEGORIES = {
+  'Office Supplies': ['STAPLES', 'OFFICE DEPOT', 'AMAZON'],
+  'Marketing': ['FACEBOOK ADS', 'GOOGLE ADS', 'ZILLOW', 'REALTOR.COM', 'VISTAPRINT'],
+  'MLS Fees': ['MLS DUES', 'MLS FEE', 'REALCOMP'],
+  'Insurance': ['STATE FARM', 'ALLSTATE', 'E&O INSURANCE'],
+  'Vehicle': ['SHELL', 'BP', 'CHEVRON', 'EXXON', 'JIFFY LUBE'],
+  'Utilities': ['AT&T', 'ALABAMA POWER', 'SPECTRUM'],
+  'Rent': ['CLANTON OFFICE', 'LEASE PMT'],
+  'Professional Dev': ['NAR DUES', 'CE COURSE', 'TRAINING'],
+  'Client Entertainment': ['RESTAURANT', 'STARBUCKS', 'CHICK-FIL-A'],
+  'Technology': ['DOCUSIGN', 'CANVA', 'ZOOM', 'DROPBOX']
+};
+
+const ACCOUNTS = ['operating', 'trust', 'marketing'];
+const ACCOUNT_LABELS = { operating: 'Operating Account', trust: 'Trust Account', marketing: 'Marketing Account' };
+
+function generateTransactions(count) {
+  const txns = [];
+  const now = new Date();
+  for (let i = 0; i < count; i++) {
+    const daysAgo = Math.floor(Math.random() * 90);
+    const date = new Date(now);
+    date.setDate(date.getDate() - daysAgo);
+
+    const cats = Object.keys(CATEGORIES);
+    const category = cats[Math.floor(Math.random() * cats.length)];
+    const vendors = CATEGORIES[category];
+    const vendor = vendors[Math.floor(Math.random() * vendors.length)];
+
+    const isCredit = Math.random() < 0.08; // 8% are credits/refunds
+    const amount = isCredit
+      ? +(Math.random() * 500 + 50).toFixed(2)
+      : -(Math.random() * 2000 + 15).toFixed(2);
+
+    txns.push({
+      date: date.toISOString().split('T')[0],
+      description: vendor + ' #' + Math.floor(Math.random() * 9000 + 1000),
+      category,
+      agent: AGENTS[Math.floor(Math.random() * AGENTS.length)],
+      account: ACCOUNTS[Math.floor(Math.random() * ACCOUNTS.length)],
+      amount: +amount
+    });
+  }
+  return txns.sort((a, b) => b.date.localeCompare(a.date));
+}
+
+const ALL_TRANSACTIONS = generateTransactions(120);
+
+// ── DOM References ────────────────────────────────────────────────
+const viewLogin = document.getElementById('view-login');
+const viewDashboard = document.getElementById('view-dashboard');
+const loginBtn = document.getElementById('login-btn');
+const skipLoginBtn = document.getElementById('skip-login-btn');
+const logoutBtn = document.getElementById('logout-btn');
+const loginError = document.getElementById('login-error');
+const loginUser = document.getElementById('login-user');
+const loginPass = document.getElementById('login-pass');
+const statsRow = document.getElementById('stats-row');
+const recentTbody = document.getElementById('recent-tbody');
+const allTbody = document.getElementById('all-tbody');
+const uploadZone = document.getElementById('upload-zone');
+const fileInput = document.getElementById('file-input');
+const uploadPreview = document.getElementById('upload-preview');
+const viewAllBtn = document.getElementById('view-all-btn');
+const txSearch = document.getElementById('tx-search');
+const monthFilter = document.getElementById('month-filter');
+const accountFilter = document.getElementById('account-filter');
+
+// ── View Management ───────────────────────────────────────────────
+function showView(viewId) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('view--active'));
+  document.getElementById(viewId).classList.add('view--active');
+  logoutBtn.style.display = viewId === 'view-dashboard' ? 'inline-flex' : 'none';
+}
+
+function showTab(tabId) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('tab-content--active'));
+  document.getElementById('tab-' + tabId).classList.add('tab-content--active');
+
+  document.querySelectorAll('#dash-nav a, .mobile-nav a').forEach(a => {
+    a.classList.toggle('active', a.dataset.tab === tabId);
+  });
+}
+
+// ── Login ─────────────────────────────────────────────────────────
+loginBtn.addEventListener('click', () => {
+  const user = loginUser.value.trim();
+  const pass = loginPass.value.trim();
+
+  if ((user === 'demo@realty' && pass === 'demo1234') || (user === '' && pass === '')) {
+    loginError.style.display = 'none';
+    showView('view-dashboard');
+    renderDashboard();
+  } else {
+    loginError.style.display = 'block';
+    loginPass.focus();
+  }
+});
+
+loginPass.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') loginBtn.click();
+});
+
+skipLoginBtn.addEventListener('click', () => {
+  showView('view-dashboard');
+  showTab('upload');
+  renderDashboard();
+});
+
+logoutBtn.addEventListener('click', () => {
+  showView('view-login');
+  loginUser.value = '';
+  loginPass.value = '';
+  loginError.style.display = 'none';
+});
+
+// ── Tab Navigation ────────────────────────────────────────────────
+document.querySelectorAll('#dash-nav a, .mobile-nav a').forEach(link => {
+  link.addEventListener('click', (e) => {
+    e.preventDefault();
+    showTab(link.dataset.tab);
+  });
+});
+
+viewAllBtn.addEventListener('click', () => showTab('transactions'));
+
+// ── Rendering ─────────────────────────────────────────────────────
+function filterTransactions() {
+  const month = monthFilter.value;
+  const account = accountFilter.value;
+  return ALL_TRANSACTIONS.filter(tx => {
+    if (month !== 'all' && !tx.date.startsWith(month)) return false;
+    if (account !== 'all' && tx.account !== account) return false;
+    return true;
+  });
+}
+
+function renderStats(txns) {
+  const totalExpenses = txns.filter(t => t.amount < 0).reduce((s, t) => s + t.amount, 0);
+  const totalCredits = txns.filter(t => t.amount > 0).reduce((s, t) => s + t.amount, 0);
+  const avgPerTx = txns.length ? (totalExpenses / txns.filter(t => t.amount < 0).length) : 0;
+  const uniqueAgents = new Set(txns.map(t => t.agent)).size;
+
+  statsRow.innerHTML = `
+    <div class="stat-card">
+      <div class="stat-card__label">Total Expenses</div>
+      <div class="stat-card__value" style="color:var(--danger);">$${Math.abs(totalExpenses).toLocaleString('en-US', {minimumFractionDigits: 2})}</div>
+      <div class="stat-card__sub">${txns.filter(t => t.amount < 0).length} transactions</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__label">Credits / Refunds</div>
+      <div class="stat-card__value" style="color:var(--success);">$${totalCredits.toLocaleString('en-US', {minimumFractionDigits: 2})}</div>
+      <div class="stat-card__sub">${txns.filter(t => t.amount > 0).length} transactions</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__label">Avg. Expense</div>
+      <div class="stat-card__value">$${Math.abs(avgPerTx).toLocaleString('en-US', {minimumFractionDigits: 2})}</div>
+      <div class="stat-card__sub">per transaction</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-card__label">Active Agents</div>
+      <div class="stat-card__value">${uniqueAgents}</div>
+      <div class="stat-card__sub">of 40 total</div>
+    </div>
+  `;
+}
+
+function renderTable(tbody, txns, showAccount) {
+  tbody.innerHTML = txns.map(tx => `
+    <tr>
+      <td style="white-space:nowrap;">${tx.date}</td>
+      <td>${tx.description}</td>
+      <td><span class="badge badge--accent">${tx.category}</span></td>
+      <td>${tx.agent}</td>
+      ${showAccount ? `<td>${ACCOUNT_LABELS[tx.account]}</td>` : ''}
+      <td style="text-align:right;" class="amount ${tx.amount < 0 ? 'amount--debit' : 'amount--credit'}">
+        ${tx.amount < 0 ? '-' : '+'}$${Math.abs(tx.amount).toLocaleString('en-US', {minimumFractionDigits: 2})}
+      </td>
+    </tr>
+  `).join('');
+}
+
+function renderDashboard() {
+  const filtered = filterTransactions();
+  renderStats(filtered);
+  renderTable(recentTbody, filtered.slice(0, 10), false);
+  renderTable(allTbody, ALL_TRANSACTIONS, true);
+}
+
+monthFilter.addEventListener('change', renderDashboard);
+accountFilter.addEventListener('change', renderDashboard);
+
+// ── Search ────────────────────────────────────────────────────────
+txSearch.addEventListener('input', () => {
+  const q = txSearch.value.toLowerCase();
+  const filtered = ALL_TRANSACTIONS.filter(tx =>
+    tx.description.toLowerCase().includes(q) ||
+    tx.category.toLowerCase().includes(q) ||
+    tx.agent.toLowerCase().includes(q) ||
+    tx.account.toLowerCase().includes(q)
+  );
+  renderTable(allTbody, filtered, true);
+});
+
+// ── CSV Upload ────────────────────────────────────────────────────
+uploadZone.addEventListener('click', () => fileInput.click());
+uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+uploadZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadZone.classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.name.endsWith('.csv')) processCSV(file);
+});
+fileInput.addEventListener('change', () => {
+  if (fileInput.files[0]) processCSV(fileInput.files[0]);
+});
+
+function processCSV(file) {
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const text = e.target.result;
+    const lines = text.trim().split('\n');
+    if (lines.length < 2) return;
+
+    const headers = lines[0].split(',').map(h => h.trim().replace(/"/g, ''));
+    const rows = lines.slice(1).map(line => {
+      const vals = line.split(',').map(v => v.trim().replace(/"/g, ''));
+      const row = {};
+      headers.forEach((h, i) => row[h] = vals[i] || '');
+      return row;
+    });
+
+    // Transform: detect bank format and normalize
+    const transformed = rows.map(row => {
+      // Try to detect common bank CSV formats
+      const date = row['Date'] || row['Transaction Date'] || row['Post Date'] || row['date'] || '';
+      const desc = row['Description'] || row['Memo'] || row['Payee'] || row['description'] || '';
+      const amt = row['Amount'] || row['Debit'] || row['Credit'] || row['amount'] || '0';
+      const amount = parseFloat(amt.replace(/[$,]/g, '')) || 0;
+
+      // Auto-categorize
+      let category = 'Uncategorized';
+      for (const [cat, keywords] of Object.entries(CATEGORIES)) {
+        if (keywords.some(kw => desc.toUpperCase().includes(kw))) {
+          category = cat;
+          break;
+        }
+      }
+
+      return { date, description: desc, category, agent: 'Unassigned', amount };
+    });
+
+    // Render preview
+    const previewThead = document.getElementById('preview-thead');
+    const previewTbody = document.getElementById('preview-tbody');
+    previewThead.innerHTML = '<th>Date</th><th>Description</th><th>Category</th><th>Agent</th><th style="text-align:right;">Amount</th>';
+    previewTbody.innerHTML = transformed.map(tx => `
+      <tr>
+        <td>${tx.date}</td>
+        <td>${tx.description}</td>
+        <td><span class="badge badge--accent">${tx.category}</span></td>
+        <td>${tx.agent}</td>
+        <td style="text-align:right;" class="amount ${tx.amount < 0 ? 'amount--debit' : 'amount--credit'}">
+          ${tx.amount < 0 ? '-' : '+'}$${Math.abs(tx.amount).toFixed(2)}
+        </td>
+      </tr>
+    `).join('');
+
+    uploadPreview.style.display = 'block';
+  };
+  reader.readAsText(file);
+}
+
+document.getElementById('clear-upload-btn').addEventListener('click', () => {
+  uploadPreview.style.display = 'none';
+  fileInput.value = '';
+});
+
+document.getElementById('import-btn').addEventListener('click', () => {
+  alert('✅ Transactions imported to Google Sheet!\n\n(In production, this pushes data via Google Sheets API)');
+  uploadPreview.style.display = 'none';
+  fileInput.value = '';
+  showTab('sheets');
+});
+
+// ── Export CSV ─────────────────────────────────────────────────────
+document.getElementById('export-csv-btn').addEventListener('click', () => {
+  const headers = ['Date', 'Description', 'Category', 'Agent', 'Account', 'Amount'];
+  const csvContent = [
+    headers.join(','),
+    ...ALL_TRANSACTIONS.map(tx =>
+      [tx.date, `"${tx.description}"`, tx.category, tx.agent, ACCOUNT_LABELS[tx.account], tx.amount].join(',')
+    )
+  ].join('\n');
+
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'realty_expenses_export.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+</script>
+</body>
+</html>
