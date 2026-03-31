@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Campaign Manager — Orchestrate Solutions Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  
+  :root {
+    --bg: #0b0b11; --bg-alt: #10101a; --surface: #161622;
+    --border: rgba(255,255,255,0.06); --border-h: rgba(255,255,255,0.12);
+    --text: #d8d8e4; --text-soft: #9090a8; --text-faint: #5c5c72;
+    --accent: #818cf8; --accent-h: #a5b4fc;
+    --accent-glow: rgba(129,140,248,0.10);
+    --danger: #f87171; --success: #34d399; --warn: #fbbf24;
+    --ff: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --radius: 10px;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { font-family: var(--ff); color: var(--text); background: var(--bg);
+         line-height: 1.6; font-size: 0.95rem; }
+  a { color: var(--accent); text-decoration: none; }
+  button, input, select, textarea {
+    font-family: inherit; font-size: inherit; color: inherit;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 0.5rem 0.75rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  button:focus, input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+  button { cursor: pointer; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.55rem 1.2rem; border-radius: var(--radius);
+    font-weight: 500; border: none; cursor: pointer; transition: all 0.2s;
+  }
+  .btn--primary { background: var(--accent); color: var(--bg); }
+  .btn--primary:hover { background: var(--accent-h); }
+  .btn--ghost { background: transparent; color: var(--text-soft);
+    border: 1px solid var(--border-h); }
+  .btn--ghost:hover { color: var(--text); border-color: var(--text-soft); }
+  .btn--danger { background: var(--danger); color: var(--bg); }
+  .btn--sm { padding: 0.35rem 0.75rem; font-size: 0.8rem; }
+  .demo-header {
+    padding: 1rem 1.5rem; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .demo-header h1 { font-size: 1.1rem; font-weight: 600; }
+  .demo-header .badge {
+    font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 100px;
+    background: var(--accent-glow); color: var(--accent); font-weight: 500;
+  }
+
+  .app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; }
+  .sidebar { background: var(--surface); border-right: 1px solid var(--border); padding: 1rem;
+    display: flex; flex-direction: column; }
+  .sidebar h3 { font-size: 0.85rem; color: var(--text-faint); text-transform: uppercase;
+    letter-spacing: 0.06em; margin-bottom: 0.75rem; }
+  .campaign-list { flex: 1; overflow-y: auto; }
+  .campaign-item { padding: 0.65rem 0.75rem; border-radius: 8px; margin-bottom: 0.25rem;
+    cursor: pointer; font-size: 0.85rem; transition: background 0.15s; display: flex;
+    justify-content: space-between; align-items: center; }
+  .campaign-item:hover { background: var(--bg-alt); }
+  .campaign-item.active { background: var(--accent-glow); color: var(--accent); }
+  .campaign-item .status { font-size: 0.65rem; padding: 0.15rem 0.4rem; border-radius: 100px; }
+  .status-draft { background: rgba(255,255,255,0.06); color: var(--text-faint); }
+  .status-sent { background: rgba(52,211,153,0.15); color: var(--success); }
+  .status-scheduled { background: rgba(251,191,36,0.15); color: var(--warn); }
+  .main { padding: 1.5rem; overflow-y: auto; }
+  .tabs { display: flex; gap: 0; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+  .tab { padding: 0.5rem 1rem; font-size: 0.85rem; cursor: pointer;
+    border-bottom: 2px solid transparent; color: var(--text-soft); transition: all 0.2s; }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; font-size: 0.8rem; color: var(--text-soft);
+    margin-bottom: 0.3rem; font-weight: 500; }
+  .form-group input, .form-group textarea, .form-group select { width: 100%; }
+  .form-group textarea { min-height: 100px; resize: vertical; }
+  .editor-toolbar { display: flex; gap: 0.25rem; margin-bottom: 0.5rem;
+    padding: 0.5rem; background: var(--bg-alt); border-radius: var(--radius) var(--radius) 0 0;
+    border: 1px solid var(--border); border-bottom: none; }
+  .editor-toolbar button { background: transparent; border: none; color: var(--text-soft);
+    padding: 0.3rem 0.5rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; }
+  .editor-toolbar button:hover { background: var(--surface); color: var(--text); }
+  .editor-area { min-height: 200px; padding: 1rem; border: 1px solid var(--border);
+    border-radius: 0 0 var(--radius) var(--radius); font-size: 0.9rem; line-height: 1.6;
+    outline: none; }
+  .preview-frame { background: #fff; color: #1a1a1a; padding: 2rem; border-radius: var(--radius);
+    max-width: 600px; margin: 0 auto; font-size: 0.9rem; min-height: 300px; }
+  .preview-frame h1 { color: #818cf8; font-size: 1.4rem; margin-bottom: 0.5rem; }
+  .preview-frame .preview-body { line-height: 1.7; }
+  .preview-frame .preview-footer { margin-top: 2rem; padding-top: 1rem;
+    border-top: 1px solid #e5e7eb; font-size: 0.75rem; color: #999; text-align: center; }
+  .recipients-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .recipients-table th { text-align: left; padding: 0.5rem; border-bottom: 1px solid var(--border);
+    font-size: 0.75rem; text-transform: uppercase; color: var(--text-faint);
+    letter-spacing: 0.05em; }
+  .recipients-table td { padding: 0.5rem; border-bottom: 1px solid var(--border); }
+  .recipients-table .email { color: var(--accent); }
+  .stat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+    margin-bottom: 1.5rem; }
+  .stat-card { background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1rem; text-align: center; }
+  .stat-card .val { font-size: 1.5rem; font-weight: 700; color: var(--accent); }
+  .stat-card .label { font-size: 0.75rem; color: var(--text-faint); margin-top: 0.15rem; }
+  .add-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 0.5rem;
+    margin-bottom: 1rem; }
+  .actions { display: flex; gap: 0.5rem; margin-top: 1.5rem; }
+  @media (max-width: 700px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>Email Campaign Manager</h1>
+    <span class="badge">Demo</span>
+  </header>
+  <div class="app">
+    <aside class="sidebar">
+      <h3>Campaigns</h3>
+      <button class="btn btn--primary btn--sm" onclick="newCampaign()" style="width:100%;margin-bottom:1rem">
+        + New Campaign
+      </button>
+      <div class="campaign-list" id="campaignList"></div>
+    </aside>
+    <main class="main">
+      <div class="tabs">
+        <div class="tab active" onclick="switchTab('compose')">Compose</div>
+        <div class="tab" onclick="switchTab('preview')">Preview</div>
+        <div class="tab" onclick="switchTab('recipients')">Recipients</div>
+        <div class="tab" onclick="switchTab('analytics')">Analytics</div>
+      </div>
+
+      <!-- Compose -->
+      <div class="tab-content active" id="tab-compose">
+        <div class="form-group">
+          <label>Campaign Name</label>
+          <input type="text" id="campName" placeholder="Spring Sale Announcement" oninput="syncName()">
+        </div>
+        <div class="form-group">
+          <label>Subject Line</label>
+          <input type="text" id="campSubject" placeholder="Don't miss our biggest sale of the year!">
+        </div>
+        <div class="form-group">
+          <label>From Name</label>
+          <input type="text" id="campFrom" value="Your Business">
+        </div>
+        <div class="form-group">
+          <label>Email Body</label>
+          <div class="editor-toolbar">
+            <button onclick="formatDoc('bold')"><b>B</b></button>
+            <button onclick="formatDoc('italic')"><i>I</i></button>
+            <button onclick="formatDoc('underline')"><u>U</u></button>
+            <button onclick="formatDoc('insertUnorderedList')">&#8226; List</button>
+            <button onclick="insertMergeTag()">{{ Name }}</button>
+          </div>
+          <div class="editor-area" id="emailBody" contenteditable="true">
+            <p>Hi there,</p>
+            <p>We're excited to announce our <strong>Spring Sale</strong> — 20% off everything in the shop this weekend only!</p>
+            <p>Use code <strong>SPRING20</strong> at checkout.</p>
+            <p>Thanks for being a loyal customer!<br>— Your Business Team</p>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn btn--primary" onclick="scheduleSend()">Schedule Send</button>
+          <button class="btn btn--ghost" onclick="saveDraft()">Save Draft</button>
+          <button class="btn btn--ghost" onclick="sendNow()">Send Now</button>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="tab-content" id="tab-preview">
+        <div class="preview-frame" id="previewFrame">
+          <h1 id="prevSubject"></h1>
+          <div class="preview-body" id="prevBody"></div>
+          <div class="preview-footer">
+            You received this because you subscribed to updates from <span id="prevFrom"></span>.<br>
+            <a href="#">Unsubscribe</a> | <a href="#">Preferences</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recipients -->
+      <div class="tab-content" id="tab-recipients">
+        <div class="add-row">
+          <input type="text" id="addName" placeholder="Name">
+          <input type="email" id="addEmail" placeholder="Email">
+          <button class="btn btn--primary btn--sm" onclick="addRecipient()">Add</button>
+        </div>
+        <table class="recipients-table" id="recipientsTable">
+          <thead><tr><th>Name</th><th>Email</th><th>Status</th><th></th></tr></thead>
+          <tbody id="recipientRows"></tbody>
+        </table>
+      </div>
+
+      <!-- Analytics -->
+      <div class="tab-content" id="tab-analytics">
+        <div class="stat-grid">
+          <div class="stat-card"><div class="val" id="statSent">0</div><div class="label">Sent</div></div>
+          <div class="stat-card"><div class="val" id="statOpen">0%</div><div class="label">Open Rate</div></div>
+          <div class="stat-card"><div class="val" id="statClick">0%</div><div class="label">Click Rate</div></div>
+          <div class="stat-card"><div class="val" id="statUnsub">0</div><div class="label">Unsubscribes</div></div>
+        </div>
+        <p style="color:var(--text-faint);font-size:0.85rem;text-align:center;padding:2rem">
+          Analytics populate after sending a campaign.<br>
+          In production, Resend webhooks feed real-time open/click data.
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+  var campaigns = [
+    { id: 1, name: 'Spring Sale', status: 'sent', subject: 'Don\'t miss 20% off everything!',
+      recipients: 142, openRate: 34.2, clickRate: 8.7, unsubs: 2, body: '' },
+    { id: 2, name: 'New Product Launch', status: 'scheduled', subject: 'Introducing our newest arrival',
+      recipients: 142, openRate: 0, clickRate: 0, unsubs: 0, body: '' },
+    { id: 3, name: 'Holiday Thank You', status: 'draft', subject: '',
+      recipients: 0, openRate: 0, clickRate: 0, unsubs: 0, body: '' },
+  ];
+  var activeCamp = campaigns[0];
+  var recipients = [
+    { name: 'Alice Johnson', email: 'alice@example.com', status: 'Subscribed' },
+    { name: 'Bob Smith', email: 'bob@example.com', status: 'Subscribed' },
+    { name: 'Carol White', email: 'carol@example.com', status: 'Subscribed' },
+    { name: 'Dan Brown', email: 'dan@example.com', status: 'Unsubscribed' },
+    { name: 'Eva Martinez', email: 'eva@example.com', status: 'Subscribed' },
+  ];
+
+  function renderCampaigns() {
+    document.getElementById('campaignList').innerHTML = campaigns.map(function(c) {
+      var sc = 'status-' + c.status;
+      return '<div class="campaign-item' + (c.id === activeCamp.id ? ' active' : '') +
+        '" onclick="selectCamp(' + c.id + ')">' +
+        '<span>' + c.name + '</span>' +
+        '<span class="status ' + sc + '">' + c.status + '</span></div>';
+    }).join('');
+  }
+
+  function selectCamp(id) {
+    // Save current campaign body
+    activeCamp.body = document.getElementById('emailBody').innerHTML;
+    activeCamp = campaigns.find(function(c) { return c.id === id; });
+    renderCampaigns();
+    updateAnalytics();
+    document.getElementById('campName').value = activeCamp.name;
+    if (activeCamp.subject) document.getElementById('campSubject').value = activeCamp.subject;
+    // Restore campaign body
+    if (activeCamp.body) document.getElementById('emailBody').innerHTML = activeCamp.body;
+  }
+
+  function newCampaign() {
+    var c = { id: Date.now(), name: 'Untitled Campaign', status: 'draft', subject: '',
+      recipients: 0, openRate: 0, clickRate: 0, unsubs: 0 };
+    campaigns.unshift(c);
+    activeCamp = c;
+    renderCampaigns();
+    document.getElementById('campName').value = c.name;
+    document.getElementById('campSubject').value = '';
+    switchTab('compose');
+  }
+
+  function syncName() {
+    activeCamp.name = document.getElementById('campName').value || 'Untitled';
+    renderCampaigns();
+  }
+
+  function switchTab(name) {
+    document.querySelectorAll('.tab').forEach(function(t, i) {
+      t.classList.toggle('active', t.textContent.toLowerCase().replace(/\s/g,'') === name);
+    });
+    document.querySelectorAll('.tab-content').forEach(function(c) {
+      c.classList.toggle('active', c.id === 'tab-' + name);
+    });
+    if (name === 'preview') updatePreview();
+    if (name === 'analytics') updateAnalytics();
+    if (name === 'recipients') renderRecipients();
+  }
+
+  function formatDoc(cmd) {
+    document.execCommand(cmd, false, null);
+    document.getElementById('emailBody').focus();
+  }
+
+  function insertMergeTag() {
+    document.execCommand('insertText', false, '{{Name}}');
+  }
+
+  function updatePreview() {
+    document.getElementById('prevSubject').textContent =
+      document.getElementById('campSubject').value || 'Subject line';
+    document.getElementById('prevBody').innerHTML =
+      document.getElementById('emailBody').innerHTML;
+    document.getElementById('prevFrom').textContent =
+      document.getElementById('campFrom').value || 'Your Business';
+  }
+
+  function updateAnalytics() {
+    document.getElementById('statSent').textContent = activeCamp.recipients;
+    document.getElementById('statOpen').textContent = activeCamp.openRate + '%';
+    document.getElementById('statClick').textContent = activeCamp.clickRate + '%';
+    document.getElementById('statUnsub').textContent = activeCamp.unsubs;
+  }
+
+  function renderRecipients() {
+    document.getElementById('recipientRows').innerHTML = recipients.map(function(r, i) {
+      return '<tr><td>' + r.name + '</td><td class="email">' + r.email +
+        '</td><td>' + r.status + '</td>' +
+        '<td><button class="btn btn--ghost btn--sm" onclick="removeRecipient(' + i + ')">Remove</button></td></tr>';
+    }).join('');
+  }
+
+  function addRecipient() {
+    var name = document.getElementById('addName').value;
+    var email = document.getElementById('addEmail').value;
+    if (!name || !email) { alert('Enter name and email.'); return; }
+    recipients.push({ name: name, email: email, status: 'Subscribed' });
+    document.getElementById('addName').value = '';
+    document.getElementById('addEmail').value = '';
+    renderRecipients();
+  }
+
+  function removeRecipient(i) {
+    recipients.splice(i, 1);
+    renderRecipients();
+  }
+
+  function saveDraft() {
+    activeCamp.status = 'draft';
+    activeCamp.subject = document.getElementById('campSubject').value;
+    renderCampaigns();
+    alert('Draft saved!');
+  }
+
+  function scheduleSend() {
+    activeCamp.status = 'scheduled';
+    activeCamp.subject = document.getElementById('campSubject').value;
+    activeCamp.recipients = recipients.filter(function(r) { return r.status === 'Subscribed'; }).length;
+    renderCampaigns();
+    alert('Campaign scheduled!\nIn production, this queues the send via Resend with tracking.');
+  }
+
+  function sendNow() {
+    activeCamp.status = 'sent';
+    activeCamp.subject = document.getElementById('campSubject').value;
+    var subs = recipients.filter(function(r) { return r.status === 'Subscribed'; }).length;
+    activeCamp.recipients = subs;
+    activeCamp.openRate = (Math.random() * 25 + 20).toFixed(1);
+    activeCamp.clickRate = (Math.random() * 8 + 3).toFixed(1);
+    activeCamp.unsubs = Math.floor(Math.random() * 3);
+    renderCampaigns();
+    alert('Campaign sent to ' + subs + ' subscribers!\nIn production, Resend handles delivery and webhook tracking.');
+    switchTab('analytics');
+  }
+
+  renderCampaigns();
+  updateAnalytics();
+  </script>
+</body>
+</html>

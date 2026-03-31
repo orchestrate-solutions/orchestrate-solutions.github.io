@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice Generator — Orchestrate Solutions Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  
+  :root {
+    --bg: #0b0b11; --bg-alt: #10101a; --surface: #161622;
+    --border: rgba(255,255,255,0.06); --border-h: rgba(255,255,255,0.12);
+    --text: #d8d8e4; --text-soft: #9090a8; --text-faint: #5c5c72;
+    --accent: #818cf8; --accent-h: #a5b4fc;
+    --accent-glow: rgba(129,140,248,0.10);
+    --danger: #f87171; --success: #34d399; --warn: #fbbf24;
+    --ff: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --radius: 10px;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { font-family: var(--ff); color: var(--text); background: var(--bg);
+         line-height: 1.6; font-size: 0.95rem; }
+  a { color: var(--accent); text-decoration: none; }
+  button, input, select, textarea {
+    font-family: inherit; font-size: inherit; color: inherit;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 0.5rem 0.75rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  button:focus, input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+  button { cursor: pointer; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.55rem 1.2rem; border-radius: var(--radius);
+    font-weight: 500; border: none; cursor: pointer; transition: all 0.2s;
+  }
+  .btn--primary { background: var(--accent); color: var(--bg); }
+  .btn--primary:hover { background: var(--accent-h); }
+  .btn--ghost { background: transparent; color: var(--text-soft);
+    border: 1px solid var(--border-h); }
+  .btn--ghost:hover { color: var(--text); border-color: var(--text-soft); }
+  .btn--danger { background: var(--danger); color: var(--bg); }
+  .demo-header {
+    padding: 1rem 1.5rem; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .demo-header h1 { font-size: 1.1rem; font-weight: 600; }
+  .demo-header .badge {
+    font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 100px;
+    background: var(--accent-glow); color: var(--accent); font-weight: 500;
+  }
+
+  .app { display: grid; grid-template-columns: 400px 1fr; min-height: 100vh; }
+  .sidebar { background: var(--surface); border-right: 1px solid var(--border);
+    padding: 1.5rem; overflow-y: auto; }
+  .preview { padding: 2rem; display: flex; justify-content: center; align-items: flex-start; }
+  .invoice-paper {
+    background: #fff; color: #1a1a1a; width: 100%; max-width: 680px;
+    padding: 3rem; border-radius: var(--radius);
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    font-size: 0.85rem; line-height: 1.5;
+  }
+  .invoice-paper h2 { color: #818cf8; font-size: 1.4rem; margin-bottom: 0.25rem; }
+  .invoice-paper .inv-number { color: #666; font-size: 0.8rem; }
+  .invoice-paper .inv-meta { display: flex; justify-content: space-between; margin: 1.5rem 0; }
+  .invoice-paper .inv-meta div { font-size: 0.8rem; }
+  .invoice-paper .inv-meta strong { display: block; color: #333; margin-bottom: 0.25rem; }
+  .inv-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+  .inv-table th { text-align: left; padding: 0.5rem; border-bottom: 2px solid #e5e7eb;
+    font-size: 0.75rem; text-transform: uppercase; color: #666; letter-spacing: 0.05em; }
+  .inv-table td { padding: 0.5rem; border-bottom: 1px solid #f3f4f6; }
+  .inv-table .amount { text-align: right; font-weight: 600; }
+  .inv-total { text-align: right; margin-top: 1rem; font-size: 1.1rem; }
+  .inv-total strong { color: #818cf8; }
+  .inv-footer { margin-top: 2rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;
+    font-size: 0.75rem; color: #999; text-align: center; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; font-size: 0.8rem; color: var(--text-soft);
+    margin-bottom: 0.3rem; font-weight: 500; }
+  .form-group input, .form-group textarea { width: 100%; }
+  .form-group textarea { min-height: 60px; resize: vertical; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .line-items { margin: 1rem 0; }
+  .line-item { display: grid; grid-template-columns: 1fr 80px 100px 36px; gap: 0.5rem;
+    margin-bottom: 0.5rem; align-items: center; }
+  .line-item input { font-size: 0.85rem; padding: 0.4rem 0.5rem; }
+  .remove-btn { width: 32px; height: 32px; border-radius: 50%; border: none;
+    background: rgba(248,113,113,0.15); color: var(--danger); font-size: 1rem;
+    display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .section-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--text-faint); margin: 1.5rem 0 0.75rem; font-weight: 600; }
+  .actions { display: flex; gap: 0.5rem; margin-top: 1.5rem; }
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; }
+    .preview { padding: 1rem; }
+  }
+  @media print {
+    .sidebar, .demo-header { display: none !important; }
+    .app { display: block; }
+    .preview { padding: 0; }
+    .invoice-paper { box-shadow: none; max-width: 100%; }
+    body { background: #fff; }
+  }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>Invoice Generator</h1>
+    <span class="badge">Demo</span>
+  </header>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="section-title">Your Business</div>
+      <div class="form-group">
+        <label>Business Name</label>
+        <input type="text" id="bizName" value="Your Business Name" oninput="render()">
+      </div>
+      <div class="form-group">
+        <label>Email / Phone</label>
+        <input type="text" id="bizContact" value="hello@yourbiz.com" oninput="render()">
+      </div>
+
+      <div class="section-title">Client</div>
+      <div class="form-group">
+        <label>Client Name</label>
+        <input type="text" id="clientName" value="Client Company" oninput="render()">
+      </div>
+      <div class="form-group">
+        <label>Client Email</label>
+        <input type="text" id="clientEmail" value="client@example.com" oninput="render()">
+      </div>
+
+      <div class="section-title">Invoice Details</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Invoice #</label>
+          <input type="text" id="invNumber" value="INV-001" oninput="render()">
+        </div>
+        <div class="form-group">
+          <label>Due Date</label>
+          <input type="date" id="dueDate" oninput="render()">
+        </div>
+      </div>
+
+      <div class="section-title">Line Items</div>
+      <div class="line-items" id="lineItems"></div>
+      <button class="btn btn--ghost" onclick="addItem()" style="width:100%">+ Add Item</button>
+
+      <div class="form-group" style="margin-top:1rem">
+        <label>Notes</label>
+        <textarea id="notes" placeholder="Payment terms, thank you message..." oninput="render()"></textarea>
+      </div>
+
+      <div class="actions">
+        <button class="btn btn--primary" onclick="window.print()" style="flex:1">Print / Save PDF</button>
+        <button class="btn btn--ghost" onclick="sendInvoice()">Send</button>
+      </div>
+    </aside>
+    <main class="preview">
+      <div class="invoice-paper" id="invoicePreview"></div>
+    </main>
+  </div>
+
+  <script>
+  function escapeHtml(s) {
+    var d = document.createElement('div');
+    d.textContent = s;
+    return d.innerHTML;
+  }
+  function escapeAttr(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  var items = [
+    { desc: 'Website Design', qty: 1, price: 2500 },
+    { desc: 'Logo & Branding', qty: 1, price: 800 },
+  ];
+  var today = new Date();
+  document.getElementById('dueDate').value = new Date(today.getTime() + 30*86400000).toISOString().split('T')[0];
+
+  function addItem() {
+    items.push({ desc: '', qty: 1, price: 0 });
+    renderItems();
+    render();
+  }
+
+  function removeItem(i) {
+    items.splice(i, 1);
+    renderItems();
+    render();
+  }
+
+  function renderItems() {
+    var c = document.getElementById('lineItems');
+    c.innerHTML = items.map(function(it, i) {
+      return '<div class="line-item">' +
+        '<input type="text" value="' + escapeAttr(it.desc) + '" placeholder="Description" ' +
+          'oninput="items[' + i + '].desc=this.value;render()">' +
+        '<input type="number" value="' + it.qty + '" min="1" ' +
+          'oninput="items[' + i + '].qty=+this.value;render()">' +
+        '<input type="number" value="' + it.price + '" min="0" step="0.01" ' +
+          'oninput="items[' + i + '].price=+this.value;render()">' +
+        '<button class="remove-btn" onclick="removeItem(' + i + ')">&times;</button>' +
+      '</div>';
+    }).join('');
+  }
+
+  function render() {
+    var biz = document.getElementById('bizName').value;
+    var bizC = document.getElementById('bizContact').value;
+    var client = document.getElementById('clientName').value;
+    var clientE = document.getElementById('clientEmail').value;
+    var invN = document.getElementById('invNumber').value;
+    var due = document.getElementById('dueDate').value;
+    var notes = document.getElementById('notes').value;
+    var total = items.reduce(function(s, it) { return s + it.qty * it.price; }, 0);
+
+    var rows = items.map(function(it) {
+      var amt = (it.qty * it.price).toFixed(2);
+      return '<tr><td>' + (it.desc || '—') + '</td><td>' + it.qty +
+        '</td><td>$' + it.price.toFixed(2) + '</td><td class="amount">$' + amt + '</td></tr>';
+    }).join('');
+
+    document.getElementById('invoicePreview').innerHTML =
+      '<h2>' + escapeHtml(biz) + '</h2>' +
+      '<div class="inv-number">' + escapeHtml(invN) + '</div>' +
+      '<div class="inv-meta">' +
+        '<div><strong>Bill To</strong>' + escapeHtml(client) + '<br>' + escapeHtml(clientE) + '</div>' +
+        '<div style="text-align:right"><strong>Date</strong>' + today.toLocaleDateString() +
+          '<br><strong>Due</strong>' + (due || 'On receipt') + '</div>' +
+      '</div>' +
+      '<table class="inv-table"><thead><tr>' +
+        '<th>Description</th><th>Qty</th><th>Rate</th><th style="text-align:right">Amount</th>' +
+      '</tr></thead><tbody>' + rows + '</tbody></table>' +
+      '<div class="inv-total">Total: <strong>$' + total.toFixed(2) + '</strong></div>' +
+      (notes ? '<div class="inv-footer">' + escapeHtml(notes) + '</div>' : '') +
+      '<div class="inv-footer">Generated by ' + escapeHtml(biz) + ' &bull; Powered by Orchestrate Solutions</div>';
+  }
+
+  function sendInvoice() {
+    alert('In production, this sends the invoice via email (Resend) and records payment link (Stripe).\n\nThis is a demo — no email sent.');
+  }
+
+  renderItems();
+  render();
+  </script>
+</body>
+</html>

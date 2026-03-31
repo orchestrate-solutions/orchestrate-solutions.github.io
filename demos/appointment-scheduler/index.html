@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appointment Scheduler — Orchestrate Solutions Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  
+  :root {
+    --bg: #0b0b11; --bg-alt: #10101a; --surface: #161622;
+    --border: rgba(255,255,255,0.06); --border-h: rgba(255,255,255,0.12);
+    --text: #d8d8e4; --text-soft: #9090a8; --text-faint: #5c5c72;
+    --accent: #818cf8; --accent-h: #a5b4fc;
+    --accent-glow: rgba(129,140,248,0.10);
+    --danger: #f87171; --success: #34d399; --warn: #fbbf24;
+    --ff: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --radius: 10px;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { font-family: var(--ff); color: var(--text); background: var(--bg);
+         line-height: 1.6; font-size: 0.95rem; }
+  a { color: var(--accent); text-decoration: none; }
+  button, input, select, textarea {
+    font-family: inherit; font-size: inherit; color: inherit;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 0.5rem 0.75rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  button:focus, input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+  button { cursor: pointer; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.55rem 1.2rem; border-radius: var(--radius);
+    font-weight: 500; border: none; cursor: pointer; transition: all 0.2s;
+  }
+  .btn--primary { background: var(--accent); color: var(--bg); }
+  .btn--primary:hover { background: var(--accent-h); }
+  .btn--ghost { background: transparent; color: var(--text-soft);
+    border: 1px solid var(--border-h); }
+  .btn--ghost:hover { color: var(--text); border-color: var(--text-soft); }
+  .btn--danger { background: var(--danger); color: var(--bg); }
+  .demo-header {
+    padding: 1rem 1.5rem; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .demo-header h1 { font-size: 1.1rem; font-weight: 600; }
+  .demo-header .badge {
+    font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 100px;
+    background: var(--accent-glow); color: var(--accent); font-weight: 500;
+  }
+
+  .app { max-width: 800px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .app > h2 { font-size: 1.3rem; margin-bottom: 0.25rem; }
+  .app > p { color: var(--text-soft); margin-bottom: 2rem; font-size: 0.9rem; }
+  .calendar { margin-bottom: 2rem; }
+  .cal-header { display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 1rem; }
+  .cal-header h3 { font-size: 1rem; }
+  .cal-header button { background: var(--surface); border: 1px solid var(--border);
+    color: var(--text); width: 32px; height: 32px; border-radius: 50%; cursor: pointer;
+    font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-day-name { text-align: center; font-size: 0.7rem; color: var(--text-faint);
+    text-transform: uppercase; letter-spacing: 0.05em; padding: 0.25rem; font-weight: 600; }
+  .cal-day { text-align: center; padding: 0.6rem 0.25rem; border-radius: 8px;
+    cursor: pointer; font-size: 0.85rem; transition: all 0.15s; border: 1px solid transparent; }
+  .cal-day:hover { background: var(--surface); }
+  .cal-day.today { border-color: var(--accent); color: var(--accent); }
+  .cal-day.selected { background: var(--accent); color: var(--bg); font-weight: 600; }
+  .cal-day.empty { visibility: hidden; }
+  .cal-day.past { color: var(--text-faint); cursor: default; pointer-events: none; }
+  .time-slots { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 0.5rem; margin-bottom: 2rem; }
+  .time-slot { padding: 0.5rem; text-align: center; border-radius: var(--radius);
+    border: 1px solid var(--border); cursor: pointer; transition: all 0.15s;
+    font-size: 0.85rem; }
+  .time-slot:hover { border-color: var(--accent); color: var(--accent); }
+  .time-slot.selected { background: var(--accent); color: var(--bg); border-color: var(--accent);
+    font-weight: 600; }
+  .time-slot.taken { color: var(--text-faint); text-decoration: line-through;
+    cursor: not-allowed; border-color: transparent; background: var(--bg-alt); }
+  .booking-form { background: var(--surface); padding: 1.5rem; border-radius: var(--radius);
+    border: 1px solid var(--border); }
+  .booking-form h3 { font-size: 1rem; margin-bottom: 1rem; }
+  .form-group { margin-bottom: 1rem; }
+  .form-group label { display: block; font-size: 0.8rem; color: var(--text-soft);
+    margin-bottom: 0.3rem; font-weight: 500; }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+  .confirmation { text-align: center; padding: 3rem 1rem; }
+  .confirmation .check { font-size: 3rem; margin-bottom: 1rem; }
+  .confirmation h3 { color: var(--success); margin-bottom: 0.5rem; }
+  .confirmation p { color: var(--text-soft); max-width: 400px; margin: 0 auto 1.5rem; }
+  .booked-list { margin-top: 2rem; }
+  .booked-list h3 { font-size: 0.9rem; margin-bottom: 0.75rem; color: var(--text-soft); }
+  .booked-item { display: flex; justify-content: space-between; padding: 0.75rem;
+    background: var(--surface); border-radius: var(--radius); margin-bottom: 0.5rem;
+    border: 1px solid var(--border); font-size: 0.85rem; }
+  .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>Appointment Scheduler</h1>
+    <span class="badge">Demo</span>
+  </header>
+  <div class="app">
+    <h2>Book an Appointment</h2>
+    <p>Select a date and time that works for you. We'll confirm within the hour.</p>
+
+    <div id="scheduler">
+      <div class="calendar">
+        <div class="cal-header">
+          <button onclick="prevMonth()">&larr;</button>
+          <h3 id="calMonth"></h3>
+          <button onclick="nextMonth()">&rarr;</button>
+        </div>
+        <div class="cal-grid" id="calGrid"></div>
+      </div>
+
+      <div id="timeSlotsSection" class="hidden">
+        <h3 style="font-size:0.9rem;margin-bottom:0.75rem" id="timeSlotsLabel">Available times</h3>
+        <div class="time-slots" id="timeSlots"></div>
+      </div>
+
+      <div id="bookingForm" class="hidden">
+        <div class="booking-form">
+          <h3>Your Details</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" id="bookName" placeholder="Jane Smith">
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" id="bookEmail" placeholder="jane@example.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Phone (optional)</label>
+            <input type="tel" id="bookPhone" placeholder="(555) 123-4567">
+          </div>
+          <div class="form-group">
+            <label>Service</label>
+            <select id="bookService">
+              <option>Free Consultation (20 min)</option>
+              <option>Strategy Session (45 min)</option>
+              <option>Technical Review (60 min)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Notes</label>
+            <textarea id="bookNotes" placeholder="Anything we should know beforehand?"></textarea>
+          </div>
+          <button class="btn btn--primary" onclick="confirmBooking()" style="width:100%">
+            Confirm Booking
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="confirmation" class="confirmation hidden">
+      <div class="check">&#10003;</div>
+      <h3>Booking Confirmed!</h3>
+      <p id="confirmMsg"></p>
+      <button class="btn btn--ghost" onclick="resetBooking()">Book Another</button>
+    </div>
+
+    <div class="booked-list" id="bookedList"></div>
+  </div>
+
+  <script>
+  var now = new Date();
+  var viewYear = now.getFullYear();
+  var viewMonth = now.getMonth();
+  var selectedDate = null;
+  var selectedTime = null;
+  var bookings = [];
+
+  // Simulate some taken slots
+  var takenSlots = {};
+  var tomorrow = new Date(now); tomorrow.setDate(tomorrow.getDate() + 1);
+  var key = tomorrow.toDateString();
+  takenSlots[key] = ['9:00 AM', '2:00 PM'];
+
+  var slots = ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM',
+    '1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
+
+  var months = ['January','February','March','April','May','June',
+    'July','August','September','October','November','December'];
+
+  function renderCal() {
+    document.getElementById('calMonth').textContent = months[viewMonth] + ' ' + viewYear;
+    var first = new Date(viewYear, viewMonth, 1);
+    var lastDay = new Date(viewYear, viewMonth + 1, 0).getDate();
+    var startDay = first.getDay();
+    var html = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(function(d) {
+      return '<div class="cal-day-name">' + d + '</div>';
+    }).join('');
+    for (var i = 0; i < startDay; i++) html += '<div class="cal-day empty"></div>';
+    for (var d = 1; d <= lastDay; d++) {
+      var dt = new Date(viewYear, viewMonth, d);
+      var isPast = dt < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      var isToday = dt.toDateString() === now.toDateString();
+      var isSel = selectedDate && dt.toDateString() === selectedDate.toDateString();
+      var cls = 'cal-day' + (isPast ? ' past' : '') + (isToday ? ' today' : '') + (isSel ? ' selected' : '');
+      html += '<div class="' + cls + '" ' + (isPast ? '' : 'onclick="selectDate(' + viewYear + ',' + viewMonth + ',' + d + ')"') + '>' + d + '</div>';
+    }
+    document.getElementById('calGrid').innerHTML = html;
+  }
+
+  function prevMonth() {
+    viewMonth--;
+    if (viewMonth < 0) { viewMonth = 11; viewYear--; }
+    renderCal();
+  }
+
+  function nextMonth() {
+    viewMonth++;
+    if (viewMonth > 11) { viewMonth = 0; viewYear++; }
+    renderCal();
+  }
+
+  function selectDate(y, m, d) {
+    selectedDate = new Date(y, m, d);
+    selectedTime = null;
+    renderCal();
+    renderTimeSlots();
+    document.getElementById('timeSlotsSection').classList.remove('hidden');
+    document.getElementById('bookingForm').classList.add('hidden');
+  }
+
+  function renderTimeSlots() {
+    var taken = takenSlots[selectedDate.toDateString()] || [];
+    var bookedTimes = bookings.filter(function(b) { return b.date === selectedDate.toDateString(); })
+                              .map(function(b) { return b.time; });
+    var allTaken = taken.concat(bookedTimes);
+    document.getElementById('timeSlotsLabel').textContent =
+      'Available times for ' + months[selectedDate.getMonth()] + ' ' + selectedDate.getDate();
+    document.getElementById('timeSlots').innerHTML = slots.map(function(s) {
+      var isTaken = allTaken.indexOf(s) >= 0;
+      var isSel = s === selectedTime;
+      var cls = 'time-slot' + (isTaken ? ' taken' : '') + (isSel ? ' selected' : '');
+      return '<div class="' + cls + '" ' + (isTaken ? '' : 'onclick="selectTime(\'' + s + '\')"') + '>' + s + '</div>';
+    }).join('');
+  }
+
+  function selectTime(t) {
+    selectedTime = t;
+    renderTimeSlots();
+    document.getElementById('bookingForm').classList.remove('hidden');
+  }
+
+  function confirmBooking() {
+    var name = document.getElementById('bookName').value;
+    var email = document.getElementById('bookEmail').value;
+    if (!name || !email) { alert('Please enter your name and email.'); return; }
+    var booking = {
+      name: name, email: email,
+      phone: document.getElementById('bookPhone').value,
+      service: document.getElementById('bookService').value,
+      date: selectedDate.toDateString(),
+      time: selectedTime,
+      notes: document.getElementById('bookNotes').value
+    };
+    bookings.push(booking);
+    document.getElementById('scheduler').classList.add('hidden');
+    document.getElementById('confirmation').classList.remove('hidden');
+    document.getElementById('confirmMsg').textContent =
+      name + ', you\'re booked for ' + booking.service + ' on ' +
+      months[selectedDate.getMonth()] + ' ' + selectedDate.getDate() + ' at ' + selectedTime +
+      '. A confirmation email would be sent to ' + email + '.';
+    renderBookedList();
+  }
+
+  function resetBooking() {
+    selectedDate = null; selectedTime = null;
+    document.getElementById('scheduler').classList.remove('hidden');
+    document.getElementById('confirmation').classList.add('hidden');
+    document.getElementById('timeSlotsSection').classList.add('hidden');
+    document.getElementById('bookingForm').classList.add('hidden');
+    document.getElementById('bookName').value = '';
+    document.getElementById('bookEmail').value = '';
+    document.getElementById('bookPhone').value = '';
+    document.getElementById('bookNotes').value = '';
+    renderCal();
+  }
+
+  function renderBookedList() {
+    if (!bookings.length) { document.getElementById('bookedList').innerHTML = ''; return; }
+    document.getElementById('bookedList').innerHTML =
+      '<h3>Your Bookings</h3>' + bookings.map(function(b) {
+        return '<div class="booked-item"><span>' + b.name + ' &mdash; ' + b.service +
+          '</span><span>' + b.date + ' at ' + b.time + '</span></div>';
+      }).join('');
+  }
+
+  renderCal();
+  </script>
+</body>
+</html>

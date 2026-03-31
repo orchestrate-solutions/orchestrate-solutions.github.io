@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Chat Assistant — Orchestrate Solutions Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  
+  :root {
+    --bg: #0b0b11; --bg-alt: #10101a; --surface: #161622;
+    --border: rgba(255,255,255,0.06); --border-h: rgba(255,255,255,0.12);
+    --text: #d8d8e4; --text-soft: #9090a8; --text-faint: #5c5c72;
+    --accent: #818cf8; --accent-h: #a5b4fc;
+    --accent-glow: rgba(129,140,248,0.10);
+    --danger: #f87171; --success: #34d399; --warn: #fbbf24;
+    --ff: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --radius: 10px;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { font-family: var(--ff); color: var(--text); background: var(--bg);
+         line-height: 1.6; font-size: 0.95rem; }
+  a { color: var(--accent); text-decoration: none; }
+  button, input, select, textarea {
+    font-family: inherit; font-size: inherit; color: inherit;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 0.5rem 0.75rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  button:focus, input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+  button { cursor: pointer; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.55rem 1.2rem; border-radius: var(--radius);
+    font-weight: 500; border: none; cursor: pointer; transition: all 0.2s;
+  }
+  .btn--primary { background: var(--accent); color: var(--bg); }
+  .btn--primary:hover { background: var(--accent-h); }
+  .btn--ghost { background: transparent; color: var(--text-soft);
+    border: 1px solid var(--border-h); }
+  .btn--ghost:hover { color: var(--text); border-color: var(--text-soft); }
+  .btn--sm { padding: 0.35rem 0.75rem; font-size: 0.8rem; }
+  .demo-header {
+    padding: 1rem 1.5rem; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .demo-header h1 { font-size: 1.1rem; font-weight: 600; }
+  .demo-header .badge {
+    font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 100px;
+    background: var(--accent-glow); color: var(--accent); font-weight: 500;
+  }
+
+  .page { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem; }
+  .page h2 { font-size: 1.3rem; margin-bottom: 0.25rem; }
+  .page > p { color: var(--text-soft); margin-bottom: 2rem; font-size: 0.9rem; }
+
+  /* Chat widget - bottom right */
+  .chat-widget { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 1000; }
+  .chat-fab { width: 56px; height: 56px; border-radius: 50%; background: var(--accent);
+    color: var(--bg); font-size: 1.5rem; border: none; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(129,140,248,0.3); display: flex; align-items: center;
+    justify-content: center; transition: transform 0.2s; }
+  .chat-fab:hover { transform: scale(1.1); }
+  .chat-window { position: absolute; bottom: 70px; right: 0; width: 380px;
+    height: 520px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; display: flex; flex-direction: column;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4); overflow: hidden;
+    transform: scale(0.8) translateY(20px); opacity: 0; pointer-events: none;
+    transition: all 0.25s ease; transform-origin: bottom right; }
+  .chat-window.open { transform: scale(1) translateY(0); opacity: 1; pointer-events: auto; }
+  .chat-header { padding: 0.75rem 1rem; background: var(--bg-alt);
+    border-bottom: 1px solid var(--border); display: flex; align-items: center;
+    justify-content: space-between; }
+  .chat-header .agent { display: flex; align-items: center; gap: 0.5rem; }
+  .chat-header .avatar { width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent); color: var(--bg); display: flex; align-items: center;
+    justify-content: center; font-size: 0.8rem; font-weight: 700; }
+  .chat-header .name { font-size: 0.85rem; font-weight: 600; }
+  .chat-header .online { font-size: 0.7rem; color: var(--success); }
+  .chat-close { background: none; border: none; color: var(--text-soft); font-size: 1.2rem;
+    cursor: pointer; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex;
+    flex-direction: column; gap: 0.75rem; }
+  .msg { max-width: 85%; animation: msgIn 0.3s ease; }
+  @keyframes msgIn { from { opacity: 0; transform: translateY(8px); } }
+  .msg.bot { align-self: flex-start; }
+  .msg.user { align-self: flex-end; }
+  .msg .bubble { padding: 0.6rem 0.9rem; border-radius: 12px; font-size: 0.85rem;
+    line-height: 1.5; }
+  .msg.bot .bubble { background: var(--bg-alt); border: 1px solid var(--border); }
+  .msg.user .bubble { background: var(--accent); color: var(--bg); }
+  .msg .time { font-size: 0.65rem; color: var(--text-faint); margin-top: 0.15rem;
+    padding: 0 0.25rem; }
+  .msg.user .time { text-align: right; }
+  .typing { display: flex; gap: 4px; padding: 0.6rem 0.9rem; background: var(--bg-alt);
+    border: 1px solid var(--border); border-radius: 12px; align-self: flex-start;
+    max-width: 80px; }
+  .typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--text-faint);
+    animation: typeDot 1.4s infinite; }
+  .typing span:nth-child(2) { animation-delay: 0.2s; }
+  .typing span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes typeDot { 0%,60%,100% { opacity: 0.3; } 30% { opacity: 1; } }
+  .chat-input { padding: 0.75rem 1rem; border-top: 1px solid var(--border);
+    display: flex; gap: 0.5rem; }
+  .chat-input input { flex: 1; border-radius: 100px; padding: 0.5rem 1rem; }
+  .chat-input .send-btn { width: 36px; height: 36px; border-radius: 50%;
+    background: var(--accent); color: var(--bg); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; font-size: 1rem;
+    flex-shrink: 0; }
+  .quick-replies { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; }
+  .quick-reply { font-size: 0.75rem; padding: 0.3rem 0.65rem; border-radius: 100px;
+    border: 1px solid var(--border-h); background: transparent; color: var(--accent);
+    cursor: pointer; transition: all 0.15s; }
+  .quick-reply:hover { background: var(--accent-glow); }
+
+  /* Demo landing content */
+  .landing { text-align: center; padding: 4rem 1rem; }
+  .landing .hero-icon { font-size: 4rem; margin-bottom: 1rem; }
+  .landing h2 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+  .landing p { color: var(--text-soft); max-width: 500px; margin: 0 auto 2rem; }
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem; max-width: 800px; margin: 0 auto; text-align: left; }
+  .feature-card { background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.25rem; }
+  .feature-card .icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+  .feature-card h3 { font-size: 0.9rem; margin-bottom: 0.25rem; }
+  .feature-card p { font-size: 0.8rem; color: var(--text-soft); }
+  @media (max-width: 500px) {
+    .chat-window { width: calc(100vw - 2rem); right: -0.5rem; height: 70vh; }
+  }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>AI Chat Assistant</h1>
+    <span class="badge">Demo</span>
+  </header>
+
+  <div class="landing">
+    <div class="hero-icon">&#129302;</div>
+    <h2>Always-On Support</h2>
+    <p>Your AI assistant handles customer questions 24/7, learns your business, and escalates when needed. Try it — click the chat button.</p>
+    <div class="features">
+      <div class="feature-card">
+        <div class="icon">&#9889;</div>
+        <h3>Instant Answers</h3>
+        <p>Responds in seconds with accurate info about your products, policies, and hours.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128218;</div>
+        <h3>Learns Your Business</h3>
+        <p>Trained on your FAQ, menu, pricing — whatever makes your business unique.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128101;</div>
+        <h3>Human Handoff</h3>
+        <p>Seamlessly transfers to your team when the question needs a personal touch.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">&#128200;</div>
+        <h3>Conversation Insights</h3>
+        <p>See what customers ask most, identify gaps, and improve your service.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat Widget -->
+  <div class="chat-widget">
+    <div class="chat-window" id="chatWindow">
+      <div class="chat-header">
+        <div class="agent">
+          <div class="avatar">AI</div>
+          <div>
+            <div class="name">Support Assistant</div>
+            <div class="online">&#9679; Online</div>
+          </div>
+        </div>
+        <button class="chat-close" onclick="toggleChat()">&times;</button>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input">
+        <input type="text" id="chatInput" placeholder="Ask a question..."
+          onkeydown="if(event.key==='Enter')sendMessage()">
+        <button class="send-btn" onclick="sendMessage()">&#8593;</button>
+      </div>
+    </div>
+    <button class="chat-fab" id="chatFab" onclick="toggleChat()">&#128172;</button>
+  </div>
+
+  <script>
+  var chatOpen = false;
+  var isTyping = false;
+
+  // Simulated knowledge base
+  var kb = {
+    hours: "We're open Monday through Friday, 9 AM to 6 PM, and Saturday 10 AM to 4 PM. Closed Sundays.",
+    pricing: "Our pricing depends on the project scope. A simple website starts at $2,500, and custom applications start around $8,000. We offer free consultations to give you an accurate quote.",
+    services: "We offer website design, custom software development, AI integration, e-commerce solutions, and ongoing maintenance plans. Everything is tailored to your specific business needs.",
+    timeline: "Most projects take 2-6 weeks depending on complexity. A basic website is typically ready in 2 weeks, while custom applications may take 4-6 weeks. We'll give you a clear timeline upfront.",
+    payment: "We accept all major credit cards, bank transfers, and offer payment plans for larger projects. Typically it's 50% upfront and 50% on completion.",
+    refund: "We offer a satisfaction guarantee. If you're not happy with the initial design concepts, we'll revise until you are. We want you to love the result.",
+    support: "Every project includes 30 days of free support after launch. We also offer maintenance plans starting at $99/month for ongoing updates and monitoring.",
+    contact: "You can reach us at hello@orchestrate.solutions, call us at (555) 123-4567, or book a free consultation right on our website.",
+    about: "We're a small team that builds software for small businesses. USAF veteran-founded, eBay alumni-led. We believe every business deserves great technology without the enterprise price tag.",
+    default: "That's a great question! I'd love to help you with that. For the most accurate answer, I'd recommend scheduling a free consultation where we can discuss your specific needs. Would you like me to help you book one?"
+  };
+
+  var quickReplies = ['What are your hours?', 'Pricing info', 'What services do you offer?', 'How long does a project take?'];
+
+  function toggleChat() {
+    chatOpen = !chatOpen;
+    document.getElementById('chatWindow').classList.toggle('open', chatOpen);
+    if (chatOpen && document.getElementById('chatMessages').children.length === 0) {
+      addBotMessage("Hi there! &#128075; I'm your AI support assistant. I can answer questions about our services, pricing, timeline, and more. How can I help?", true);
+    }
+  }
+
+  function now() {
+    var d = new Date();
+    return d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+  }
+
+  function addBotMessage(text, showQuick) {
+    var div = document.createElement('div');
+    div.className = 'msg bot';
+    div.innerHTML = '<div class="bubble">' + text + '</div><div class="time">' + now() + '</div>';
+    if (showQuick) {
+      var qr = document.createElement('div');
+      qr.className = 'quick-replies';
+      qr.innerHTML = quickReplies.map(function(q) {
+        return '<button class="quick-reply" onclick="askQuick(this, \'' + q.replace(/'/g, "\\'") + '\')">' + q + '</button>';
+      }).join('');
+      div.appendChild(qr);
+    }
+    document.getElementById('chatMessages').appendChild(div);
+    scrollChat();
+  }
+
+  function addUserMessage(text) {
+    var div = document.createElement('div');
+    div.className = 'msg user';
+    div.innerHTML = '<div class="bubble">' + escapeHtml(text) + '</div><div class="time">' + now() + '</div>';
+    document.getElementById('chatMessages').appendChild(div);
+    scrollChat();
+  }
+
+  function escapeHtml(str) {
+    var d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function showTyping() {
+    var div = document.createElement('div');
+    div.className = 'typing';
+    div.id = 'typingIndicator';
+    div.innerHTML = '<span></span><span></span><span></span>';
+    document.getElementById('chatMessages').appendChild(div);
+    scrollChat();
+  }
+
+  function removeTyping() {
+    var el = document.getElementById('typingIndicator');
+    if (el) el.remove();
+  }
+
+  function scrollChat() {
+    var el = document.getElementById('chatMessages');
+    el.scrollTop = el.scrollHeight;
+  }
+
+  function findAnswer(text) {
+    var lower = text.toLowerCase();
+    if (/hour|open|close|when/i.test(lower)) return kb.hours;
+    if (/price|cost|how much|rate|quote/i.test(lower)) return kb.pricing;
+    if (/service|offer|do you|what can|build/i.test(lower)) return kb.services;
+    if (/how long|timeline|time|fast|week|deliver/i.test(lower)) return kb.timeline;
+    if (/pay|payment|credit|card|invoice/i.test(lower)) return kb.payment;
+    if (/refund|guarantee|money back|not happy/i.test(lower)) return kb.refund;
+    if (/support|help|maintenance|after|launch/i.test(lower)) return kb.support;
+    if (/contact|reach|call|email|phone|book/i.test(lower)) return kb.contact;
+    if (/about|who|team|company|you guys/i.test(lower)) return kb.about;
+    if (/human|person|real|agent|talk to/i.test(lower))
+      return "Of course! Let me connect you with a team member. &#128100; In production, this would create a live chat handoff. Our team typically responds within 5 minutes during business hours.";
+    if (/thank|thanks|great|awesome|perfect/i.test(lower))
+      return "You're welcome! &#128522; Is there anything else I can help you with?";
+    if (/hi|hello|hey|good morning|good afternoon/i.test(lower))
+      return "Hello! &#128075; Great to hear from you. What can I help you with today?";
+    return kb.default;
+  }
+
+  function sendMessage() {
+    var input = document.getElementById('chatInput');
+    var text = input.value.trim();
+    if (!text || isTyping) return;
+    input.value = '';
+    addUserMessage(text);
+
+    // Remove any existing quick reply buttons
+    document.querySelectorAll('.quick-replies').forEach(function(el) { el.remove(); });
+
+    isTyping = true;
+    showTyping();
+
+    // Simulate AI thinking time (0.8-2s)
+    var delay = 800 + Math.random() * 1200;
+    setTimeout(function() {
+      removeTyping();
+      isTyping = false;
+      var answer = findAnswer(text);
+      addBotMessage(answer, false);
+    }, delay);
+  }
+
+  function askQuick(btn, text) {
+    document.querySelectorAll('.quick-replies').forEach(function(el) { el.remove(); });
+    document.getElementById('chatInput').value = text;
+    sendMessage();
+  }
+  </script>
+</body>
+</html>

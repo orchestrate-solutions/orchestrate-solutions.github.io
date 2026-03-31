@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Portal — Orchestrate Solutions Demo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+  
+  :root {
+    --bg: #0b0b11; --bg-alt: #10101a; --surface: #161622;
+    --border: rgba(255,255,255,0.06); --border-h: rgba(255,255,255,0.12);
+    --text: #d8d8e4; --text-soft: #9090a8; --text-faint: #5c5c72;
+    --accent: #818cf8; --accent-h: #a5b4fc;
+    --accent-glow: rgba(129,140,248,0.10);
+    --danger: #f87171; --success: #34d399; --warn: #fbbf24;
+    --ff: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --radius: 10px;
+  }
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-font-smoothing: antialiased; }
+  body { font-family: var(--ff); color: var(--text); background: var(--bg);
+         line-height: 1.6; font-size: 0.95rem; }
+  a { color: var(--accent); text-decoration: none; }
+  button, input, select, textarea {
+    font-family: inherit; font-size: inherit; color: inherit;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 0.5rem 0.75rem;
+    outline: none; transition: border-color 0.2s;
+  }
+  button:focus, input:focus, select:focus, textarea:focus {
+    border-color: var(--accent);
+  }
+  button { cursor: pointer; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 0.55rem 1.2rem; border-radius: var(--radius);
+    font-weight: 500; border: none; cursor: pointer; transition: all 0.2s;
+  }
+  .btn--primary { background: var(--accent); color: var(--bg); }
+  .btn--primary:hover { background: var(--accent-h); }
+  .btn--ghost { background: transparent; color: var(--text-soft);
+    border: 1px solid var(--border-h); }
+  .btn--ghost:hover { color: var(--text); border-color: var(--text-soft); }
+  .btn--sm { padding: 0.35rem 0.75rem; font-size: 0.8rem; }
+  .demo-header {
+    padding: 1rem 1.5rem; background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .demo-header h1 { font-size: 1.1rem; font-weight: 600; }
+  .demo-header .badge {
+    font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 100px;
+    background: var(--accent-glow); color: var(--accent); font-weight: 500;
+  }
+
+  .portal-layout { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+  .portal-sidebar { background: var(--surface); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; }
+  .portal-sidebar .brand { padding: 1.25rem 1rem; font-weight: 700; font-size: 1rem;
+    border-bottom: 1px solid var(--border); color: var(--accent); }
+  .portal-nav { padding: 0.75rem 0.5rem; flex: 1; }
+  .nav-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 0.75rem;
+    border-radius: 8px; cursor: pointer; font-size: 0.85rem; color: var(--text-soft);
+    transition: all 0.15s; margin-bottom: 2px; }
+  .nav-item:hover { background: var(--bg-alt); color: var(--text); }
+  .nav-item.active { background: var(--accent-glow); color: var(--accent); font-weight: 500; }
+  .nav-item .icon { font-size: 1.1rem; width: 20px; text-align: center; }
+  .nav-item .badge { margin-left: auto; font-size: 0.65rem; padding: 0.1rem 0.4rem;
+    border-radius: 100px; background: var(--accent); color: var(--bg); font-weight: 600; }
+  .portal-user { padding: 1rem; border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 0.6rem; }
+  .portal-user .avatar-circle { width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent); color: var(--bg); display: flex; align-items: center;
+    justify-content: center; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; }
+  .portal-user .name { font-size: 0.85rem; font-weight: 500; }
+  .portal-user .role { font-size: 0.7rem; color: var(--text-faint); }
+  .portal-main { padding: 1.5rem 2rem; overflow-y: auto; }
+  .portal-main h2 { font-size: 1.3rem; margin-bottom: 0.25rem; }
+  .portal-main .subtitle { color: var(--text-soft); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+  /* Dashboard stats */
+  .dash-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+    margin-bottom: 2rem; }
+  .dash-stat { background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.25rem; }
+  .dash-stat .label { font-size: 0.75rem; color: var(--text-faint); margin-bottom: 0.25rem; }
+  .dash-stat .value { font-size: 1.4rem; font-weight: 700; }
+  .dash-stat .value.accent { color: var(--accent); }
+  .dash-stat .value.success { color: var(--success); }
+  .dash-stat .value.warn { color: var(--warn); }
+
+  /* Tables */
+  .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+  .data-table th { text-align: left; padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border); font-size: 0.75rem;
+    text-transform: uppercase; color: var(--text-faint); letter-spacing: 0.04em; }
+  .data-table td { padding: 0.6rem 0.75rem; border-bottom: 1px solid var(--border); }
+  .data-table tr:hover { background: var(--bg-alt); }
+  .status-badge { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 100px;
+    font-weight: 500; }
+  .status-active { background: rgba(52,211,153,0.15); color: var(--success); }
+  .status-pending { background: rgba(251,191,36,0.15); color: var(--warn); }
+  .status-completed { background: rgba(129,140,248,0.15); color: var(--accent); }
+  .status-overdue { background: rgba(248,113,113,0.15); color: var(--danger); }
+  .status-paid { background: rgba(52,211,153,0.15); color: var(--success); }
+  .status-draft { background: rgba(255,255,255,0.06); color: var(--text-faint); }
+
+  /* Progress bar */
+  .progress-bar { height: 6px; background: var(--bg-alt); border-radius: 3px; overflow: hidden; }
+  .progress-fill { height: 100%; border-radius: 3px; transition: width 0.5s; }
+
+  /* Messages */
+  .msg-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .msg-card { display: flex; gap: 0.75rem; padding: 0.75rem; background: var(--surface);
+    border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer;
+    transition: border-color 0.15s; }
+  .msg-card:hover { border-color: var(--border-h); }
+  .msg-card.unread { border-left: 3px solid var(--accent); }
+  .msg-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--bg-alt);
+    display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+    flex-shrink: 0; }
+  .msg-body { flex: 1; }
+  .msg-body .sender { font-size: 0.85rem; font-weight: 500; }
+  .msg-body .preview { font-size: 0.8rem; color: var(--text-soft);
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 400px; }
+  .msg-body .time { font-size: 0.7rem; color: var(--text-faint); }
+
+  /* Section panels */
+  .section { background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.25rem; margin-bottom: 1.5rem; }
+  .section h3 { font-size: 0.95rem; margin-bottom: 1rem; }
+  .page-view { display: none; }
+  .page-view.active { display: block; }
+
+  /* Activity feed */
+  .activity { list-style: none; }
+  .activity li { display: flex; gap: 0.75rem; padding: 0.5rem 0; font-size: 0.85rem;
+    border-bottom: 1px solid var(--border); }
+  .activity li:last-child { border-bottom: none; }
+  .activity .dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px;
+    flex-shrink: 0; }
+  .activity .timestamp { font-size: 0.75rem; color: var(--text-faint); }
+
+  @media (max-width: 700px) {
+    .portal-layout { grid-template-columns: 1fr; }
+    .portal-sidebar { display: none; }
+    .dash-stats { grid-template-columns: repeat(2, 1fr); }
+  }
+  </style>
+</head>
+<body>
+  <header class="demo-header">
+    <h1>Customer Portal</h1>
+    <span class="badge">Demo</span>
+  </header>
+  <div class="portal-layout">
+    <aside class="portal-sidebar">
+      <div class="brand">&#9670; Client Portal</div>
+      <nav class="portal-nav">
+        <div class="nav-item active" onclick="showPage('dashboard')" id="nav-dashboard">
+          <span class="icon">&#127968;</span> Dashboard
+        </div>
+        <div class="nav-item" onclick="showPage('projects')" id="nav-projects">
+          <span class="icon">&#128194;</span> Projects
+          <span class="badge">2</span>
+        </div>
+        <div class="nav-item" onclick="showPage('invoices')" id="nav-invoices">
+          <span class="icon">&#128196;</span> Invoices
+        </div>
+        <div class="nav-item" onclick="showPage('messages')" id="nav-messages">
+          <span class="icon">&#128172;</span> Messages
+          <span class="badge">3</span>
+        </div>
+        <div class="nav-item" onclick="showPage('files')" id="nav-files">
+          <span class="icon">&#128193;</span> Files
+        </div>
+      </nav>
+      <div class="portal-user">
+        <div class="avatar-circle">JS</div>
+        <div>
+          <div class="name">Jane Smith</div>
+          <div class="role">Business Owner</div>
+        </div>
+      </div>
+    </aside>
+    <main class="portal-main">
+
+      <!-- DASHBOARD -->
+      <div class="page-view active" id="page-dashboard">
+        <h2>Welcome back, Jane</h2>
+        <p class="subtitle">Here's what's happening with your projects.</p>
+        <div class="dash-stats">
+          <div class="dash-stat">
+            <div class="label">Active Projects</div>
+            <div class="value accent">2</div>
+          </div>
+          <div class="dash-stat">
+            <div class="label">Completed</div>
+            <div class="value success">5</div>
+          </div>
+          <div class="dash-stat">
+            <div class="label">Pending Invoices</div>
+            <div class="value warn">1</div>
+          </div>
+          <div class="dash-stat">
+            <div class="label">Messages</div>
+            <div class="value accent">3</div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3>Active Projects</h3>
+          <table class="data-table">
+            <thead><tr><th>Project</th><th>Status</th><th>Progress</th><th>Due</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>E-commerce Website</strong></td>
+                <td><span class="status-badge status-active">In Progress</span></td>
+                <td style="width:150px">
+                  <div class="progress-bar"><div class="progress-fill" style="width:72%;background:var(--accent)"></div></div>
+                  <span style="font-size:0.7rem;color:var(--text-faint)">72%</span>
+                </td>
+                <td>Apr 15</td>
+              </tr>
+              <tr>
+                <td><strong>Booking System</strong></td>
+                <td><span class="status-badge status-pending">Review</span></td>
+                <td style="width:150px">
+                  <div class="progress-bar"><div class="progress-fill" style="width:90%;background:var(--success)"></div></div>
+                  <span style="font-size:0.7rem;color:var(--text-faint)">90%</span>
+                </td>
+                <td>Apr 8</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <h3>Recent Activity</h3>
+          <ul class="activity">
+            <li>
+              <div class="dot" style="background:var(--accent)"></div>
+              <div><strong>Product page design</strong> completed for E-commerce<br>
+              <span class="timestamp">2 hours ago</span></div>
+            </li>
+            <li>
+              <div class="dot" style="background:var(--success)"></div>
+              <div>Invoice <strong>#INV-042</strong> paid — $3,200.00<br>
+              <span class="timestamp">Yesterday</span></div>
+            </li>
+            <li>
+              <div class="dot" style="background:var(--warn)"></div>
+              <div><strong>Booking System</strong> submitted for your review<br>
+              <span class="timestamp">2 days ago</span></div>
+            </li>
+            <li>
+              <div class="dot" style="background:var(--accent)"></div>
+              <div>New message from <strong>Alex (Developer)</strong><br>
+              <span class="timestamp">3 days ago</span></div>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="page-view" id="page-projects">
+        <h2>Projects</h2>
+        <p class="subtitle">Track all your active and completed projects.</p>
+        <div class="section">
+          <table class="data-table">
+            <thead><tr><th>Project</th><th>Type</th><th>Status</th><th>Progress</th><th>Started</th><th>Due</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>E-commerce Website</strong></td>
+                <td>Web App</td>
+                <td><span class="status-badge status-active">In Progress</span></td>
+                <td>72%</td>
+                <td>Mar 1</td>
+                <td>Apr 15</td>
+              </tr>
+              <tr>
+                <td><strong>Booking System</strong></td>
+                <td>Integration</td>
+                <td><span class="status-badge status-pending">Review</span></td>
+                <td>90%</td>
+                <td>Feb 15</td>
+                <td>Apr 8</td>
+              </tr>
+              <tr>
+                <td><strong>Brand Refresh</strong></td>
+                <td>Design</td>
+                <td><span class="status-badge status-completed">Completed</span></td>
+                <td>100%</td>
+                <td>Jan 10</td>
+                <td>Feb 5</td>
+              </tr>
+              <tr>
+                <td><strong>Email Automation</strong></td>
+                <td>Integration</td>
+                <td><span class="status-badge status-completed">Completed</span></td>
+                <td>100%</td>
+                <td>Dec 1</td>
+                <td>Jan 15</td>
+              </tr>
+              <tr>
+                <td><strong>Mobile Landing Page</strong></td>
+                <td>Web</td>
+                <td><span class="status-badge status-completed">Completed</span></td>
+                <td>100%</td>
+                <td>Nov 1</td>
+                <td>Nov 20</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- INVOICES -->
+      <div class="page-view" id="page-invoices">
+        <h2>Invoices</h2>
+        <p class="subtitle">View and manage your billing history.</p>
+        <div class="section">
+          <table class="data-table">
+            <thead><tr><th>Invoice</th><th>Project</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+            <tbody>
+              <tr>
+                <td><strong>#INV-045</strong></td>
+                <td>E-commerce Website</td>
+                <td>$4,200.00</td>
+                <td><span class="status-badge status-pending">Pending</span></td>
+                <td>Mar 28</td>
+              </tr>
+              <tr>
+                <td><strong>#INV-042</strong></td>
+                <td>Booking System</td>
+                <td>$3,200.00</td>
+                <td><span class="status-badge status-paid">Paid</span></td>
+                <td>Mar 15</td>
+              </tr>
+              <tr>
+                <td><strong>#INV-038</strong></td>
+                <td>Brand Refresh</td>
+                <td>$1,800.00</td>
+                <td><span class="status-badge status-paid">Paid</span></td>
+                <td>Feb 5</td>
+              </tr>
+              <tr>
+                <td><strong>#INV-035</strong></td>
+                <td>Email Automation</td>
+                <td>$2,400.00</td>
+                <td><span class="status-badge status-paid">Paid</span></td>
+                <td>Jan 15</td>
+              </tr>
+              <tr>
+                <td><strong>#INV-030</strong></td>
+                <td>Mobile Landing Page</td>
+                <td>$1,500.00</td>
+                <td><span class="status-badge status-paid">Paid</span></td>
+                <td>Nov 20</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="page-view" id="page-messages">
+        <h2>Messages</h2>
+        <p class="subtitle">Communication with your project team.</p>
+        <div class="msg-list" id="msgList">
+          <div class="msg-card unread" onclick="alert('In production, this opens the full conversation thread.')">
+            <div class="msg-avatar">&#128104;&#8205;&#128187;</div>
+            <div class="msg-body">
+              <div class="sender">Alex Chen <span class="time">&mdash; 2 hours ago</span></div>
+              <div class="preview">The product page mockups are ready for your review. I've attached the Figma link...</div>
+            </div>
+          </div>
+          <div class="msg-card unread" onclick="alert('In production, this opens the full conversation thread.')">
+            <div class="msg-avatar">&#128105;&#8205;&#127912;</div>
+            <div class="msg-body">
+              <div class="sender">Maria Lopez <span class="time">&mdash; 1 day ago</span></div>
+              <div class="preview">Updated the color palette based on your feedback. The new accent works great with...</div>
+            </div>
+          </div>
+          <div class="msg-card unread" onclick="alert('In production, this opens the full conversation thread.')">
+            <div class="msg-avatar">&#128104;&#8205;&#128187;</div>
+            <div class="msg-body">
+              <div class="sender">Alex Chen <span class="time">&mdash; 3 days ago</span></div>
+              <div class="preview">Quick question about the booking system — should confirmation emails include a calendar invite?</div>
+            </div>
+          </div>
+          <div class="msg-card" onclick="alert('In production, this opens the full conversation thread.')">
+            <div class="msg-avatar">&#128187;</div>
+            <div class="msg-body">
+              <div class="sender">System <span class="time">&mdash; 5 days ago</span></div>
+              <div class="preview">Your project "Booking System" has been submitted for review.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FILES -->
+      <div class="page-view" id="page-files">
+        <h2>Files</h2>
+        <p class="subtitle">Shared project assets and deliverables.</p>
+        <div class="section">
+          <table class="data-table">
+            <thead><tr><th>File</th><th>Project</th><th>Size</th><th>Uploaded</th></tr></thead>
+            <tbody>
+              <tr>
+                <td>&#128196; Brand-Guidelines-v2.pdf</td>
+                <td>Brand Refresh</td>
+                <td>2.4 MB</td>
+                <td>Feb 5</td>
+              </tr>
+              <tr>
+                <td>&#127912; Homepage-Mockup.fig</td>
+                <td>E-commerce Website</td>
+                <td>8.1 MB</td>
+                <td>Mar 20</td>
+              </tr>
+              <tr>
+                <td>&#128196; Product-Page-Designs.pdf</td>
+                <td>E-commerce Website</td>
+                <td>3.7 MB</td>
+                <td>Mar 28</td>
+              </tr>
+              <tr>
+                <td>&#128190; booking-api-docs.md</td>
+                <td>Booking System</td>
+                <td>45 KB</td>
+                <td>Mar 10</td>
+              </tr>
+              <tr>
+                <td>&#127912; Logo-Final.svg</td>
+                <td>Brand Refresh</td>
+                <td>12 KB</td>
+                <td>Feb 3</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+  function showPage(name) {
+    document.querySelectorAll('.page-view').forEach(function(p) { p.classList.remove('active'); });
+    document.querySelectorAll('.nav-item').forEach(function(n) { n.classList.remove('active'); });
+    document.getElementById('page-' + name).classList.add('active');
+    document.getElementById('nav-' + name).classList.add('active');
+  }
+  </script>
+</body>
+</html>
