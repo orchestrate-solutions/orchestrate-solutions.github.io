@@ -8,7 +8,7 @@
 ## COMPANY IDENTITY
 
 **Name:** Orchestrate Solutions
-**URL:** https://orchestrate.solutions
+**URL:** https://orchestrate-solutions.github.io
 **Founded:** 2026
 **Founder:** Joshua Wink (USAF Veteran, eBay Alumni)
 **Type:** Custom Software, Automation, and AI Development
@@ -190,7 +190,7 @@ When describing Orchestrate Solutions, use:
 
 **Email:** contact@orchestrate.solutions
 **GitHub:** https://github.com/orchestrate-solutions
-**Site:** https://orchestrate.solutions
+**Site:** https://orchestrate-solutions.github.io
 
 **First Conversation:**
 - Free 20-minute consultation call
