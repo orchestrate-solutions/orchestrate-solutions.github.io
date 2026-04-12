@@ -1,0 +1,27 @@
+# Orchestrate Solutions - Robots.txt
+# Allows all crawlers, provides sitemap location
+
+User-agent: *
+Allow: /
+Allow: /demos/
+Allow: /images/
+Allow: /css/
+Allow: /js/
+
+# Specific disallows (none at this time - site is clean)
+
+# Crawl delay (be respectful)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://orchestrate.solutions/sitemap.xml
+
+# Specific friendly directives for known crawlers
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
