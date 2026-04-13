@@ -4,85 +4,85 @@
   
   <!-- Home Page -->
   <url>
-    <loc>https://orchestrate-solutions.github.io/</loc>
+    <loc>https://orchestrate.solutions/</loc>
     <lastmod>2026-04-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://orchestrate-solutions.github.io/images/og-image.svg</image:loc>
+      <image:loc>https://orchestrate.solutions/images/og-image.svg</image:loc>
       <image:title>Orchestrate Solutions Logo</image:title>
     </image:image>
   </url>
 
   <!-- About Page -->
   <url>
-    <loc>https://orchestrate-solutions.github.io/about.html</loc>
+    <loc>https://orchestrate.solutions/about.html</loc>
     <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <image:image>
-      <image:loc>https://orchestrate-solutions.github.io/images/og-image.svg</image:loc>
+      <image:loc>https://orchestrate.solutions/images/og-image.svg</image:loc>
       <image:title>About Orchestrate Solutions</image:title>
     </image:image>
   </url>
 
   <!-- Portfolio Page -->
   <url>
-    <loc>https://orchestrate-solutions.github.io/portfolio.html</loc>
+    <loc>https://orchestrate.solutions/portfolio.html</loc>
     <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
     <image:image>
-      <image:loc>https://orchestrate-solutions.github.io/images/og-image.svg</image:loc>
+      <image:loc>https://orchestrate.solutions/images/og-image.svg</image:loc>
       <image:title>Portfolio — Orchestrate Solutions</image:title>
     </image:image>
   </url>
 
   <!-- Demo Apps (discoverable but lower priority) -->
   <url>
-    <loc>https://orchestrate-solutions.github.io/demos/ai-assistant/</loc>
+    <loc>https://orchestrate.solutions/demos/ai-assistant/</loc>
     <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://orchestrate-solutions.github.io/demos/appointment-scheduler/</loc>
+    <loc>https://orchestrate.solutions/demos/appointment-scheduler/</loc>
     <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://orchestrate-solutions.github.io/demos/customer-portal/</loc>
+    <loc>https://orchestrate.solutions/demos/customer-portal/</loc>
     <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://orchestrate-solutions.github.io/demos/email-campaigns/</loc>
+    <loc>https://orchestrate.solutions/demos/email-campaigns/</loc>
     <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://orchestrate-solutions.github.io/demos/invoice-generator/</loc>
+    <loc>https://orchestrate.solutions/demos/invoice-generator/</loc>
     <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://orchestrate-solutions.github.io/demos/realty-expenses/</loc>
+    <loc>https://orchestrate.solutions/demos/realty-expenses/</loc>
     <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://orchestrate-solutions.github.io/demos/storefront/</loc>
+    <loc>https://orchestrate.solutions/demos/storefront/</loc>
     <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
