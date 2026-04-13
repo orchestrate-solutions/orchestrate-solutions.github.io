@@ -1,29 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <!-- Home Page -->
   <url>
     <loc>https://orchestrate.solutions/</loc>
-    <lastmod>2026-04-11</lastmod>
+    <lastmod>2026-04-13</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://orchestrate.solutions/images/og-image.svg</image:loc>
-      <image:title>Orchestrate Solutions Logo</image:title>
-    </image:image>
   </url>
 
   <!-- About Page -->
   <url>
     <loc>https://orchestrate.solutions/about.html</loc>
-    <lastmod>2026-04-11</lastmod>
+    <lastmod>2026-04-13</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://orchestrate.solutions/images/og-image.svg</image:loc>
-      <image:title>About Orchestrate Solutions</image:title>
-    </image:image>
+  </url>
+
+  <!-- Pricing / Services Menu -->
+  <url>
+    <loc>https://orchestrate.solutions/pricing.html</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+  </url>
+
+  <!-- FAQ Page -->
+  <url>
+    <loc>https://orchestrate.solutions/faq.html</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog Index -->
+  <url>
+    <loc>https://orchestrate.solutions/blog/</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog: Why Small Businesses Can't Afford to Skip a Website -->
+  <url>
+    <loc>https://orchestrate.solutions/blog/why-small-businesses-cant-afford-to-skip-a-website.html</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog: What Is SEO? -->
+  <url>
+    <loc>https://orchestrate.solutions/blog/what-is-seo-small-business-guide.html</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog: 5 Tasks to Stop Doing by Hand -->
+  <url>
+    <loc>https://orchestrate.solutions/blog/automation-saves-small-business-hours.html</loc>
+    <lastmod>2026-04-13</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
   </url>
 
   <!-- Portfolio Page -->
@@ -31,98 +70,10 @@
     <loc>https://orchestrate.solutions/portfolio.html</loc>
     <lastmod>2026-04-11</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://orchestrate.solutions/images/og-image.svg</image:loc>
-      <image:title>Portfolio — Orchestrate Solutions</image:title>
-    </image:image>
-  </url>
-
-  <!-- Demo Apps (discoverable but lower priority) -->
-  <url>
-    <loc>https://orchestrate.solutions/demos/ai-assistant/</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
-  <url>
-    <loc>https://orchestrate.solutions/demos/appointment-scheduler/</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://orchestrate.solutions/demos/customer-portal/</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://orchestrate.solutions/demos/email-campaigns/</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://orchestrate.solutions/demos/invoice-generator/</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://orchestrate.solutions/demos/realty-expenses/</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-  <url>
-    <loc>https://orchestrate.solutions/demos/storefront/</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-
-</urlset>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://orchestrate.solutions/images/og-image.svg</image:loc>
-      <image:title>Orchestrate Solutions Logo</image:title>
-    </image:image>
-  </url>
-
-  <!-- About Page -->
-  <url>
-    <loc>https://orchestrate.solutions/about.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://orchestrate.solutions/images/og-image.svg</image:loc>
-      <image:title>About Orchestrate Solutions</image:title>
-    </image:image>
-  </url>
-
-  <!-- Portfolio Page -->
-  <url>
-    <loc>https://orchestrate.solutions/portfolio.html</loc>
-    <lastmod>2026-04-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-    <image:image>
-      <image:loc>https://orchestrate.solutions/images/og-image.svg</image:loc>
-      <image:title>Portfolio — Orchestrate Solutions</image:title>
-    </image:image>
-  </url>
-
-  <!-- Demo Apps (discoverable but lower priority) -->
+  <!-- Demo Apps -->
   <url>
     <loc>https://orchestrate.solutions/demos/ai-assistant/</loc>
     <lastmod>2026-04-11</lastmod>
