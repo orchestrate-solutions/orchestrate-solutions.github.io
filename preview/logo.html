@@ -198,43 +198,53 @@
       </section>
 
       <script>
+        var srcs = {
+          original: '/images/orchestrate-logo-v2.svg',
+          mid:      '/images/orchestrate-logo-mid.svg',
+          hd:       '/images/orchestrate-logo-hd.svg',
+          smooth:   '/images/orchestrate-logo-smooth.svg',
+          mono:     '/images/orchestrate-logo-mono.svg',
+          png:      '/images/orchestrate-logo-v2.png'
+        };
+        var labels = {
+          original:'Original', mid:'Mid', hd:'HD', smooth:'Smooth', mono:'Mono', png:'PNG'
+        };
+        var currentVersion = 'hd';
+
         function showVersion(v) {
+          currentVersion = v;
           ['original','mid','hd','smooth','mono','png'].forEach(function(id) {
             document.getElementById('preview-' + id).style.display = (id === v) ? 'block' : 'none';
             var btn = document.getElementById('btn-' + id);
-            if (btn) {
-              btn.className = (id === v) ? 'btn btn--sm btn--primary' : 'btn btn--sm';
-            }
+            if (btn) btn.className = (id === v) ? 'btn btn--sm btn--primary' : 'btn btn--sm';
           });
+          // Update all background test cards
+          var src = srcs[v];
+          document.querySelectorAll('.bg-test-img').forEach(function(img) {
+            img.src = src;
+          });
+          document.getElementById('bg-test-title').textContent = 'Background Tests (' + labels[v] + ')';
         }
       </script>
 
       <!-- === Background tests === -->
-      <h2 style="font-size:var(--fs-lg);margin-top:var(--s5);margin-bottom:var(--s3);text-align:center;">Background Tests (HD)</h2>
+      <h2 id="bg-test-title" style="font-size:var(--fs-lg);margin-top:var(--s5);margin-bottom:var(--s3);text-align:center;">Background Tests (HD)</h2>
       <div class="logo-preview__grid">
         <div class="logo-preview__card logo-preview__card--dark">
           <h3>Dark</h3>
-          <object type="image/svg+xml" data="/images/orchestrate-logo-hd.svg" width="200" height="200">
-            <img src="/images/orchestrate-logo-v2.png" alt="HD on dark" width="200">
-          </object>
+          <img class="bg-test-img" src="/images/orchestrate-logo-hd.svg" alt="logo on dark" width="200" height="200">
         </div>
         <div class="logo-preview__card logo-preview__card--light">
           <h3>Light</h3>
-          <object type="image/svg+xml" data="/images/orchestrate-logo-hd.svg" width="200" height="200">
-            <img src="/images/orchestrate-logo-v2.png" alt="HD on light" width="200">
-          </object>
+          <img class="bg-test-img" src="/images/orchestrate-logo-hd.svg" alt="logo on light" width="200" height="200">
         </div>
         <div class="logo-preview__card logo-preview__card--surface">
           <h3>Surface</h3>
-          <object type="image/svg+xml" data="/images/orchestrate-logo-hd.svg" width="200" height="200">
-            <img src="/images/orchestrate-logo-v2.png" alt="HD on surface" width="200">
-          </object>
+          <img class="bg-test-img" src="/images/orchestrate-logo-hd.svg" alt="logo on surface" width="200" height="200">
         </div>
         <div class="logo-preview__card logo-preview__card--accent">
           <h3>Accent</h3>
-          <object type="image/svg+xml" data="/images/orchestrate-logo-hd.svg" width="200" height="200">
-            <img src="/images/orchestrate-logo-v2.png" alt="HD on accent" width="200">
-          </object>
+          <img class="bg-test-img" src="/images/orchestrate-logo-hd.svg" alt="logo on accent" width="200" height="200">
         </div>
       </div>
 
