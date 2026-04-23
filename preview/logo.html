@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0b0b11">
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <title>Logo Preview &mdash; Orchestrate Solutions</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .logo-preview { max-width: 800px; margin: 0 auto; padding: var(--s5) var(--s3); }
+    .logo-preview__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--s4);
+      margin-top: var(--s4);
+    }
+    .logo-preview__card {
+      padding: var(--s4);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      text-align: center;
+      transition: border-color 0.25s;
+    }
+    .logo-preview__card:hover { border-color: var(--border-h); }
+    .logo-preview__card h3 {
+      font-size: var(--fs-sm);
+      color: var(--text-soft);
+      margin-bottom: var(--s3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    .logo-preview__card img,
+    .logo-preview__card object {
+      max-width: 200px;
+      height: auto;
+      display: block;
+      margin: 0 auto;
+    }
+    .logo-preview__card--dark { background: var(--bg); }
+    .logo-preview__card--light { background: #f0f0f5; }
+    .logo-preview__card--surface { background: var(--surface); }
+    .logo-preview__card--accent { background: var(--accent-glow); }
+    .logo-preview__meta {
+      margin-top: var(--s4);
+      padding: var(--s3);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .logo-preview__meta dt {
+      font-size: var(--fs-xs);
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    .logo-preview__meta dd {
+      font-size: var(--fs-md);
+      color: var(--text);
+      margin-bottom: var(--s2);
+    }
+    .logo-preview__full {
+      margin-top: var(--s4);
+      padding: var(--s5);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--bg);
+      text-align: center;
+    }
+    .logo-preview__full img,
+    .logo-preview__full object {
+      max-width: 400px;
+      width: 100%;
+      height: auto;
+    }
+    @media (max-width: 600px) {
+      .logo-preview__grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav">
+    <div class="nav__inner">
+      <a href="/" class="nav__logo">
+        <img src="images/orchestrate-logo-v2.png" alt="Orchestrate Solutions" class="nav__logo-img" width="200" height="36">
+      </a>
+      <nav class="nav__links">
+        <a href="/about.html" class="nav__link">About</a>
+        <a href="/pricing.html" class="nav__link">Services</a>
+        <a href="/faq.html" class="nav__link">FAQ</a>
+        <a href="/blog/" class="nav__link">Blog</a>
+        <a href="https://calendly.com/joshf-wink/30" class="btn btn--primary btn--sm" target="_blank" rel="noopener">Free 20-Minute Call</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="logo-preview">
+      <section class="page-hero">
+        <h1 class="page-hero__title">Logo Preview</h1>
+        <p class="page-hero__sub">Vectorized from PNG using <code>cup vectorize</code> &mdash; the codeupipe raster-to-SVG pipeline.</p>
+      </section>
+
+      <section class="logo-preview__full">
+        <h2 style="font-size: var(--fs-lg); margin-bottom: var(--s3);">SVG (Vectorized)</h2>
+        <object type="image/svg+xml" data="images/orchestrate-logo-v2.svg" width="400" height="400">
+          <img src="images/orchestrate-logo-v2.png" alt="Orchestrate Logo" width="400" height="400">
+        </object>
+      </section>
+
+      <div class="logo-preview__grid">
+        <div class="logo-preview__card logo-preview__card--dark">
+          <h3>Dark Background</h3>
+          <object type="image/svg+xml" data="images/orchestrate-logo-v2.svg" width="200" height="200">
+            <img src="images/orchestrate-logo-v2.png" alt="Logo on dark" width="200">
+          </object>
+        </div>
+
+        <div class="logo-preview__card logo-preview__card--light">
+          <h3>Light Background</h3>
+          <object type="image/svg+xml" data="images/orchestrate-logo-v2.svg" width="200" height="200">
+            <img src="images/orchestrate-logo-v2.png" alt="Logo on light" width="200">
+          </object>
+        </div>
+
+        <div class="logo-preview__card logo-preview__card--surface">
+          <h3>Surface Background</h3>
+          <object type="image/svg+xml" data="images/orchestrate-logo-v2.svg" width="200" height="200">
+            <img src="images/orchestrate-logo-v2.png" alt="Logo on surface" width="200">
+          </object>
+        </div>
+
+        <div class="logo-preview__card logo-preview__card--accent">
+          <h3>Accent Glow</h3>
+          <object type="image/svg+xml" data="images/orchestrate-logo-v2.svg" width="200" height="200">
+            <img src="images/orchestrate-logo-v2.png" alt="Logo on accent" width="200">
+          </object>
+        </div>
+      </div>
+
+      <div class="logo-preview__grid" style="margin-top: var(--s3);">
+        <div class="logo-preview__card logo-preview__card--dark">
+          <h3>PNG Original</h3>
+          <img src="images/orchestrate-logo-v2.png" alt="Original PNG" width="200">
+        </div>
+
+        <div class="logo-preview__card logo-preview__card--dark">
+          <h3>SVG Vectorized</h3>
+          <object type="image/svg+xml" data="images/orchestrate-logo-v2.svg" width="200" height="200">
+            <img src="images/orchestrate-logo-v2.png" alt="Vectorized SVG" width="200">
+          </object>
+        </div>
+      </div>
+
+      <dl class="logo-preview__meta">
+        <dt>Source</dt>
+        <dd>orchestrate-logo-v2.png (25 KB)</dd>
+        <dt>Output</dt>
+        <dd>orchestrate-logo-v2.svg (31 KB)</dd>
+        <dt>Pipeline</dt>
+        <dd>ReadImage &rarr; QuantizeColors (7 colors) &rarr; ExtractContours &rarr; SimplifyPaths &rarr; EmitSVG</dd>
+        <dt>Contours</dt>
+        <dd>248 paths across 7 color groups</dd>
+      </dl>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <a href="/" class="footer__brand">
+        <img src="images/logo-mark.svg" alt="" width="28" height="28" class="footer__mark">
+        <span>Orchestrate Solutions</span>
+      </a>
+      <p class="footer__copy">&copy; 2026 Orchestrate Solutions</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
