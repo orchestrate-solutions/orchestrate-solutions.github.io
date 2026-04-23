@@ -3,25 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Software solutions for small businesses &mdash; websites, MVPs, automation, integrations, and ongoing support. Contact us to get started.">
-  <meta name="keywords" content="software development, small business software, website development, MVP development, process automation, systems integration">
+  <meta name="description" content="Honest, flexible pricing for small businesses. Custom estimates, payment plans, and no surprise fees. Let&#8217;s build something together.">
+  <meta name="keywords" content="software development pricing, small business software, website development, MVP development, payment plans, flexible pricing">
   <meta name="theme-color" content="#0b0b11">
-  <meta property="og:title" content="Services &#8212; Orchestrate Solutions">
-  <meta property="og:description" content="We build, optimize, and connect software solutions for small businesses. Reach out to get started.">
-  <meta property="og:image" content="https://orchestrate-solutions.github.io/images/og-image.svg">
-  <meta property="og:url" content="https://orchestrate-solutions.github.io/pricing.html">
+  <meta property="og:title" content="Pricing &#8212; Orchestrate Solutions">
+  <meta property="og:description" content="We price by the work, not the label. Custom estimates, payment plans, and no surprise fees for small businesses.">
+  <meta property="og:image" content="https://orchestrate.solutions/images/og-image.svg">
+  <meta property="og:url" content="https://orchestrate.solutions/pricing.html">
   <meta property="og:site_name" content="Orchestrate Solutions">
   <meta property="og:type" content="website">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Services &#8212; Orchestrate Solutions">
-  <meta name="twitter:description" content="Software solutions for small businesses. Build. Optimize. Connect.">
+  <meta name="twitter:title" content="Pricing &#8212; Orchestrate Solutions">
+  <meta name="twitter:description" content="Custom estimates, payment plans, and no surprise fees. Software for small businesses.">
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-  <link rel="canonical" href="https://orchestrate-solutions.github.io/pricing.html">
-  <title>Services | Orchestrate Solutions</title>
+  <link rel="canonical" href="https://orchestrate.solutions/pricing.html">
+  <title>Pricing | Orchestrate Solutions</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
 
   <!-- BreadcrumbList Schema -->
   <script type="application/ld+json">
@@ -29,11 +29,110 @@
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://orchestrate-solutions.github.io/" },
-      { "@type": "ListItem", "position": 2, "name": "Services", "item": "https://orchestrate-solutions.github.io/pricing.html" }
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://orchestrate.solutions/" },
+      { "@type": "ListItem", "position": 2, "name": "Pricing", "item": "https://orchestrate.solutions/pricing.html" }
     ]
   }
-  <\/script>
+  </script>
+
+  <style>
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--s4);
+      margin-top: var(--s4);
+    }
+    .pricing-card {
+      padding: var(--s4) var(--s3);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      transition: border-color 0.25s, background 0.25s;
+      position: relative;
+    }
+    .pricing-card:hover {
+      border-color: var(--border-h);
+      background: var(--surface);
+    }
+    .pricing-card--featured {
+      border-color: var(--accent);
+      background: var(--surface);
+    }
+    .pricing-card--featured::before {
+      content: 'Most Common';
+      position: absolute;
+      top: calc(-1 * var(--s1));
+      right: var(--s3);
+      background: var(--accent);
+      color: var(--bg);
+      font-size: var(--fs-xs);
+      font-weight: 600;
+      padding: 0.15em 0.8em;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+    }
+    .pricing-card h3 {
+      font-size: var(--fs-lg);
+      font-weight: 600;
+      margin-bottom: var(--s1);
+      color: var(--text);
+    }
+    .pricing-card__desc {
+      font-size: var(--fs-sm);
+      color: var(--text-soft);
+      line-height: 1.75;
+      margin-bottom: var(--s3);
+    }
+    .pricing-card__includes {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 var(--s3) 0;
+    }
+    .pricing-card__includes li {
+      font-size: var(--fs-sm);
+      color: var(--text-soft);
+      padding: var(--s1) 0;
+      border-top: 1px solid var(--border);
+    }
+    .pricing-card__includes li:last-child {
+      border-bottom: 1px solid var(--border);
+    }
+    .pricing-card__includes li::before {
+      content: '\2713\00a0';
+      color: var(--accent);
+      font-weight: 600;
+    }
+    .pricing-card__note {
+      font-size: var(--fs-xs);
+      color: var(--text-faint);
+      font-style: italic;
+    }
+    .plan-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--s3);
+      margin-top: var(--s3);
+    }
+    .plan-item {
+      padding: var(--s3);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    .plan-item h3 {
+      font-size: var(--fs-md);
+      font-weight: 600;
+      margin-bottom: var(--s1);
+      color: var(--accent);
+    }
+    .plan-item p {
+      font-size: var(--fs-sm);
+      color: var(--text-soft);
+      line-height: 1.7;
+    }
+    @media (max-width: 700px) {
+      .pricing-grid { grid-template-columns: 1fr; }
+      .plan-list { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
@@ -60,64 +159,262 @@
   <!-- Page Hero -->
   <section class="page-hero">
     <div class="container">
-      <h1 class="page-hero__title">What We Do</h1>
+      <h1 class="page-hero__title">Pricing</h1>
       <p class="page-hero__body">
-        We build, optimize, and connect software solutions for small and mid-size businesses.
-        Every engagement is scoped to your specific situation &#8212; no cookie-cutter packages.
+        We price by the work, not by the label. Every project is scoped individually
+        so you pay for exactly what you need.
       </p>
     </div>
   </section>
 
-  <!-- Services Overview -->
+  <!-- How We Price -->
   <section class="section">
+    <div class="container container--narrow">
+      <h2>How It Works</h2>
+      <p>
+        We don&#8217;t do rigid tiers. Every business is different, so every project
+        gets a custom estimate based on the actual work involved. We&#8217;ll give you
+        a clear, honest estimate based on what you actually need. Your quote depends
+        on scope, complexity, and timeline. We&#8217;ll walk through it together before
+        anything starts.
+      </p>
+      <p style="margin-top: var(--s3)">
+        <strong>Every engagement begins with a free consultation.</strong> No pressure,
+        no commitment. We learn about your goals and give you an honest assessment
+        of what it takes.
+      </p>
+    </div>
+  </section>
+
+  <!-- Service Cards -->
+  <section class="section section--alt">
     <div class="container">
-      <div class="services-grid">
+      <h2>What We Build</h2>
+      <div class="pricing-grid">
 
-        <div class="service-card">
-          <h2 class="service-card__title">Build</h2>
-          <p class="service-card__body">
-            Websites, web apps, MVPs, dashboards, AI chatbots, and custom software &#8212;
-            built right from the start.
+        <div class="pricing-card">
+          <h3>Landing Page</h3>
+          <p class="pricing-card__desc">
+            A clean, professional single-page site. Perfect for launching a new business,
+            promoting an event, or testing an idea.
           </p>
+          <ul class="pricing-card__includes">
+            <li>Custom design</li>
+            <li>Mobile responsive</li>
+            <li>Basic SEO setup</li>
+            <li>Contact form</li>
+            <li>Hosting guidance</li>
+          </ul>
+          <p class="pricing-card__note">Have your own design? Even less. &middot; A fraction of what agencies charge.</p>
         </div>
 
-        <div class="service-card">
-          <h2 class="service-card__title">Optimize</h2>
-          <p class="service-card__body">
-            SEO, performance tuning, process automation, and documentation that turns
-            tribal knowledge into trainable systems.
+        <div class="pricing-card pricing-card--featured">
+          <h3>Business Website</h3>
+          <p class="pricing-card__desc">
+            A full multi-page website that represents your business online. We handle
+            design, content structure, and the technical details.
           </p>
+          <ul class="pricing-card__includes">
+            <li>Up to 8 pages</li>
+            <li>Mobile-first design</li>
+            <li>SEO optimization</li>
+            <li>Analytics setup</li>
+            <li>CMS or easy editing</li>
+            <li>30 days of support</li>
+          </ul>
+          <p class="pricing-card__note">Need more pages or features? We&#8217;ll scope it. &middot; Significantly less than agency rates.</p>
         </div>
 
-        <div class="service-card">
-          <h2 class="service-card__title">Connect</h2>
-          <p class="service-card__body">
-            CRM setup, data migration, API integrations, and systems bridging &#8212;
-            your tools working together the way they should.
+        <div class="pricing-card">
+          <h3>Web Application / MVP</h3>
+          <p class="pricing-card__desc">
+            Custom software built for your specific needs &mdash; dashboards, booking systems,
+            internal tools, customer portals, or your startup&#8217;s first product.
           </p>
+          <ul class="pricing-card__includes">
+            <li>Custom features scoped to your needs</li>
+            <li>User authentication</li>
+            <li>Database design</li>
+            <li>API integrations</li>
+            <li>Testing and QA</li>
+            <li>60 days of support</li>
+          </ul>
+          <p class="pricing-card__note">Have a prototype or wireframes? Often reduces cost. &middot; A fraction of what agencies charge.</p>
         </div>
 
-        <div class="service-card">
-          <h2 class="service-card__title">Support</h2>
-          <p class="service-card__body">
-            Ongoing maintenance, strategic guidance, and a dedicated partner who keeps
-            your systems healthy and growing.
+        <div class="pricing-card">
+          <h3>Ongoing Support</h3>
+          <p class="pricing-card__desc">
+            Keep your systems healthy and evolving. We handle updates, fixes, improvements,
+            and strategic guidance so you can focus on running your business.
           </p>
+          <ul class="pricing-card__includes">
+            <li>Bug fixes and maintenance</li>
+            <li>Performance monitoring</li>
+            <li>Security updates</li>
+            <li>Monthly strategy call</li>
+            <li>Priority response</li>
+          </ul>
+          <p class="pricing-card__note">Need just a few hours? We offer ad-hoc support too. &middot; Far less than hiring in-house.</p>
         </div>
 
       </div>
     </div>
   </section>
 
-  <!-- How We Work -->
-  <section class="section section--alt">
+  <!-- Growing With You -->
+  <section class="section">
     <div class="container container--narrow">
-      <h2>Tailored to You</h2>
+      <h2>Growing With You</h2>
       <p>
-        Every business is different. We scope each project individually so you get exactly
-        what you need &#8212; nothing more, nothing less. Reach out for a free 20-minute call
-        and we&#8217;ll put together an honest, clear proposal.
+        We know what it&#8217;s like to start something new. If you&#8217;re building a business
+        and the budget is tight, <strong>we&#8217;ll work with you.</strong>
       </p>
+      <p style="margin-top: var(--s2)">
+        We offer payment plans for qualifying projects &mdash; because giving someone the tools
+        they need to compete in this digital world is worth the risk. You&#8217;re doing the hard
+        part. You&#8217;re putting in the work, building something real. We&#8217;re just making
+        sure you have what you need to do it right.
+      </p>
+
+      <div class="plan-list">
+        <div class="plan-item">
+          <h3>Split Payments</h3>
+          <p>Break your project cost into manageable monthly installments.</p>
+        </div>
+        <div class="plan-item">
+          <h3>Pay as We Build</h3>
+          <p>Pay in phases as milestones are delivered.</p>
+        </div>
+        <div class="plan-item">
+          <h3>Growth Plans</h3>
+          <p>Start with the essentials now, add features as revenue grows.</p>
+        </div>
+        <div class="plan-item">
+          <h3>No Hidden Fees</h3>
+          <p>No interest, no surprise charges. The price is the price.</p>
+        </div>
+      </div>
+
+      <p style="margin-top: var(--s4); font-size: var(--fs-sm); color: var(--text-soft);">
+        This isn&#8217;t charity &mdash; it&#8217;s an investment in a partnership.
+        When your business grows, we grow with you.
+      </p>
+    </div>
+  </section>
+
+  <!-- Services Overview -->
+  <section class="section section--alt">
+    <div class="container">
+      <h2>Full Lifecycle Coverage</h2>
+      <div class="edge-details">
+        <div class="edge-detail">
+          <h3>Build</h3>
+          <p>Websites, web apps, MVPs, dashboards, chatbots, and custom software &mdash; built right from the start.</p>
+        </div>
+        <div class="edge-detail">
+          <h3>Optimize</h3>
+          <p>SEO, performance tuning, process automation, and documentation that turns tribal knowledge into systems.</p>
+        </div>
+        <div class="edge-detail">
+          <h3>Connect</h3>
+          <p>CRM setup, data migration, API integrations, and systems bridging &mdash; your tools working together.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section">
+    <div class="container container--narrow">
+      <h2>Common Questions</h2>
+      <div class="faq-list">
+
+        <details class="faq" open>
+          <summary class="faq__question">How does pricing work?</summary>
+          <div class="faq__answer">
+            <p>
+              Every project gets a custom estimate based on the actual work involved.
+              We scope it individually and work within your budget. There&#8217;s always
+              a conversation before a number &mdash; and that number is always negotiable.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq">
+          <summary class="faq__question">What if I can&#8217;t afford the full cost upfront?</summary>
+          <div class="faq__answer">
+            <p>
+              We offer payment plans. We can split payments across milestones,
+              spread costs over time, or start with a smaller scope and grow from there.
+              The goal is to get you started, not to turn you away.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq">
+          <summary class="faq__question">How long does a typical project take?</summary>
+          <div class="faq__answer">
+            <p>
+              Landing pages can be done in days. Business websites typically take 2&ndash;4 weeks.
+              Custom applications may take 4&ndash;8 weeks depending on complexity.
+              We&#8217;ll give you a clear timeline upfront.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq">
+          <summary class="faq__question">What if I need something not listed?</summary>
+          <div class="faq__answer">
+            <p>
+              We handle a wide range of software projects. If you need it built,
+              we can probably build it. Contact us and we&#8217;ll scope exactly what you need
+              &mdash; the consultation is free.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq">
+          <summary class="faq__question">Do I own the code?</summary>
+          <div class="faq__answer">
+            <p>
+              Yes. You own everything we build for you. No vendor lock-in,
+              no proprietary traps. Your business, your code.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq">
+          <summary class="faq__question">What if my project changes scope mid-build?</summary>
+          <div class="faq__answer">
+            <p>
+              It happens. We&#8217;ll discuss the impact honestly and adjust the estimate.
+              No surprise invoices &mdash; we talk through every change before the work happens.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq">
+          <summary class="faq__question">I&#8217;m just starting out and don&#8217;t know what I need yet.</summary>
+          <div class="faq__answer">
+            <p>
+              That&#8217;s exactly what the free consultation is for. We&#8217;ll help you figure
+              out what makes sense for where you are right now, not sell you things you don&#8217;t need yet.
+            </p>
+          </div>
+        </details>
+
+        <details class="faq">
+          <summary class="faq__question">Do you work with non-profits or community organizations?</summary>
+          <div class="faq__answer">
+            <p>
+              Yes, and we offer reduced rates for organizations doing good work in their communities.
+              Reach out and let&#8217;s talk about it.
+            </p>
+          </div>
+        </details>
+
+      </div>
     </div>
   </section>
 
@@ -127,7 +424,7 @@
       <h2 class="cta__heading">Let us help you do what you&#8217;re called to do.</h2>
       <p class="cta__body">
         20 minutes, no cost, no strings. Tell us what&#8217;s holding you back
-        and we&#8217;ll give you an honest recommendation &#8212; even if it&#8217;s
+        and we&#8217;ll give you an honest recommendation &mdash; even if it&#8217;s
         &#8220;you don&#8217;t need us.&#8221;
       </p>
       <a href="mailto:contact@orchestrate.solutions" class="btn btn--primary btn--lg">
