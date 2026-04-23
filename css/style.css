@@ -74,7 +74,7 @@ strong { font-weight: 600; color: var(--text); }
   display: flex; align-items: center; justify-content: space-between;
 }
 .nav__logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-.nav__logo-img { height: 32px; width: 32px; }
+.nav__logo-img { height: 96px; width: 96px; }
 .nav__name { font-size: 1.05rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em; }
 .nav__links { display: flex; align-items: center; gap: var(--s4); }
 .nav__link {
