@@ -80,6 +80,11 @@
     @media (max-width: 600px) {
       .logo-preview__grid { grid-template-columns: 1fr; }
     }
+    @media (max-width: 900px) {
+      .logo-preview .page-hero ~ div[style*="grid-template-columns:repeat(3"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -102,70 +107,119 @@
   <main>
     <div class="logo-preview">
       <section class="page-hero">
-        <h1 class="page-hero__title">Logo Preview</h1>
-        <p class="page-hero__sub">Vectorized from PNG using <code>cup vectorize</code> &mdash; the codeupipe raster-to-SVG pipeline.</p>
+        <h1 class="page-hero__title">Logo Preview &mdash; Quality Comparison</h1>
+        <p class="page-hero__sub">Three vectorization modes from <code>cup vectorize</code>. Source: 200&times;200 PNG upscaled 4&times; to 800&times;800.</p>
       </section>
 
-      <section class="logo-preview__full">
-        <h2 style="font-size: var(--fs-lg); margin-bottom: var(--s3);">SVG (Vectorized)</h2>
-        <object type="image/svg+xml" data="/images/orchestrate-logo-v2.svg" width="400" height="400">
-          <img src="/images/orchestrate-logo-v2.png" alt="Orchestrate Logo" width="400" height="400">
-        </object>
+      <!-- === Side-by-side hero comparison === -->
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:var(--s3); margin-top:var(--s4);">
+        <div class="logo-preview__card logo-preview__card--dark">
+          <h3>Original (Low-Poly)</h3>
+          <object type="image/svg+xml" data="/images/orchestrate-logo-v2.svg" width="250" height="250">
+            <img src="/images/orchestrate-logo-v2.png" alt="Original SVG" width="250">
+          </object>
+          <p style="font-size:var(--fs-xs);color:var(--text-soft);margin-top:var(--s2);">31 KB &bull; 248 paths &bull; &epsilon;=1.0</p>
+        </div>
+
+        <div class="logo-preview__card logo-preview__card--dark">
+          <h3>HD (High-Detail)</h3>
+          <object type="image/svg+xml" data="/images/orchestrate-logo-hd.svg" width="250" height="250">
+            <img src="/images/orchestrate-logo-v2.png" alt="HD SVG" width="250">
+          </object>
+          <p style="font-size:var(--fs-xs);color:var(--text-soft);margin-top:var(--s2);">757 KB &bull; 2213 paths &bull; &epsilon;=0.2</p>
+        </div>
+
+        <div class="logo-preview__card logo-preview__card--dark">
+          <h3>Smooth (B&eacute;zier)</h3>
+          <object type="image/svg+xml" data="/images/orchestrate-logo-smooth.svg" width="250" height="250">
+            <img src="/images/orchestrate-logo-v2.png" alt="Smooth SVG" width="250">
+          </object>
+          <p style="font-size:var(--fs-xs);color:var(--text-soft);margin-top:var(--s2);">710 KB &bull; 1353 curves &bull; Catmull-Rom</p>
+        </div>
+      </div>
+
+      <!-- === Large preview with toggle === -->
+      <section class="logo-preview__full" style="margin-top:var(--s4);">
+        <h2 style="font-size:var(--fs-lg);margin-bottom:var(--s3);">Large Preview</h2>
+        <div style="display:flex;gap:var(--s2);justify-content:center;margin-bottom:var(--s3);">
+          <button onclick="showVersion('original')" class="btn btn--sm" id="btn-original">Original</button>
+          <button onclick="showVersion('hd')" class="btn btn--sm btn--primary" id="btn-hd">HD</button>
+          <button onclick="showVersion('smooth')" class="btn btn--sm" id="btn-smooth">Smooth</button>
+          <button onclick="showVersion('png')" class="btn btn--sm" id="btn-png">PNG Source</button>
+        </div>
+        <div id="preview-original" style="display:none;">
+          <object type="image/svg+xml" data="/images/orchestrate-logo-v2.svg" width="400" height="400">
+            <img src="/images/orchestrate-logo-v2.png" alt="Original" width="400">
+          </object>
+        </div>
+        <div id="preview-hd" style="display:block;">
+          <object type="image/svg+xml" data="/images/orchestrate-logo-hd.svg" width="400" height="400">
+            <img src="/images/orchestrate-logo-v2.png" alt="HD" width="400">
+          </object>
+        </div>
+        <div id="preview-smooth" style="display:none;">
+          <object type="image/svg+xml" data="/images/orchestrate-logo-smooth.svg" width="400" height="400">
+            <img src="/images/orchestrate-logo-v2.png" alt="Smooth" width="400">
+          </object>
+        </div>
+        <div id="preview-png" style="display:none;">
+          <img src="/images/orchestrate-logo-v2.png" alt="PNG Source" width="400" style="image-rendering:auto;">
+        </div>
       </section>
 
+      <script>
+        function showVersion(v) {
+          ['original','hd','smooth','png'].forEach(function(id) {
+            document.getElementById('preview-' + id).style.display = (id === v) ? 'block' : 'none';
+            var btn = document.getElementById('btn-' + id);
+            if (btn) {
+              btn.className = (id === v) ? 'btn btn--sm btn--primary' : 'btn btn--sm';
+            }
+          });
+        }
+      </script>
+
+      <!-- === Background tests === -->
+      <h2 style="font-size:var(--fs-lg);margin-top:var(--s5);margin-bottom:var(--s3);text-align:center;">Background Tests (HD)</h2>
       <div class="logo-preview__grid">
         <div class="logo-preview__card logo-preview__card--dark">
-          <h3>Dark Background</h3>
-          <object type="image/svg+xml" data="/images/orchestrate-logo-v2.svg" width="200" height="200">
-            <img src="/images/orchestrate-logo-v2.png" alt="Logo on dark" width="200">
+          <h3>Dark</h3>
+          <object type="image/svg+xml" data="/images/orchestrate-logo-hd.svg" width="200" height="200">
+            <img src="/images/orchestrate-logo-v2.png" alt="HD on dark" width="200">
           </object>
         </div>
-
         <div class="logo-preview__card logo-preview__card--light">
-          <h3>Light Background</h3>
-          <object type="image/svg+xml" data="/images/orchestrate-logo-v2.svg" width="200" height="200">
-            <img src="/images/orchestrate-logo-v2.png" alt="Logo on light" width="200">
+          <h3>Light</h3>
+          <object type="image/svg+xml" data="/images/orchestrate-logo-hd.svg" width="200" height="200">
+            <img src="/images/orchestrate-logo-v2.png" alt="HD on light" width="200">
           </object>
         </div>
-
         <div class="logo-preview__card logo-preview__card--surface">
-          <h3>Surface Background</h3>
-          <object type="image/svg+xml" data="/images/orchestrate-logo-v2.svg" width="200" height="200">
-            <img src="/images/orchestrate-logo-v2.png" alt="Logo on surface" width="200">
+          <h3>Surface</h3>
+          <object type="image/svg+xml" data="/images/orchestrate-logo-hd.svg" width="200" height="200">
+            <img src="/images/orchestrate-logo-v2.png" alt="HD on surface" width="200">
           </object>
         </div>
-
         <div class="logo-preview__card logo-preview__card--accent">
-          <h3>Accent Glow</h3>
-          <object type="image/svg+xml" data="/images/orchestrate-logo-v2.svg" width="200" height="200">
-            <img src="/images/orchestrate-logo-v2.png" alt="Logo on accent" width="200">
+          <h3>Accent</h3>
+          <object type="image/svg+xml" data="/images/orchestrate-logo-hd.svg" width="200" height="200">
+            <img src="/images/orchestrate-logo-v2.png" alt="HD on accent" width="200">
           </object>
         </div>
       </div>
 
-      <div class="logo-preview__grid" style="margin-top: var(--s3);">
-        <div class="logo-preview__card logo-preview__card--dark">
-          <h3>PNG Original</h3>
-          <img src="/images/orchestrate-logo-v2.png" alt="Original PNG" width="200">
-        </div>
-
-        <div class="logo-preview__card logo-preview__card--dark">
-          <h3>SVG Vectorized</h3>
-          <object type="image/svg+xml" data="/images/orchestrate-logo-v2.svg" width="200" height="200">
-            <img src="/images/orchestrate-logo-v2.png" alt="Vectorized SVG" width="200">
-          </object>
-        </div>
-      </div>
-
-      <dl class="logo-preview__meta">
+      <!-- === Stats === -->
+      <dl class="logo-preview__meta" style="margin-top:var(--s4);">
         <dt>Source</dt>
-        <dd>orchestrate-logo-v2.png (25 KB)</dd>
-        <dt>Output</dt>
-        <dd>orchestrate-logo-v2.svg (31 KB)</dd>
+        <dd>orchestrate-logo-v2.png &mdash; 200&times;200, 25 KB (upscaled 4&times; to 800&times;800 via LANCZOS)</dd>
+        <dt>Original SVG</dt>
+        <dd>31 KB &bull; 248 paths &bull; 7 colors &bull; &epsilon;=1.0 &bull; No upscale</dd>
+        <dt>HD SVG</dt>
+        <dd>757 KB &bull; 2213 paths &bull; 10 colors &bull; &epsilon;=0.2 &bull; 4&times; upscale</dd>
+        <dt>Smooth SVG</dt>
+        <dd>710 KB &bull; 1353 B&eacute;zier curves &bull; 10 colors &bull; &epsilon;=1.0 + Catmull-Rom (tension 0.5)</dd>
         <dt>Pipeline</dt>
-        <dd>ReadImage &rarr; QuantizeColors (7 colors) &rarr; ExtractContours &rarr; SimplifyPaths &rarr; EmitSVG</dd>
-        <dt>Contours</dt>
-        <dd>248 paths across 7 color groups</dd>
+        <dd>ReadImage &rarr; QuantizeColors &rarr; ExtractContours &rarr; SimplifyPaths &rarr; <em>[SmoothPaths]</em> &rarr; EmitSVG</dd>
       </dl>
     </div>
   </main>
