@@ -108,7 +108,7 @@
     <div class="logo-preview">
       <section class="page-hero">
         <h1 class="page-hero__title">Logo Preview &mdash; Quality Comparison</h1>
-        <p class="page-hero__sub">Three vectorization modes from <code>cup vectorize</code>. Source: 200&times;200 PNG upscaled 4&times; to 800&times;800. Background removed (6 near-white colors stripped).</p>
+        <p class="page-hero__sub">Five vectorization modes from <code>cup vectorize</code>. Source: 200&times;200 PNG upscaled 4&times; to 800&times;800. Background removed via flood-fill + alpha erosion.</p>
       </section>
 
       <!-- === Side-by-side hero comparison === -->
@@ -118,7 +118,15 @@
           <object type="image/svg+xml" data="/images/orchestrate-logo-v2.svg" width="250" height="250">
             <img src="/images/orchestrate-logo-v2.png" alt="Original SVG" width="250">
           </object>
-          <p style="font-size:var(--fs-xs);color:var(--text-soft);margin-top:var(--s2);">31 KB &bull; 248 paths &bull; &epsilon;=1.0</p>
+          <p style="font-size:var(--fs-xs);color:var(--text-soft);margin-top:var(--s2);">11 KB &bull; 56 paths &bull; &epsilon;=1.0</p>
+        </div>
+
+        <div class="logo-preview__card logo-preview__card--dark">
+          <h3>Mid (Balanced)</h3>
+          <object type="image/svg+xml" data="/images/orchestrate-logo-mid.svg" width="250" height="250">
+            <img src="/images/orchestrate-logo-v2.png" alt="Mid SVG" width="250">
+          </object>
+          <p style="font-size:var(--fs-xs);color:var(--text-soft);margin-top:var(--s2);">73 KB &bull; 390 paths &bull; &epsilon;=0.8 &bull; 400px</p>
         </div>
 
         <div class="logo-preview__card logo-preview__card--dark">
@@ -126,30 +134,47 @@
           <object type="image/svg+xml" data="/images/orchestrate-logo-hd.svg" width="250" height="250">
             <img src="/images/orchestrate-logo-v2.png" alt="HD SVG" width="250">
           </object>
-          <p style="font-size:var(--fs-xs);color:var(--text-soft);margin-top:var(--s2);">312 KB &bull; 668 paths &bull; &epsilon;=0.2 &bull; transparent bg</p>
+          <p style="font-size:var(--fs-xs);color:var(--text-soft);margin-top:var(--s2);">130 KB &bull; 1061 paths &bull; &epsilon;=1.0 &bull; 800px</p>
         </div>
+      </div>
 
+      <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:var(--s3); margin-top:var(--s3);">
         <div class="logo-preview__card logo-preview__card--dark">
           <h3>Smooth (B&eacute;zier)</h3>
           <object type="image/svg+xml" data="/images/orchestrate-logo-smooth.svg" width="250" height="250">
             <img src="/images/orchestrate-logo-v2.png" alt="Smooth SVG" width="250">
           </object>
-          <p style="font-size:var(--fs-xs);color:var(--text-soft);margin-top:var(--s2);">197 KB &bull; 310 curves &bull; Catmull-Rom &bull; transparent bg</p>
+          <p style="font-size:var(--fs-xs);color:var(--text-soft);margin-top:var(--s2);">340 KB &bull; 1061 curves &bull; Catmull-Rom</p>
+        </div>
+
+        <div class="logo-preview__card logo-preview__card--dark">
+          <h3>Mono (3-Tone)</h3>
+          <object type="image/svg+xml" data="/images/orchestrate-logo-mono.svg" width="250" height="250">
+            <img src="/images/orchestrate-logo-v2.png" alt="Mono SVG" width="250">
+          </object>
+          <p style="font-size:var(--fs-xs);color:var(--text-soft);margin-top:var(--s2);">73 KB &bull; 3 tones &bull; #063d6e / #0a6bbd / #3d9be0</p>
         </div>
       </div>
 
       <!-- === Large preview with toggle === -->
       <section class="logo-preview__full" style="margin-top:var(--s4);">
         <h2 style="font-size:var(--fs-lg);margin-bottom:var(--s3);">Large Preview</h2>
-        <div style="display:flex;gap:var(--s2);justify-content:center;margin-bottom:var(--s3);">
+        <div style="display:flex;gap:var(--s2);justify-content:center;margin-bottom:var(--s3);flex-wrap:wrap;">
           <button onclick="showVersion('original')" class="btn btn--sm" id="btn-original">Original</button>
+          <button onclick="showVersion('mid')" class="btn btn--sm" id="btn-mid">Mid</button>
           <button onclick="showVersion('hd')" class="btn btn--sm btn--primary" id="btn-hd">HD</button>
           <button onclick="showVersion('smooth')" class="btn btn--sm" id="btn-smooth">Smooth</button>
+          <button onclick="showVersion('mono')" class="btn btn--sm" id="btn-mono">Mono</button>
           <button onclick="showVersion('png')" class="btn btn--sm" id="btn-png">PNG Source</button>
         </div>
         <div id="preview-original" style="display:none;">
           <object type="image/svg+xml" data="/images/orchestrate-logo-v2.svg" width="400" height="400">
             <img src="/images/orchestrate-logo-v2.png" alt="Original" width="400">
+          </object>
+        </div>
+        <div id="preview-mid" style="display:none;">
+          <object type="image/svg+xml" data="/images/orchestrate-logo-mid.svg" width="400" height="400">
+            <img src="/images/orchestrate-logo-v2.png" alt="Mid" width="400">
           </object>
         </div>
         <div id="preview-hd" style="display:block;">
@@ -162,6 +187,11 @@
             <img src="/images/orchestrate-logo-v2.png" alt="Smooth" width="400">
           </object>
         </div>
+        <div id="preview-mono" style="display:none;">
+          <object type="image/svg+xml" data="/images/orchestrate-logo-mono.svg" width="400" height="400">
+            <img src="/images/orchestrate-logo-v2.png" alt="Mono" width="400">
+          </object>
+        </div>
         <div id="preview-png" style="display:none;">
           <img src="/images/orchestrate-logo-v2.png" alt="PNG Source" width="400" style="image-rendering:auto;">
         </div>
@@ -169,7 +199,7 @@
 
       <script>
         function showVersion(v) {
-          ['original','hd','smooth','png'].forEach(function(id) {
+          ['original','mid','hd','smooth','mono','png'].forEach(function(id) {
             document.getElementById('preview-' + id).style.display = (id === v) ? 'block' : 'none';
             var btn = document.getElementById('btn-' + id);
             if (btn) {
@@ -213,13 +243,17 @@
         <dt>Source</dt>
         <dd>orchestrate-logo-v2.png &mdash; 200&times;200, 25 KB (upscaled 4&times; to 800&times;800 via LANCZOS)</dd>
         <dt>Original SVG</dt>
-        <dd>31 KB &bull; 248 paths &bull; 7 colors &bull; &epsilon;=1.0 &bull; No upscale</dd>
+        <dd>11 KB &bull; 56 paths &bull; 10 colors &bull; &epsilon;=1.0 &bull; 200px &bull; erode=2</dd>
+        <dt>Mid SVG</dt>
+        <dd>73 KB &bull; 390 paths &bull; 10 colors &bull; &epsilon;=0.8 &bull; 400px &bull; erode=2</dd>
         <dt>HD SVG</dt>
-        <dd>312 KB &bull; 668 paths &bull; 4 colors &bull; &epsilon;=0.2 &bull; 4&times; upscale &bull; 6 bg colors removed</dd>
+        <dd>130 KB &bull; 1061 paths &bull; 10 colors &bull; &epsilon;=1.0 &bull; 800px &bull; erode=3</dd>
         <dt>Smooth SVG</dt>
-        <dd>197 KB &bull; 310 B&eacute;zier curves &bull; 4 colors &bull; &epsilon;=1.0 + Catmull-Rom (tension 0.5) &bull; 6 bg colors removed</dd>
+        <dd>340 KB &bull; 1061 B&eacute;zier curves &bull; 10 colors &bull; Catmull-Rom (tension 0.4) &bull; erode=3</dd>
+        <dt>Mono SVG</dt>
+        <dd>73 KB &bull; 390 paths &bull; 3 tones (#063d6e / #0a6bbd / #3d9be0) + white hearts</dd>
         <dt>Pipeline</dt>
-        <dd>ReadImage &rarr; QuantizeColors &rarr; <strong>RemoveBackground</strong> &rarr; ExtractContours &rarr; SimplifyPaths &rarr; <em>[SmoothPaths]</em> &rarr; EmitSVG</dd>
+        <dd>ReadImage &rarr; <strong>FloodFillBackground</strong> (erode) &rarr; QuantizeColors &rarr; ExtractContours &rarr; SimplifyPaths &rarr; <em>[SmoothPaths]</em> &rarr; EmitSVG</dd>
       </dl>
     </div>
   </main>
