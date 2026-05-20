@@ -1,24 +1,36 @@
 /* ========================================
-   Orchestrate Solutions — Design System
+   Orchestrate Solutions — Design System v2
    ----------------------------------------
-   Multi-page: index, about, portfolio, 404
+   Bright, warm, optimistic — A brighter tomorrow
+   Multi-page: index, about, portfolio, products, 404
    ======================================== */
 
 /* -- Palette -- */
 :root {
-  --bg:         #0b0b11;
-  --bg-alt:     #10101a;
-  --surface:    #161622;
-  --border:     rgba(255,255,255,0.06);
-  --border-h:   rgba(255,255,255,0.12);
+  --bg:          #ffffff;
+  --bg-warm:     #fffdf7;
+  --bg-dark:     #18120a;
+  --surface:     #fff8ed;
+  --surface-alt: #fef3c7;
 
-  --text:       #d8d8e4;
-  --text-soft:  #9090a8;
-  --text-faint: #5c5c72;
+  --border:      rgba(139, 90, 15, 0.10);
+  --border-h:    rgba(139, 90, 15, 0.22);
 
-  --accent:     #818cf8;
-  --accent-h:   #a5b4fc;
-  --accent-glow: rgba(129,140,248,0.10);
+  --text:        #18120a;
+  --text-soft:   #6b5a3e;
+  --text-faint:  #b09870;
+  --text-on-dark:#e8d9c0;
+
+  --accent:      #d97706;
+  --accent-h:    #b45309;
+  --accent-light:#fef3c7;
+  --accent-glow: rgba(217, 119, 6, 0.18);
+
+  --sky:         #0284c7;
+  --sky-light:   #e0f2fe;
+
+  /* legacy alias kept for components that still reference it */
+  --bg-alt:      var(--bg-warm);
 
   --ff: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --fs-xs:  clamp(0.7rem,  0.65rem + 0.25vw, 0.8rem);
@@ -63,7 +75,7 @@ strong { font-weight: 600; color: var(--text); }
 .nav {
   position: fixed; inset: 0 0 auto 0; z-index: 100;
   padding: var(--s2) 0;
-  background: rgba(11,11,17,0.88);
+  background: rgba(255, 253, 247, 0.94);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid transparent;
   transition: border-color 0.3s;
@@ -125,7 +137,8 @@ strong { font-weight: 600; color: var(--text); }
   padding: var(--s7) 0 var(--s6);
   text-align: center;
   background:
-    radial-gradient(ellipse 70% 55% at 50% -5%, var(--accent-glow), transparent);
+    radial-gradient(ellipse 80% 60% at 50% -10%, var(--accent-glow), transparent),
+    linear-gradient(180deg, var(--surface-alt) 0%, var(--bg) 50%);
 }
 .hero__inner { max-width: 680px; margin: 0 auto; }
 .hero__eyebrow {
@@ -153,7 +166,8 @@ strong { font-weight: 600; color: var(--text); }
   padding: calc(var(--s7) + 3rem) 0 var(--s5);
   text-align: center;
   background:
-    radial-gradient(ellipse 60% 50% at 50% 0%, var(--accent-glow), transparent);
+    radial-gradient(ellipse 60% 50% at 50% 0%, var(--accent-glow), transparent),
+    linear-gradient(180deg, var(--surface-alt) 0%, var(--bg) 60%);
 }
 .page-hero__title {
   font-size: var(--fs-2xl); font-weight: 700;
@@ -196,7 +210,8 @@ strong { font-weight: 600; color: var(--text); }
 
 /* -- Sections -- */
 .section { padding: var(--s7) 0; }
-.section--alt { background: var(--bg-alt); }
+.section--alt  { background: var(--bg-warm); }
+.section--warm { background: var(--surface); }
 .section__heading {
   font-size: var(--fs-xl); font-weight: 600;
   letter-spacing: -0.02em; margin-bottom: var(--s3);
@@ -306,7 +321,7 @@ strong { font-weight: 600; color: var(--text); }
   background: var(--surface);
   transition: background 0.2s;
 }
-.capabilities li:hover { background: #1a1a2a; }
+.capabilities li:hover { background: var(--surface-alt); }
 .capabilities li strong { font-size: var(--fs-md); color: var(--text); }
 .capabilities li span {
   font-size: var(--fs-sm); color: var(--text-soft); line-height: 1.65;
@@ -389,9 +404,17 @@ strong { font-weight: 600; color: var(--text); }
 .section--cta {
   text-align: center;
   padding: var(--s7) 0;
-  background:
-    radial-gradient(ellipse 55% 50% at 50% 100%, var(--accent-glow), transparent),
-    var(--bg);
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+}
+.section--cta .cta__heading {
+  color: var(--text-on-dark);
+}
+.section--cta .cta__body {
+  color: rgba(232, 217, 192, 0.75);
+}
+.section--cta .cta__alt {
+  color: rgba(232, 217, 192, 0.5);
 }
 .cta__heading {
   font-size: var(--fs-xl); font-weight: 600;
@@ -410,7 +433,9 @@ strong { font-weight: 600; color: var(--text); }
 /* -- Footer -- */
 .footer {
   padding: var(--s4) 0;
-  border-top: 1px solid var(--border);
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+  border-top: none;
 }
 .footer__inner {
   display: flex; align-items: center; justify-content: space-between;
@@ -418,16 +443,16 @@ strong { font-weight: 600; color: var(--text); }
 }
 .footer__brand {
   display: flex; align-items: center; gap: var(--s1);
-  font-weight: 600; font-size: var(--fs-sm);
+  font-weight: 600; font-size: var(--fs-sm); color: var(--text-on-dark);
 }
 .footer__mark { width: 28px; height: 28px; border-radius: 50%; }
-.footer__copy { font-size: var(--fs-xs); color: var(--text-faint); }
+.footer__copy { font-size: var(--fs-xs); color: rgba(232, 217, 192, 0.5); }
 .footer__links { display: flex; gap: var(--s3); }
 .footer__link {
-  font-size: var(--fs-xs); color: var(--text-soft);
+  font-size: var(--fs-xs); color: rgba(232, 217, 192, 0.65);
   transition: color 0.2s;
 }
-.footer__link:hover { color: var(--text); }
+.footer__link:hover { color: var(--text-on-dark); }
 
 /* -- FAQ -- */
 .faq-list {
@@ -441,7 +466,7 @@ strong { font-weight: 600; color: var(--text); }
   background: var(--surface);
   transition: background 0.2s;
 }
-.faq[open] { background: #1a1a2a; }
+.faq[open] { background: var(--surface-alt); }
 .faq__question {
   display: flex; align-items: center;
   padding: var(--s3) var(--s4);
@@ -687,7 +712,7 @@ strong { font-weight: 600; color: var(--text); }
 }
 .menu-item--featured {
   border-color: var(--accent);
-  background: linear-gradient(to bottom, rgba(129,140,248,0.04), var(--surface));
+  background: linear-gradient(to bottom, var(--accent-light), var(--surface));
 }
 .menu-item--featured:hover {
   border-color: var(--accent-h);
@@ -788,7 +813,7 @@ strong { font-weight: 600; color: var(--text); }
 }
 .delivery-option--featured {
   border-color: var(--accent);
-  background: linear-gradient(to bottom, rgba(129,140,248,0.04), var(--surface));
+  background: linear-gradient(to bottom, var(--accent-light), var(--surface));
 }
 .delivery-option__title {
   font-size: var(--fs-lg);
@@ -859,3 +884,240 @@ strong { font-weight: 600; color: var(--text); }
     grid-template-columns: 1fr;
   }
 }
+
+/* ========================================
+   New Components — Products, Tags, Origin
+   ======================================== */
+
+/* -- Section label/eyebrow -- */
+.section__label {
+  display: inline-block;
+  font-size: var(--fs-xs); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--accent); margin-bottom: var(--s2);
+}
+
+/* -- Button size variants -- */
+.btn--sm { padding: 0.45rem 1.1rem; font-size: var(--fs-xs); }
+
+/* -- Product Cards -- */
+.product-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--s4);
+  margin-top: var(--s5);
+}
+.product-card {
+  padding: var(--s4) var(--s4);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  display: flex; flex-direction: column; gap: var(--s2);
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+.product-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 4px 32px var(--accent-glow);
+}
+.product-card--coming {
+  border-style: dashed;
+  background: var(--bg-warm);
+}
+.product-card--coming:hover {
+  border-color: var(--border-h);
+  box-shadow: none;
+}
+.product-card__badge {
+  display: inline-flex; align-items: center;
+  font-size: var(--fs-xs); font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: var(--accent);
+}
+.product-card h3 {
+  font-size: var(--fs-lg); font-weight: 600;
+  line-height: 1.3; color: var(--text);
+}
+.product-card p {
+  font-size: var(--fs-sm); color: var(--text-soft);
+  line-height: 1.75; flex: 1;
+}
+.product-card__platforms {
+  display: flex; gap: var(--s1); flex-wrap: wrap;
+}
+.product-card__links {
+  display: flex; gap: var(--s2); flex-wrap: wrap;
+  margin-top: var(--s1);
+}
+
+/* -- Tags / Platform Badges -- */
+.tag {
+  display: inline-flex; align-items: center;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: var(--fs-xs); font-weight: 500;
+  border: 1px solid currentColor;
+}
+.tag--done    { color: var(--accent); background: var(--accent-light); }
+.tag--planned { color: var(--text-faint); background: transparent; }
+.tag--soon    { color: var(--sky); background: var(--sky-light); }
+
+/* -- Platform Grid (product page) -- */
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--s3);
+  margin-top: var(--s4);
+}
+.platform-item {
+  padding: var(--s3) var(--s2);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: var(--s1);
+}
+.platform-item--active {
+  border-color: var(--accent);
+  background: var(--accent-light);
+}
+.platform-item__icon { font-size: 1.75rem; }
+.platform-item__name { font-weight: 600; font-size: var(--fs-sm); }
+.platform-item__status { font-size: var(--fs-xs); color: var(--text-soft); }
+.platform-item--active .platform-item__status { color: var(--accent-h); font-weight: 600; }
+
+/* -- Feature Grid (product page) -- */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: var(--s3);
+  margin-top: var(--s4);
+}
+.feature-card {
+  padding: var(--s3) var(--s3);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--bg);
+  transition: border-color 0.2s, background 0.2s;
+}
+.feature-card:hover {
+  border-color: var(--border-h);
+  background: var(--surface);
+}
+.feature-card__icon { font-size: 1.5rem; margin-bottom: var(--s1); }
+.feature-card h3 {
+  font-size: var(--fs-md); font-weight: 600;
+  margin-bottom: var(--s1);
+}
+.feature-card p {
+  font-size: var(--fs-sm); color: var(--text-soft); line-height: 1.7;
+}
+
+/* -- Origin Story block -- */
+.origin-story {
+  padding: var(--s5) var(--s5);
+  border-radius: var(--radius);
+  background: var(--bg-dark);
+  color: var(--text-on-dark);
+  position: relative;
+  overflow: hidden;
+}
+.origin-story::before {
+  content: '"';
+  position: absolute; top: -0.5rem; left: var(--s3);
+  font-size: 8rem; font-weight: 700; line-height: 1;
+  color: var(--accent); opacity: 0.15;
+  font-family: Georgia, serif;
+}
+.origin-story p {
+  font-size: var(--fs-lg); line-height: 1.8;
+  position: relative; z-index: 1;
+}
+.origin-story cite {
+  display: block; margin-top: var(--s3);
+  font-size: var(--fs-sm); font-style: normal;
+  color: var(--accent); font-weight: 500;
+}
+
+/* -- Migration Table -- */
+.migration-table {
+  width: 100%; border-collapse: collapse;
+  margin-top: var(--s3); font-size: var(--fs-sm);
+}
+.migration-table th {
+  text-align: left; padding: var(--s1) var(--s2);
+  border-bottom: 2px solid var(--border-h);
+  font-size: var(--fs-xs); text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--text-soft);
+}
+.migration-table td {
+  padding: var(--s1) var(--s2);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-soft);
+}
+.migration-table td:first-child { color: var(--text); font-weight: 500; }
+.migration-table .check { color: var(--accent); font-weight: 700; }
+.migration-table .plan  { color: var(--text-faint); }
+
+/* -- Discord community strip -- */
+.community-strip {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: var(--s3);
+  padding: var(--s4) var(--s5);
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, #5865F2 0%, #7289DA 100%);
+  color: #ffffff;
+}
+.community-strip h3 { font-size: var(--fs-lg); font-weight: 600; }
+.community-strip p  { font-size: var(--fs-sm); opacity: 0.85; }
+.btn--discord {
+  background: #ffffff; color: #5865F2;
+  font-weight: 600; white-space: nowrap; flex-shrink: 0;
+}
+.btn--discord:hover { background: #f0f0ff; box-shadow: none; }
+
+/* -- Outline button (secondary CTA, works on dark backgrounds) -- */
+.btn--outline {
+  background: transparent;
+  color: var(--text-on-dark);
+  border: 2px solid rgba(255,253,247,0.45);
+}
+.btn--outline:hover {
+  background: rgba(255,253,247,0.10);
+  border-color: rgba(255,253,247,0.75);
+}
+
+/* -- Scripture / Bible verse callout -- */
+.scripture {
+  border-left: 4px solid var(--accent);
+  padding: var(--s3) var(--s4);
+  margin: var(--s4) 0;
+  background: var(--bg-warm);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.scripture__text {
+  font-size: var(--fs-lg);
+  font-style: italic;
+  line-height: 1.85;
+  color: var(--text);
+  margin: 0 0 var(--s1);
+}
+.scripture__ref {
+  font-size: var(--fs-sm);
+  color: var(--accent);
+  font-weight: 600;
+  font-style: normal;
+  letter-spacing: 0.02em;
+}
+.scripture + .scripture { margin-top: var(--s3); }
+
+/* -- Story prose (long-form narrative) -- */
+.story-prose p {
+  font-size: var(--fs-md);
+  line-height: 1.95;
+  color: var(--text-soft);
+  margin-bottom: var(--s3);
+}
+.story-prose p:last-child { margin-bottom: 0; }
+.story-prose strong { color: var(--text); }
+.story-prose em { font-style: italic; }
+
