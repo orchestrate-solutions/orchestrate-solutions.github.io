@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="How Joshua Wink writes code with bilateral carpal tunnel and cubital tunnel syndrome — voice dictation, a game controller, and an AI-augmented workflow built over 4 years.">
+  <meta name="theme-color" content="#d97706">
+  <meta property="og:title" content="Coding Without Typing: My Actual Workflow">
+  <meta property="og:description" content="Voice dictation, a game controller, and 4 years of AI-augmented development. How I write software with arms that don't cooperate.">
+  <meta property="og:image" content="https://orchestrate.solutions/images/og-image.svg">
+  <meta property="og:url" content="https://orchestrate.solutions/blog/coding-without-typing-my-actual-workflow.html">
+  <meta property="og:site_name" content="Orchestrate Solutions">
+  <meta property="og:type" content="article">
+  <meta property="article:published_time" content="2026-05-20">
+  <meta property="article:author" content="Joshua Wink">
+  <meta property="article:section" content="Workflow">
+  <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
+  <link rel="canonical" href="https://orchestrate.solutions/blog/coding-without-typing-my-actual-workflow.html">
+  <title>Coding Without Typing: My Actual Workflow | Orchestrate Solutions</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Coding Without Typing: My Actual Workflow",
+    "description": "How Joshua Wink writes software with bilateral carpal tunnel and cubital tunnel syndrome using voice, a controller, and AI augmentation.",
+    "author": {
+      "@type": "Person",
+      "name": "Joshua Wink",
+      "url": "https://orchestrate.solutions/about.html"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Orchestrate Solutions",
+      "url": "https://orchestrate.solutions"
+    },
+    "datePublished": "2026-05-20",
+    "dateModified": "2026-05-20",
+    "mainEntityOfPage": "https://orchestrate.solutions/blog/coding-without-typing-my-actual-workflow.html"
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav__container">
+      <a href="/" class="nav__logo">
+        <img src="/images/orchestrate-logo-v2.svg" alt="" class="nav__logo-img" width="50" height="50">
+        <span class="nav__name">Orchestrate</span>
+      </a>
+      <div class="nav__links" id="nav-links">
+        <a href="/" class="nav__link">Home</a>
+        <a href="/products/" class="nav__link">Products</a>
+        <a href="/about.html" class="nav__link">About</a>
+        <a href="/blog/" class="nav__link nav__link--active">Blog</a>
+        <a href="mailto:contact@orchestrate.solutions" class="btn btn--nav">Say Hello</a>
+      </div>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Article Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <div class="article-meta">
+        <a href="/blog/" class="article-meta__back">&larr; Blog</a>
+        <time datetime="2026-05-20" class="article-meta__date">May 20, 2026</time>
+        <span class="article-meta__tag">Workflow</span>
+      </div>
+      <h1 class="page-hero__title">Coding Without Typing:<br>My Actual Workflow</h1>
+      <p class="page-hero__body">
+        The constraint forced the solution. Here&#8217;s what my development setup actually looks like.
+      </p>
+    </div>
+  </section>
+
+  <!-- Article Content -->
+  <article class="section">
+    <div class="container container--narrow">
+      <div class="prose">
+
+        <p>
+          I have bilateral carpal tunnel syndrome and bilateral cubital tunnel syndrome &#8212;
+          both arms, both conditions. Sustained typing is painful. Long mouse sessions are
+          painful. The kind of work software development normally requires is, for me, a rationed
+          resource.
+        </p>
+
+        <p>
+          I still write software every day. This is how.
+        </p>
+
+        <h2>The controller</h2>
+
+        <p>
+          My primary pointing and navigation device is a game controller. I use it mapped
+          to common IDE actions, navigation, text manipulation, window management &#8212; anything
+          that would otherwise require sustained mouse or keyboard use. The controller
+          distributes the physical load differently than a keyboard, and for my specific
+          conditions it&#8217;s significantly more comfortable for extended sessions.
+        </p>
+
+        <p>
+          The Cross-Platform Controller Mapper &#8212; which I built specifically for this &#8212;
+          handles the mapping. I have profiles for different contexts: development, browsing,
+          design review. Switching profiles is a single button combination.
+        </p>
+
+        <p>
+          I&#8217;m not the first developer to use alternative input devices. But the
+          tooling for this on macOS was genuinely inadequate when I started. That&#8217;s
+          why I built my own.
+        </p>
+
+        <h2>Voice dictation</h2>
+
+        <p>
+          I use voice dictation for prose-heavy work &#8212; writing, documentation, commit
+          messages, comments. macOS dictation has improved substantially and handles technical
+          vocabulary better than it used to. For pure code, voice-to-code tools have gotten
+          more capable, but I use them selectively.
+        </p>
+
+        <p>
+          The practical limit of voice dictation for programming isn&#8217;t the
+          recognition quality &#8212; it&#8217;s the cognitive cost of translating intent
+          into spoken syntax. Voice works well where you&#8217;re expressing ideas.
+          It works less well where you&#8217;re doing symbol-dense work with precise
+          indentation requirements.
+        </p>
+
+        <h2>AI augmentation</h2>
+
+        <p>
+          This is the piece that changed everything. I&#8217;ve spent four years building
+          codeupipe &#8212; a Payload/Filter/Pipeline framework that forms the backbone of
+          how I write and orchestrate software. It&#8217;s also the infrastructure that
+          makes AI-augmented development actually work in practice rather than in theory.
+        </p>
+
+        <p>
+          The core insight from four years of doing this: <strong>AI doesn&#8217;t replace
+          the developer, it shifts where the developer&#8217;s attention goes.</strong>
+          I spend less time on typing and syntax, more time on architecture, judgment, and
+          review. The quality of my decisions has gone up because I&#8217;m not burning
+          cognitive capacity on mechanical work.
+        </p>
+
+        <p>
+          The constraint &#8212; not being able to type freely &#8212; forced me to build
+          a workflow where the typing is a small fraction of the work. I don&#8217;t think
+          that&#8217;s worse. I think it&#8217;s better. It just took a painful diagnosis
+          to get me there.
+        </p>
+
+        <h2>The sessions themselves</h2>
+
+        <p>
+          I work in shorter bursts than most developers. A session might be 45-90 minutes
+          before I need a break. I&#8217;ve learned to front-load judgment-heavy work &#8212;
+          architecture decisions, code review, design &#8212; when I&#8217;m fresh, and
+          let AI handle more of the mechanical output when I&#8217;m not.
+        </p>
+
+        <p>
+          The rest disciplines are non-negotiable. Not rest as productivity optimization
+          &#8212; rest as actual physical requirement. Ignoring them has consequences
+          I&#8217;ve learned the hard way.
+        </p>
+
+        <h2>What this actually produces</h2>
+
+        <p>
+          codeupipe: 47,000 lines, 5,000+ tests, four years of continuous development.
+          Built almost entirely through this workflow. A controller, voice dictation,
+          AI augmentation, and judgment-heavy human review.
+        </p>
+
+        <p>
+          I&#8217;m not sharing this as a model for everyone &#8212; my constraints are
+          specific and most developers don&#8217;t have them. But if you have RSI,
+          tendinitis, carpal tunnel, or any condition that makes sustained typing
+          painful, I want you to know: you don&#8217;t have to stop. The workflow
+          exists. You may have to build parts of it yourself. <strong>That&#8217;s okay.</strong>
+        </p>
+
+        <div class="prose__cta">
+          <p>
+            The controller mapper is available on GitHub. The rest of this workflow
+            is what I&#8217;m building when I write about accessibility-first development.
+          </p>
+          <a href="/products/controller-mapper.html" class="btn btn--primary">
+            See the Controller Mapper &rarr;
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </article>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="/" class="footer__brand">
+        <img src="/images/orchestrate-logo-v2.svg" alt="" width="28" height="28" class="footer__mark">
+        <span>Orchestrate Solutions</span>
+      </a>
+      <p class="footer__copy">&copy; 2026 Orchestrate Solutions</p>
+      <div class="footer__links">
+        <a href="/products/" class="footer__link">Products</a>
+        <a href="/about.html" class="footer__link">About</a>
+        <a href="/blog/" class="footer__link">Blog</a>
+        <a href="https://github.com/orchestrate-solutions" class="footer__link" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "ae8be04826894358ad522dbb1157c768"}'></script>
+  <script src="/js/cup-ux-trace.js"></script>
+  <script>if(typeof UXTrace!=='undefined')UXTrace.auto();</script>
+</body>
+</html>

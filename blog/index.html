@@ -3,21 +3,158 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Practical advice on websites, SEO, automation, and technology for small business owners — from the team at Orchestrate Solutions.">
-  <meta name="theme-color" content="#0b0b11">
+  <meta name="description" content="Writing by Joshua Wink — building tools from necessity, coding with a controller, accessibility-first software, and the faith behind it all.">
+  <meta name="theme-color" content="#d97706">
   <meta property="og:title" content="Blog — Orchestrate Solutions">
-  <meta property="og:description" content="Practical tech advice for small business owners. Websites, SEO, automation, and AI — explained without the jargon.">
-  <meta property="og:image" content="https://orchestrate-solutions.github.io/images/og-image.svg">
-  <meta property="og:url" content="https://orchestrate-solutions.github.io/blog/">
+  <meta property="og:description" content="Writing on building software under constraint, accessibility-first development, AI-augmented workflows, and why I build what I build.">
+  <meta property="og:image" content="https://orchestrate.solutions/images/og-image.svg">
+  <meta property="og:url" content="https://orchestrate.solutions/blog/">
   <meta property="og:site_name" content="Orchestrate Solutions">
   <meta property="og:type" content="website">
   <link rel="icon" href="/images/favicon.svg" type="image/svg+xml">
-  <link rel="canonical" href="https://orchestrate-solutions.github.io/blog/">
-  <title>Blog — Small Business Tech, SEO &amp; Automation Tips | Orchestrate Solutions</title>
+  <link rel="canonical" href="https://orchestrate.solutions/blog/">
+  <title>Blog — Building Under Constraint | Orchestrate Solutions</title>
   <link rel="stylesheet" href="/css/style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Orchestrate Solutions Blog",
+    "description": "Writing by Joshua Wink on building software under constraint, accessibility-first development, and AI-augmented workflows.",
+    "url": "https://orchestrate.solutions/blog/",
+    "author": {
+      "@type": "Person",
+      "name": "Joshua Wink",
+      "url": "https://orchestrate.solutions/about.html"
+    }
+  }
+  </script>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav" id="nav">
+    <div class="nav__container">
+      <a href="/" class="nav__logo">
+        <img src="/images/orchestrate-logo-v2.svg" alt="" class="nav__logo-img" width="50" height="50">
+        <span class="nav__name">Orchestrate</span>
+      </a>
+      <div class="nav__links" id="nav-links">
+        <a href="/" class="nav__link">Home</a>
+        <a href="/products/" class="nav__link">Products</a>
+        <a href="/about.html" class="nav__link">About</a>
+        <a href="/blog/" class="nav__link nav__link--active">Blog</a>
+        <a href="mailto:contact@orchestrate.solutions" class="btn btn--nav">Say Hello</a>
+      </div>
+      <button class="nav__toggle" id="nav-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Page Hero -->
+  <section class="page-hero">
+    <div class="container">
+      <h1 class="page-hero__title">Writing</h1>
+      <p class="page-hero__body">
+        What I&#8217;m building, how I&#8217;m building it, and why it matters to me.<br>
+        Honest notes from a developer working under real constraints.
+      </p>
+    </div>
+  </section>
+
+  <!-- Blog Posts -->
+  <section class="section">
+    <div class="container">
+      <div class="blog-grid">
+
+        <a href="/blog/building-a-controller-mapper-when-your-hands-stop-working.html" class="blog-card">
+          <div class="blog-card__meta">
+            <time datetime="2026-05-20">May 20, 2026</time>
+            <span class="blog-card__tag">Story</span>
+          </div>
+          <h2 class="blog-card__title">Building a Controller Mapper When Your Hands Stop Working</h2>
+          <p class="blog-card__excerpt">
+            I didn&#8217;t build this tool because I saw a market. I built it because I
+            couldn&#8217;t game or code without it. The full story behind the Cross-Platform
+            Controller Mapper and what bilateral carpal tunnel teaches you about necessity.
+          </p>
+          <span class="blog-card__read">Read more &rarr;</span>
+        </a>
+
+        <a href="/blog/coding-without-typing-my-actual-workflow.html" class="blog-card">
+          <div class="blog-card__meta">
+            <time datetime="2026-05-20">May 20, 2026</time>
+            <span class="blog-card__tag">Workflow</span>
+          </div>
+          <h2 class="blog-card__title">Coding Without Typing: My Actual Workflow</h2>
+          <p class="blog-card__excerpt">
+            Voice dictation, a game controller, and 4 years of AI-augmented development.
+            This is how I write software with bilateral carpal tunnel and cubital tunnel
+            syndrome &#8212; and why the constraint made me a better developer.
+          </p>
+          <span class="blog-card__read">Read more &rarr;</span>
+        </a>
+
+        <a href="/blog/constraint-as-design-tool.html" class="blog-card">
+          <div class="blog-card__meta">
+            <time datetime="2026-05-20">May 20, 2026</time>
+            <span class="blog-card__tag">Philosophy</span>
+          </div>
+          <h2 class="blog-card__title">Constraint as Design Tool</h2>
+          <p class="blog-card__excerpt">
+            Every tool I&#8217;ve shipped came from a limitation I couldn&#8217;t route around.
+            Four years of building under constraint taught me that restriction isn&#8217;t
+            the enemy of good software &#8212; it&#8217;s often the source of it.
+          </p>
+          <span class="blog-card__read">Read more &rarr;</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section section--cta">
+    <div class="container container--narrow">
+      <h2 class="cta__heading">Something resonating?</h2>
+      <p class="cta__body">
+        I&#8217;m not selling anything. If something here was useful
+        or you just want to say hello, I&#8217;d genuinely love to hear from you.
+      </p>
+      <a href="mailto:contact@orchestrate.solutions" class="btn btn--primary btn--lg">
+        contact@orchestrate.solutions
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <a href="/" class="footer__brand">
+        <img src="/images/orchestrate-logo-v2.svg" alt="" width="28" height="28" class="footer__mark">
+        <span>Orchestrate Solutions</span>
+      </a>
+      <p class="footer__copy">&copy; 2026 Orchestrate Solutions</p>
+      <div class="footer__links">
+        <a href="/products/" class="footer__link">Products</a>
+        <a href="/about.html" class="footer__link">About</a>
+        <a href="/blog/" class="footer__link">Blog</a>
+        <a href="https://github.com/orchestrate-solutions" class="footer__link" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/main.js"></script>
+  <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "ae8be04826894358ad522dbb1157c768"}'></script>
+  <script src="/js/cup-ux-trace.js"></script>
+  <script>if(typeof UXTrace!=='undefined')UXTrace.auto();</script>
+</body>
+</html>
 
   <!-- Blog Schema -->
   <script type="application/ld+json">
