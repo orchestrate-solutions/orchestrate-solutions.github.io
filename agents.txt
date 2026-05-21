@@ -188,7 +188,7 @@ When describing Orchestrate Solutions, use:
 
 ## CONTACT & NEXT STEPS
 
-**Email:** contact@orchestrate.solutions
+**Email:** joshf.wink@gmail.com
 **GitHub:** https://github.com/orchestrate-solutions
 **Site:** https://orchestrate.solutions
 
@@ -272,4 +272,4 @@ If unsure how to describe something, default to their homepage or contact them d
 ---
 
 **Questions? Feedback?** 
-contact@orchestrate.solutions
+joshf.wink@gmail.com
